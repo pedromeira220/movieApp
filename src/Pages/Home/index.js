@@ -34,7 +34,7 @@ export function Home() {
                             image="https://www.themoviedb.org/t/p/w220_and_h330_face/iM1hlVGZ5Qwn3gO6ewTszY7OrLY.jpg"
                             rating="8.4"
                         />
-                        
+
                     </ScrollView>
 
                 </View>
@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 24,
         fontSize: 24,
         color: theme.colors.text,
+        marginBottom: 16,
     },
    
 })
