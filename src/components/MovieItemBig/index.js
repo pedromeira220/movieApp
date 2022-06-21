@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
         width: 224,
+        marginLeft: 24,
     },
     img: {
         width: 224,

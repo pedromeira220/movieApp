@@ -18,10 +18,11 @@ export function Routes() {
                 tabBarStyle: {
                     backgroundColor: theme.colors.background,
                     borderTopColor: "transparent",
+                    
                 },
                 tabBarActiveTintColor: theme.colors.primary,
                 tabBarInactiveTintColor: theme.colors.inactiveTabBar,
-            
+                tabBarShowLabel: false,
 
             }}
             

@@ -1,24 +1,35 @@
 import React from 'react';
 import { View, Text, SafeAreaView, StyleSheet, ScrollView, Image } from 'react-native';
 import { MovieItemBig } from '../../components/MovieItemBig';
+import { MovieSection } from '../../components/MovieSection';
 import { theme } from '../../global/theme';
 
 
 export function Home() {
     return (
         <>
-            <SafeAreaView style={styles.container}>
-                <View style={styles.header}>
+        
+            <ScrollView  style={styles.container}>
+               
+            <SafeAreaView style={{
+                backgroundColor: theme.colors.background,
+            }}>
+             <View style={styles.header}>
                     <Text style={styles.namePrimary}>Stream </Text>
                     <Text style={styles.name}>Everywhere</Text>
                     
                 </View>
+        </SafeAreaView>
 
-
-                <View style={styles.trendingMovieSection}>
+        <View style={styles.main}>
+            <View style={styles.trendingMovieSection}>
                     <Text style={styles.title}>Trending</Text>
 
-                    <ScrollView horizontal={true} >
+                    <ScrollView 
+                    horizontal={true} 
+                    style={styles.trendingMovies}
+                    showsHorizontalScrollIndicator={false}
+                    >
                         <MovieItemBig
                             title="doutor estranho"
                             image="https://www.themoviedb.org/t/p/w220_and_h330_face/iM1hlVGZ5Qwn3gO6ewTszY7OrLY.jpg"
@@ -39,9 +50,17 @@ export function Home() {
 
                 </View>
 
+                <MovieSection
+                    title="Recommendations"
+                />
+        </View>
 
-            </SafeAreaView>
+                
+
+
+            </ScrollView>
         </>
+        
     )
 }
 
@@ -58,22 +77,26 @@ const styles = StyleSheet.create({
     },
     name: {
         color: theme.colors.text,
-        fontSize: 24,
+        fontSize:  theme.sizes.title.fontSize,
         fontWeight: 'bold',
 
     },
     namePrimary: {
         color: theme.colors.primary,
-        fontSize: 24,
+        fontSize:  theme.sizes.title.fontSize,
         fontWeight: 'bold',
     },
-    trendingMovieSection: {
+    main: {
+        marginRight: 24,
+    },
+    trendingMovies: {
+        borderRadius: 32,
     },
     title: {
-        marginHorizontal: 24,
-        fontSize: 24,
+        fontSize:  theme.sizes.title.fontSize,
         color: theme.colors.text,
         marginBottom: 16,
+        marginHorizontal: 24,
     },
    
 })
