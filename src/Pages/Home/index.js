@@ -25,8 +25,8 @@ export function Home() {
                             rating="8.4"
                         />
                         <MovieItemBig
-                            title="doutor estranho"
-                            image="https://www.themoviedb.org/t/p/w220_and_h330_face/iM1hlVGZ5Qwn3gO6ewTszY7OrLY.jpg"
+                            title="de volta para o futuro"
+                            image="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/4BTW7PyEYFUFlNpuSeS9hAbpk9P.jpg"
                             rating="8.4"
                         />
                         <MovieItemBig
