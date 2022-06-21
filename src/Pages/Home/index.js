@@ -31,19 +31,19 @@ export function Home() {
                     showsHorizontalScrollIndicator={false}
                     >
                         <MovieItemBig
-                            title="doutor estranho"
+                            title="Doutor Estranho"
                             image="https://www.themoviedb.org/t/p/w220_and_h330_face/iM1hlVGZ5Qwn3gO6ewTszY7OrLY.jpg"
                             rating="8.4"
                         />
                         <MovieItemBig
-                            title="de volta para o futuro"
+                            title="De volta para o futuro"
                             image="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/4BTW7PyEYFUFlNpuSeS9hAbpk9P.jpg"
-                            rating="8.4"
+                            rating="8.3"
                         />
                         <MovieItemBig
-                            title="doutor estranho"
-                            image="https://www.themoviedb.org/t/p/w220_and_h330_face/iM1hlVGZ5Qwn3gO6ewTszY7OrLY.jpg"
-                            rating="8.4"
+                            title="Homem-Aranha: Sem Volta Para Casa"
+                            image="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/fVzXp3NwovUlLe7fvoRynCmBPNc.jpg"
+                            rating="8.1"
                         />
 
                     </ScrollView>
