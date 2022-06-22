@@ -7,6 +7,7 @@ import {Home} from './Pages/Home'
 import {ProfileScreen} from './Pages/ProfileScreen'
 import {DiscoveryScreen} from './Pages/DiscoveryScreen'
 import { theme } from './global/theme';
+import { View } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -18,6 +19,7 @@ export function Routes() {
                 tabBarStyle: {
                     backgroundColor: theme.colors.background,
                     borderTopColor: "transparent",
+
                     
                 },
                 tabBarActiveTintColor: theme.colors.primary,
@@ -33,7 +35,18 @@ export function Routes() {
             component={Home}
             options={{
                 tabBarIcon: ({ size, color, focused })=>(
-                    <Foundation name="home" size={size} color={color} />
+                    <View
+                    style={{ 
+                        width: 100,
+                        height: 100,
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}
+                    >
+                    <Foundation name="home" size={size*1.4} color={color} 
+                        resizeMode="cover"
+                    />
+                    </View>
                 )
             }}
             />
@@ -42,7 +55,7 @@ export function Routes() {
             component={DiscoveryScreen}
             options={{
                 tabBarIcon: ({ size, color, focused })=>(
-                    <FontAwesome name="play-circle" size={size} color={color} />
+                    <FontAwesome name="play-circle" size={size*1.4} color={color} />
                     
                 )
             }}
@@ -52,7 +65,7 @@ export function Routes() {
             component={ProfileScreen}
             options={{
                 tabBarIcon: ({ size, color, focused })=>(
-                    <FontAwesome name="user" size={size} color={color} />
+                    <FontAwesome name="user" size={size*1.4} color={color} />
                     
                 )
             }}
