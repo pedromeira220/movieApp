@@ -52,6 +52,7 @@ export function Home() {
 
                     <MovieSection
                         title="Recommendations"
+                        showTitle={true}
                     />
                 </View>
 
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     main: {
-        marginRight: 24,
+        marginHorizontal: 24,
     },
     trendingMovies: {
         borderRadius: 32,
@@ -96,7 +97,6 @@ const styles = StyleSheet.create({
         fontSize: theme.sizes.title.fontSize,
         color: theme.colors.text,
         marginBottom: 16,
-        marginHorizontal: 24,
     },
 
 })

@@ -4,6 +4,8 @@ import { View, Text, StyleSheet, ScrollView, SafeAreaView, TextInput } from "rea
 import { theme } from "../../global/theme";
 
 import { Ionicons } from '@expo/vector-icons';
+import { MovieCategory } from "../../components/MovieCategory";
+import { MovieSection } from "../../components/MovieSection";
 
 export function DiscoveryScreen() {
     return (
@@ -31,7 +33,7 @@ export function DiscoveryScreen() {
                     >
                         <Ionicons name="search" size={24} color="#ffffff"
 
-                    />
+                        />
 
                     </View>
 
@@ -40,7 +42,24 @@ export function DiscoveryScreen() {
                         placeholderTextColor="#BBBBBB"
                         style={styles.movieInput}
                     ></TextInput>
+
                 </View>
+
+                <ScrollView
+                    style={styles.movieCategories}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                >
+                    <MovieCategory name="Movie" active={true}/>
+                    <MovieCategory name="Tv Series" active={false}/>
+                    <MovieCategory name="Documentary" active={false}/>
+                    <MovieCategory name="Sport" active={false}/>
+                    <MovieCategory name="Sci-fi" active={false}/>
+                </ScrollView>
+
+                <MovieSection 
+                    showTitle={false}
+                />
 
             </View>
         </ScrollView>
