@@ -1,49 +1,45 @@
 import React from "react";
 
 import { View, Text, Image, StyleSheet } from "react-native";
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons';
 import { theme } from "../../global/theme";
-
-import { BlurView } from 'expo-blur';
-
-
 
 
 export function MovieItemBig({ rating, image, title }) {
     return (
-    
+
         <View style={styles.container}>
             <Image
-                source={{uri: image}}
+                source={{ uri: image }}
                 style={styles.img}
-                
+
             />
 
-           
-                <View style={styles.viewTop}>
-                    <AntDesign name="star" size={16} color="#F3BE00" />  
-                    <Text style={styles.title}>{rating}</Text>  
-                </View>
-            
-          
+
+            <View style={styles.viewTop}>
+                <AntDesign name="star" size={16} color="#F3BE00" />
+                <Text style={styles.title}>{rating}</Text>
+            </View>
+
+
 
             <View style={styles.viewBottom}>
                 <Text style={styles.title}>{title}</Text>
             </View>
 
-            
-                    
-            
+
+
+
         </View>
-            
-    
+
+
     )
 }
 
 
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         flex: 1,
         width: 224,
         marginLeft: 24,
@@ -58,7 +54,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: theme.colors.text,
     },
-   
+
     viewTop: {
         backgroundColor: "rgba(130, 130, 130, 0.5)",
         flexDirection: 'row',
@@ -72,7 +68,7 @@ const styles = StyleSheet.create({
         right: 16,
 
     },
-   
+
     viewBottom: {
         top: 240 - 44,
         left: 16,
@@ -83,7 +79,7 @@ const styles = StyleSheet.create({
         height: 72,
         backgroundColor: "rgba(130, 130, 130, 0.5)",
         borderRadius: 16,
-        
+
     },
     imgBlur: {
         position: 'absolute',
