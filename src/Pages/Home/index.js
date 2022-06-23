@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, SafeAreaView, StyleSheet, ScrollView, Image } from 'react-native';
+
 import { MovieItemBig } from '../../components/MovieItemBig';
 import { MovieSection } from '../../components/MovieSection';
+
+import { credentials } from '../../global/credentials';
 import { theme } from '../../global/theme';
+import { api, apiConfig } from '../../services/api';
 
 
 export function Home() {
+
+    const [movie, setMovie] = useState({});
+
+
+    useEffect(() => {
+
+
+        async function loadData() {
+            const response = await api.get(`/movie/406759?api_key=62029fdd0e8fc17deba6ddf63e551541&language=pt-br`)
+            setMovie(response.data);
+        }
+
+        loadData()
+
+    }, [])
     return (
         <>
 
@@ -31,9 +50,9 @@ export function Home() {
                             showsHorizontalScrollIndicator={false}
                         >
                             <MovieItemBig
-                                title="Doutor Estranho"
-                                image="https://www.themoviedb.org/t/p/w220_and_h330_face/iM1hlVGZ5Qwn3gO6ewTszY7OrLY.jpg"
-                                rating="8.4"
+                                title={movie.title}
+                                image={`${apiConfig.imgBaseURL}/${movie.poster_path}`}
+                                rating={movie.vote_average}
                             />
                             <MovieItemBig
                                 title="De volta para o futuro"

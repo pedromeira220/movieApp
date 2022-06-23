@@ -1,5 +1,9 @@
 import axios from 'axios';
 
 export const api = axios.create({
-    baseUrl: 'https://api.themoviedb.org/3/'
+    baseURL: 'https://api.themoviedb.org/3'
 })
+
+export const apiConfig = {
+    imgBaseURL: "https://image.tmdb.org/t/p/w500",
+}
