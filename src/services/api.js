@@ -82,6 +82,16 @@ export const apiFunctions = {
             return null;
         }
     },
+    getRecommendations: async (movieId) => {
+        const url = `/movie/${movieId}/recommendations?api_key=${credentials.API_KEY}&language=pt-br&page=1`;
+
+        try {
+
+            return (await api.get(url));
+        } catch (err) {
+            return null;
+        }
+    },
 
 }
 

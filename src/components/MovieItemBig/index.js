@@ -4,7 +4,6 @@ import { View, Text, Image, StyleSheet } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { theme } from "../../global/theme";
 
-import { BlurView } from 'expo-blur';
 
 export function MovieItemBig({ rating, image, title, }) {
     return (
@@ -52,7 +51,7 @@ const styles = StyleSheet.create({
         width: 224,
         height: 292,
         resizeMode: 'cover',
-        borderRadius: 16,
+        borderRadius: 32,
     },
     title: {
         fontSize: 18,
@@ -89,7 +88,7 @@ const styles = StyleSheet.create({
     },
     imgBlur: {
         position: 'absolute',
-        borderRadius: 16,
+        borderRadius: 32,
     },
     imgBlurBig: {
         zIndex: -1,

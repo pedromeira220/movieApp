@@ -15,7 +15,7 @@ export function DiscoveryScreen() {
     useEffect(() => {
 
         async function loadData() {
-            setTopRatedMovies((await apiFunctions.getPopular(2)).data.results);
+            console.log((await apiFunctions.getPopular(2)).data.results);
         }
 
         loadData();

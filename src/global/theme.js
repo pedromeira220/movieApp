@@ -5,6 +5,7 @@ export const theme = {
         background: "#15141F",
         inactiveTabBar: "#rgba(218, 218, 218, 0.3)",
         gray: "#211F30",
+        secondaryInformation: "#BCBCBC",
     },
     sizes: {
         title: {

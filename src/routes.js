@@ -1,11 +1,12 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { Foundation, FontAwesome  } from '@expo/vector-icons'; 
+import { Foundation, FontAwesome } from '@expo/vector-icons';
 
-import {Home} from './Pages/Home'
-import {ProfileScreen} from './Pages/ProfileScreen'
-import {DiscoveryScreen} from './Pages/DiscoveryScreen'
+import { Home } from './Pages/Home'
+import { ProfileScreen } from './Pages/ProfileScreen'
+import { DiscoveryScreen } from './Pages/DiscoveryScreen'
+import { DetailsScreen } from './Pages/DetailsScreen'
 import { theme } from './global/theme';
 import { View } from 'react-native';
 
@@ -20,54 +21,54 @@ export function Routes() {
                     backgroundColor: theme.colors.background,
                     borderTopColor: "transparent",
 
-                    
+
                 },
                 tabBarActiveTintColor: theme.colors.primary,
                 tabBarInactiveTintColor: theme.colors.inactiveTabBar,
                 tabBarShowLabel: false,
 
             }}
-            
-        
+
+
         >
-            <Tab.Screen 
-            name="Home" 
-            component={Home}
-            options={{
-                tabBarIcon: ({ size, color, focused })=>(
-                    <View
-                    style={{ 
-                        flex: 1,
-                        justifyContent: "center",
-                        alignItems: "center"
-                    }}
-                    >
-                    <Foundation name="home" size={size*1.4} color={color} 
-                        resizeMode="cover"
-                    />
-                    </View>
-                )
-            }}
+            <Tab.Screen
+                name="Home"
+                component={DetailsScreen }
+                options={{
+                    tabBarIcon: ({ size, color, focused }) => (
+                        <View
+                            style={{
+                                flex: 1,
+                                justifyContent: "center",
+                                alignItems: "center"
+                            }}
+                        >
+                            <Foundation name="home" size={size * 1.4} color={color}
+                                resizeMode="cover"
+                            />
+                        </View>
+                    )
+                }}
             />
-            <Tab.Screen 
-            name="DiscoveryScreen" 
-            component={DiscoveryScreen}
-            options={{
-                tabBarIcon: ({ size, color, focused })=>(
-                    <FontAwesome name="play-circle" size={size} color={color} />
-                    
-                )
-            }}
+            <Tab.Screen
+                name="DiscoveryScreen"
+                component={DiscoveryScreen}
+                options={{
+                    tabBarIcon: ({ size, color, focused }) => (
+                        <FontAwesome name="play-circle" size={size} color={color} />
+
+                    )
+                }}
             />
-            <Tab.Screen 
-            name="ProfileScreen" 
-            component={ProfileScreen}
-            options={{
-                tabBarIcon: ({ size, color, focused })=>(
-                    <FontAwesome name="user" size={size*1.4} color={color} />
-                    
-                )
-            }}
+            <Tab.Screen
+                name="ProfileScreen"
+                component={ProfileScreen}
+                options={{
+                    tabBarIcon: ({ size, color, focused }) => (
+                        <FontAwesome name="user" size={size * 1.4} color={color} />
+
+                    )
+                }}
             />
         </Tab.Navigator>
     )
