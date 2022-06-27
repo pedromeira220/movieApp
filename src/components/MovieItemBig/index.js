@@ -4,8 +4,9 @@ import { View, Text, Image, StyleSheet } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { theme } from "../../global/theme";
 
+import { BlurView } from 'expo-blur';
 
-export function MovieItemBig({ rating, image, title,  }) {
+export function MovieItemBig({ rating, image, title, }) {
     return (
 
         <View style={styles.container}>
@@ -18,18 +19,21 @@ export function MovieItemBig({ rating, image, title,  }) {
 
             <View style={styles.viewTop}>
                 <AntDesign name="star" size={16} color="#F3BE00" />
-                <Text style={styles.title}>{rating}</Text>
+                <Text style={styles.title}>{rating}
+
+                </Text>
             </View>
 
 
 
-            <View style={styles.viewBottom}>
-                <Text style={styles.title}>{title}</Text>
+            <View style={styles.viewBottom}
+            >
+                <Text style={styles.title}
+                    numberOfLines={2}
+                >
+                    {title}
+                </Text>
             </View>
-
-
-
-
         </View>
 
 
@@ -56,7 +60,7 @@ const styles = StyleSheet.create({
     },
 
     viewTop: {
-        backgroundColor: "rgba(130, 130, 130, 0.5)",
+        backgroundColor: "rgba(50, 50, 50, 0.9))",
         flexDirection: 'row',
         width: 80,
         height: 48,
@@ -77,8 +81,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         height: 72,
-        backgroundColor: "rgba(130, 130, 130, 0.5)",
+        backgroundColor: "rgba(50, 50, 50, 0.9))",
         borderRadius: 16,
+        paddingHorizontal: 16,
+
 
     },
     imgBlur: {
