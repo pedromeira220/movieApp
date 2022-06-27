@@ -30,7 +30,9 @@ export function Home() {
     return (
         <>
 
-            <ScrollView style={styles.container}>
+            <ScrollView style={styles.container}
+                showsVerticalScrollIndicator={false}
+            >
 
                 <SafeAreaView style={{
                     backgroundColor: theme.colors.background,

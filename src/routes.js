@@ -37,8 +37,7 @@ export function Routes() {
                 tabBarIcon: ({ size, color, focused })=>(
                     <View
                     style={{ 
-                        width: 100,
-                        height: 100,
+                        flex: 1,
                         justifyContent: "center",
                         alignItems: "center"
                     }}
@@ -55,7 +54,7 @@ export function Routes() {
             component={DiscoveryScreen}
             options={{
                 tabBarIcon: ({ size, color, focused })=>(
-                    <FontAwesome name="play-circle" size={size*1.4} color={color} />
+                    <FontAwesome name="play-circle" size={size} color={color} />
                     
                 )
             }}

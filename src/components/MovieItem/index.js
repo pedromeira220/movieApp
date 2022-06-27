@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     container: {
         marginBottom: 24,
         width: 152,
+        marginRight: 0,
     },
     titleView: {
         marginTop: 8,
