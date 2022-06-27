@@ -14,7 +14,7 @@ export const apiConfig = {
 export const apiFunctions = {
     getMovie: async (movieId) => {
 
-        const url = `/movie/${movieId}?api_key=62029fdd0e8fc17deba6ddf63e551541&language=pt-br`;
+        const url = `/movie/${movieId}?api_key=${credentials.API_KEY}&language=pt-br`;
 
         try {
 
@@ -23,8 +23,8 @@ export const apiFunctions = {
             return null;
         }
     },
-    getMovieByName: async (movieName) => {
-        const url = `/search/movie?api_key=62029fdd0e8fc17deba6ddf63e551541&language=pt-br&query=${movieName}&page=1&include_adult=false`;
+    getListByMovieName: async (movieName) => {
+        const url = `/search/movie?api_key=${credentials.API_KEY}&language=pt-br&query=${movieName}&page=1&include_adult=false`;
         try {
 
             return await (api.get(url));
@@ -32,16 +32,56 @@ export const apiFunctions = {
             return null;
         }
     },
-    getPopular: async () => {
-
-        const url = `/movie/popular?api_key=${credentials.API_KEY}&language=pt-br&page=1`;
+    getPopular: async (page = 1) => {
+        const region = "br"
+        const url = `/movie/popular?api_key=${credentials.API_KEY}&language=pt-br&page=${page}&region=${region}`;
 
         try {
-
-            return await (api.get(url));
+            return (await api.get(url));
         } catch (err) {
             return null;
         }
     },
+    getTopRated: async () => {
+        const url = `/movie/top_rated?api_key=${credentials.API_KEY}&language=pt-br&page=1`;
+
+        try {
+
+            return (await api.get(url));
+        } catch (err) {
+            return null;
+        }
+    },
+    getLast: async () => {
+        const url = `/movie/latest?api_key=${credentials.API_KEY}&language=pt-br`;
+
+        try {
+
+            return (await api.get(url));
+        } catch (err) {
+            return null;
+        }
+    },
+    getNowPlaying: async () => {
+        const url = `/movie/now_playing?api_key=${credentials.API_KEY}&language=pt-br&page=1`;
+
+        try {
+
+            return (await api.get(url));
+        } catch (err) {
+            return null;
+        }
+    },
+    getUpcoming: async () => {
+        const url = `/movie/upcoming?api_key=${credentials.API_KEY}&language=pt-br&page=1&region=BR`;
+
+        try {
+
+            return (await api.get(url));
+        } catch (err) {
+            return null;
+        }
+    },
+
 }
 

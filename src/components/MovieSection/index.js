@@ -1,81 +1,42 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View, Dimensions } from 'react-native';
 import { theme } from '../../global/theme';
-import {MovieItem} from '../MovieItem';
+import { MovieItem } from '../MovieItem';
+import { api, apiConfig, apiFunctions } from '../../services/api';
 
-export function MovieSection({title, showTitle}) {
- return (
-   <View style={styles.container}>
-        {
-            showTitle && (
 
-                <Text style={styles.title}>{title}</Text>
-            )
-        }
-        <View style={styles.movieList}>
-            <MovieItem 
-                poster="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/bzDAfXoqNAvWUe7uss2NE3BmRqy.jpg"
-                title="Soul"
-                releaseDate={2020}
-            />
-            <MovieItem 
-                poster="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/bzDAfXoqNAvWUe7uss2NE3BmRqy.jpg"
-                title="Soul"
-                releaseDate={2020}
-            />
-            <MovieItem 
-                poster="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/bzDAfXoqNAvWUe7uss2NE3BmRqy.jpg"
-                title="Soul"
-                releaseDate={2020}
-            />
-            <MovieItem 
-                poster="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/bzDAfXoqNAvWUe7uss2NE3BmRqy.jpg"
-                title="Soul"
-                releaseDate={2020}
-            />
-            <MovieItem 
-                poster="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/bzDAfXoqNAvWUe7uss2NE3BmRqy.jpg"
-                title="Soul"
-                releaseDate={2020}
-            />
-            <MovieItem 
-                poster="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/bzDAfXoqNAvWUe7uss2NE3BmRqy.jpg"
-                title="Soul"
-                releaseDate={2020}
-            />
-            <MovieItem 
-                poster="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/bzDAfXoqNAvWUe7uss2NE3BmRqy.jpg"
-                title="Soul"
-                releaseDate={2020}
-            />
-            <MovieItem 
-                poster="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/bzDAfXoqNAvWUe7uss2NE3BmRqy.jpg"
-                title="Soul"
-                releaseDate={2020}
-            />
-            <MovieItem 
-                poster="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/bzDAfXoqNAvWUe7uss2NE3BmRqy.jpg"
-                title="Soul"
-                releaseDate={2020}
-            />
-            <MovieItem 
-                poster="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/bzDAfXoqNAvWUe7uss2NE3BmRqy.jpg"
-                title="Soul"
-                releaseDate={2020}
-            />
-            <MovieItem 
-                poster="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/bzDAfXoqNAvWUe7uss2NE3BmRqy.jpg"
-                title="Soul"
-                releaseDate={2020}
-            />
-            <MovieItem 
-                poster="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/bzDAfXoqNAvWUe7uss2NE3BmRqy.jpg"
-                title="Soul"
-                releaseDate={2020}
-            />
+export function MovieSection({ title, showTitle, movieList }) {
+    return (
+        <View style={styles.container}>
+
+
+
+            {
+                showTitle && (
+
+                    <Text style={styles.title}>{title}</Text>
+                )
+            }
+            <View style={styles.movieList}>
+                {
+                    movieList.map((movie) => {
+                        return (
+                            <MovieItem
+                                key={movie.id}
+                                poster={`${apiConfig.imgBaseURL}/${movie.poster_path}`}
+                                title={movie.title}
+                                releaseDate={2020}
+                            />
+                        )
+                    })
+                }
+            </View>
+
+
+
+
         </View>
-   </View>
-  );
+    );
 }
 
 const styles = StyleSheet.create({
@@ -89,7 +50,7 @@ const styles = StyleSheet.create({
         flexWrap: "wrap",
     },
     title: {
-        fontSize:  theme.sizes.title.fontSize,
+        fontSize: theme.sizes.title.fontSize,
         color: theme.colors.text,
         marginBottom: 16,
     }

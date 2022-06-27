@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import { View, Text, StyleSheet, ScrollView, SafeAreaView, TextInput } from "react-native";
 import { theme } from "../../global/theme";
@@ -6,8 +6,21 @@ import { theme } from "../../global/theme";
 import { Ionicons } from '@expo/vector-icons';
 import { MovieCategory } from "../../components/MovieCategory";
 import { MovieSection } from "../../components/MovieSection";
+import { api, apiConfig, apiFunctions } from '../../services/api';
+
 
 export function DiscoveryScreen() {
+    const [topRatedMovies, setTopRatedMovies] = useState([]);
+
+    useEffect(() => {
+
+        async function loadData() {
+            setTopRatedMovies((await apiFunctions.getPopular(3)).data.results);
+        }
+
+        loadData();
+
+    }, [])
     return (
         <ScrollView style={styles.container}>
             <SafeAreaView
@@ -31,9 +44,7 @@ export function DiscoveryScreen() {
                             justifyContent: "center"
                         }}
                     >
-                        <Ionicons name="search" size={24} color="#ffffff"
-
-                        />
+                        <Ionicons name="search" size={24} color="#ffffff" />
 
                     </View>
 
@@ -41,6 +52,8 @@ export function DiscoveryScreen() {
                         placeholder="Movie Name"
                         placeholderTextColor="#BBBBBB"
                         style={styles.movieInput}
+                        keyboardAppearance="dark"
+                        keyboardType=""
                     ></TextInput>
 
                 </View>
@@ -50,15 +63,16 @@ export function DiscoveryScreen() {
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
                 >
-                    <MovieCategory name="Movie" active={true}/>
-                    <MovieCategory name="Tv Series" active={false}/>
-                    <MovieCategory name="Documentary" active={false}/>
-                    <MovieCategory name="Sport" active={false}/>
-                    <MovieCategory name="Sci-fi" active={false}/>
+                    <MovieCategory name="Movie" active={true} />
+                    <MovieCategory name="Tv Series" active={false} />
+                    <MovieCategory name="Documentary" active={false} />
+                    <MovieCategory name="Sport" active={false} />
+                    <MovieCategory name="Sci-fi" active={false} />
                 </ScrollView>
 
-                <MovieSection 
+                <MovieSection
                     showTitle={false}
+                    movieList={topRatedMovies}
                 />
 
             </View>

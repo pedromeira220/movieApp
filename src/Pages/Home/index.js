@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, SafeAreaView, StyleSheet, ScrollView, Image } from 'react-native';
 
-import { MovieItemBig } from '../../components/MovieItemBig';
 import { MovieSection } from '../../components/MovieSection';
+import PopularMoviesSection from '../../components/PopularMoviesSection';
 
 import { credentials } from '../../global/credentials';
 import { theme } from '../../global/theme';
@@ -13,14 +13,14 @@ export function Home() {
 
     const [movie, setMovie] = useState({});
     const [popularMovies, setPopularMovies] = useState([]);
+    const [topRatedMovies, setTopRatedMovies] = useState([]);
 
     useEffect(() => {
 
         async function loadData() {
-            const movieId = ((await apiFunctions.getMovieByName("homem aranha")).data.results[0].id)
-            setMovie((await apiFunctions.getMovie(movieId)).data)
-            setPopularMovies((await apiFunctions.getPopular()).data.results);
-            console.log(popularMovies)
+            setPopularMovies((await apiFunctions.getPopular(1)).data.results);
+            setTopRatedMovies((await apiFunctions.getPopular(2)).data.results);
+            
 
         }
 
@@ -42,38 +42,17 @@ export function Home() {
                     </View>
                 </SafeAreaView>
 
+                <PopularMoviesSection
+                    movieList={popularMovies}
+                />
+
                 <View style={styles.main}>
-                    <View style={styles.trendingMovieSection}>
-                        <Text style={styles.title}>Popular movies</Text>
-
-                        <ScrollView
-                            horizontal={true}
-                            style={styles.trendingMovies}
-                            showsHorizontalScrollIndicator={false}
-                        >
-
-
-                            {   
-                                popularMovies &&
-                                popularMovies.map((popularMovie) => {
-                                    return (
-                                        <MovieItemBig
-                                            title={popularMovie.title}
-                                            image={`${apiConfig.imgBaseURL}/${popularMovie.poster_path}`}
-                                            rating={popularMovie.vote_average}
-                                        />
-                                    )
-                                })
-                            }
-
-
-                        </ScrollView>
-
-                    </View>
+                    
 
                     <MovieSection
-                        title="Recommendations"
+                        title="Top Rated"
                         showTitle={true}
+                        movieList={topRatedMovies}
                     />
                 </View>
 
@@ -110,9 +89,6 @@ const styles = StyleSheet.create({
     },
     main: {
         marginHorizontal: 24,
-    },
-    trendingMovies: {
-        borderRadius: 32,
     },
     title: {
         fontSize: theme.sizes.title.fontSize,

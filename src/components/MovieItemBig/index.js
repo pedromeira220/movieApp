@@ -5,7 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { theme } from "../../global/theme";
 
 
-export function MovieItemBig({ rating, image, title }) {
+export function MovieItemBig({ rating, image, title,  }) {
     return (
 
         <View style={styles.container}>
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: 224,
-        marginRight: 24,
+        marginLeft: 24,
     },
     img: {
         width: 224,
