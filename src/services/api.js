@@ -24,7 +24,7 @@ export const apiFunctions = {
         }
     },
     getListByMovieName: async (movieName) => {
-        const url = `/search/movie?api_key=${credentials.API_KEY}&language=pt-br&query=${movieName}&page=1&include_adult=false`;
+        const url = `/search/movie?api_key=${credentials.API_KEY}&language=pt-br&query=${movieName}&page=1&include_adult=false&region=br`;
         try {
 
             return await (api.get(url));

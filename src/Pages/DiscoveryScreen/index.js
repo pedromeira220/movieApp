@@ -15,12 +15,22 @@ export function DiscoveryScreen() {
     useEffect(() => {
 
         async function loadData() {
-            setTopRatedMovies((await apiFunctions.getPopular(3)).data.results);
+            setTopRatedMovies((await apiFunctions.getPopular(2)).data.results);
         }
 
         loadData();
 
-    }, [])
+    }, []);
+
+    async function handleInputChange(text) {
+
+        if(!text) {
+            setTopRatedMovies((await apiFunctions.getPopular(2)).data.results);
+        } else {
+            setTopRatedMovies((await apiFunctions.getListByMovieName(text)).data.results);
+        }
+
+    }
     return (
         <ScrollView style={styles.container}>
             <SafeAreaView
@@ -44,7 +54,7 @@ export function DiscoveryScreen() {
                             justifyContent: "center"
                         }}
                     >
-                        <Ionicons name="search" size={24} color="#ffffff" />
+                        <Ionicons name="search" size={24} color={theme.colors.text} />
 
                     </View>
 
@@ -53,7 +63,9 @@ export function DiscoveryScreen() {
                         placeholderTextColor="#BBBBBB"
                         style={styles.movieInput}
                         keyboardAppearance="dark"
-                        keyboardType=""
+                        onChangeText={(text) => {
+                            handleInputChange(text);
+                        }}
                     ></TextInput>
 
                 </View>

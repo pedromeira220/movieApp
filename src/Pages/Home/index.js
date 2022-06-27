@@ -19,7 +19,7 @@ export function Home() {
 
         async function loadData() {
             setPopularMovies((await apiFunctions.getPopular(1)).data.results);
-            setTopRatedMovies((await apiFunctions.getPopular(2)).data.results);
+            setTopRatedMovies((await apiFunctions.getPopular(3)).data.results);
             
 
         }
