@@ -9,13 +9,13 @@ import { MovieSection } from "../../components/MovieSection";
 import { api, apiConfig, apiFunctions } from '../../services/api';
 
 
-export function DiscoveryScreen() {
+export function DiscoveryScreen({ navigation }) {
     const [topRatedMovies, setTopRatedMovies] = useState([]);
 
     useEffect(() => {
 
         async function loadData() {
-            console.log((await apiFunctions.getPopular(2)).data.results);
+            setTopRatedMovies((await apiFunctions.getPopular(2)).data.results);
         }
 
         loadData();
@@ -24,7 +24,7 @@ export function DiscoveryScreen() {
 
     async function handleInputChange(text) {
 
-        if(!text) {
+        if (!text) {
             setTopRatedMovies((await apiFunctions.getPopular(2)).data.results);
         } else {
             setTopRatedMovies((await apiFunctions.getListByMovieName(text)).data.results);
@@ -85,6 +85,7 @@ export function DiscoveryScreen() {
                 <MovieSection
                     showTitle={false}
                     movieList={topRatedMovies}
+                    navigation={navigation}
                 />
 
             </View>

@@ -1,10 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { theme } from '../../global/theme';
 
-export default function MovieItemSmall({ title, poster }) {
+export default function MovieItemSmall({ title, poster, navigation }) {
     return (
-        <View style={styles.container}>
+        <TouchableOpacity
+            onPress={() => {
+                navigation.navigate('DetailsScreen');
+            }}
+            style={styles.container}>
             <Image
                 style={styles.img}
                 source={{ uri: poster }}
@@ -16,7 +20,7 @@ export default function MovieItemSmall({ title, poster }) {
             >
                 {title}
             </Text>
-        </View>
+        </TouchableOpacity>
     )
 
 }

@@ -4,7 +4,7 @@ import { theme } from '../../global/theme';
 import { apiConfig } from '../../services/api';
 import MovieItemSmall from '../MovieItemSmall';
 
-export default function MovieListHorizontal({ title, movieList }) {
+export default function MovieListHorizontal({ title, movieList, navigation }) {
   return (
     <View style={styles.container}>
 
@@ -27,6 +27,7 @@ export default function MovieListHorizontal({ title, movieList }) {
                 key={movie.id}
                 title={movie.title}
                 poster={`${apiConfig.imgBaseURL}/${movie.poster_path}`}
+                navigation={navigation}
               />
             )
 

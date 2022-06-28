@@ -1,10 +1,14 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { theme } from '../../global/theme';
 
-export function MovieItem({ poster, title, releaseDate }) {
+export function MovieItem({ poster, title, releaseDate, navigation }) {
     return (
-        <View style={styles.container}>
+        <TouchableOpacity
+        onPress={() => {
+            navigation.navigate('DetailsScreen');
+        }}
+        style={styles.container}>
             <Image
                 source={{ uri: poster }}
                 style={styles.image}
@@ -24,7 +28,7 @@ export function MovieItem({ poster, title, releaseDate }) {
                     ({releaseDate})
                 </Text>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 

@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView, SafeAreaView, TouchableOpacity } from "react-native";
 import { theme } from "../../global/theme";
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { GenreCategory } from "../../components/GenreCategory";
 import MovieListHorizontal from "../../components/MovieListHorizontal";
 import { apiFunctions } from "../../services/api";
 
-export function DetailsScreen() {
+export function DetailsScreen({ navigation }) {
 
-    const [ relatedMovies, setRelatedMovies ] = useState([]);
+    const [relatedMovies, setRelatedMovies] = useState([]);
 
-    useEffect(()=> {
+    useEffect(() => {
 
         async function loadData() {
             setRelatedMovies((await apiFunctions.getRecommendations(634649)).data.results);
@@ -28,6 +28,21 @@ export function DetailsScreen() {
                     style={styles.img}
                     source={{ uri: "https://image.tmdb.org/t/p/w500/zGLHX92Gk96O1DJvLil7ObJTbaL.jpg" }}
                 />
+
+                <SafeAreaView style={{
+                    position: "absolute",
+                    left: 16,
+                }}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.goBack();
+                        }}
+                    >
+
+                        <Ionicons name="chevron-back" size={40} color={theme.colors.text} />
+                    </TouchableOpacity>
+                </SafeAreaView>
+
             </View>
 
             <ScrollView style={styles.main}>
@@ -131,6 +146,7 @@ export function DetailsScreen() {
                 <MovieListHorizontal
                     title="Related Movies"
                     movieList={relatedMovies}
+                    navigation={navigation}
                 />
             </ScrollView>
 

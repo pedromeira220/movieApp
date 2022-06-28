@@ -9,7 +9,7 @@ import { theme } from '../../global/theme';
 import { api, apiConfig, apiFunctions } from '../../services/api';
 
 
-export function Home() {
+export function Home({ navigation }) {
 
     const [movie, setMovie] = useState({});
     const [popularMovies, setPopularMovies] = useState([]);
@@ -46,6 +46,7 @@ export function Home() {
 
                 <PopularMoviesSection
                     movieList={popularMovies}
+                    navigation={navigation}
                 />
 
                 <View style={styles.main}>
@@ -55,6 +56,7 @@ export function Home() {
                         title="Top Rated"
                         showTitle={true}
                         movieList={topRatedMovies}
+                        navigation={navigation}
                     />
                 </View>
 

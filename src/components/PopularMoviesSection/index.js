@@ -7,7 +7,7 @@ import { api, apiConfig, apiFunctions } from '../../services/api';
 
 
 
-export default function movieListSection({ movieList }) {
+export default function movieListSection({ movieList, navigation }) {
     return (
         <>
             <View style={styles.trendingMovieSection}>
@@ -34,6 +34,7 @@ export default function movieListSection({ movieList }) {
                                 title={movie.title}
                                 image={`${apiConfig.imgBaseURL}/${movie.poster_path}`}
                                 rating={movie.vote_average}
+                                navigation={navigation}
                             />
 
 

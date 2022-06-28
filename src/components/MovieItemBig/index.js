@@ -1,14 +1,19 @@
 import React from "react";
 
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { theme } from "../../global/theme";
 
 
-export function MovieItemBig({ rating, image, title, }) {
+export function MovieItemBig({ rating, image, title, navigation}) {
     return (
 
-        <View style={styles.container}>
+        <TouchableOpacity
+            style={styles.container}
+            onPress={() => {
+                navigation.navigate('DetailsScreen');
+            }}
+            >
             <Image
                 source={{ uri: image }}
                 style={styles.img}
@@ -33,7 +38,7 @@ export function MovieItemBig({ rating, image, title, }) {
                     {title}
                 </Text>
             </View>
-        </View>
+        </TouchableOpacity>
 
 
     )

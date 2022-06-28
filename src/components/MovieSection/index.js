@@ -5,7 +5,7 @@ import { MovieItem } from '../MovieItem';
 import { api, apiConfig, apiFunctions } from '../../services/api';
 
 
-export function MovieSection({ title, showTitle, movieList }) {
+export function MovieSection({ title, showTitle, movieList, navigation }) {
     return (
         <View style={styles.container}>
 
@@ -26,6 +26,7 @@ export function MovieSection({ title, showTitle, movieList }) {
                                 poster={`${apiConfig.imgBaseURL}/${movie.poster_path}`}
                                 title={movie.title}
                                 releaseDate={2020}
+                                navigation={navigation}
                             />
                         )
                     })
