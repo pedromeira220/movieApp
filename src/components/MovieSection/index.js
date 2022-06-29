@@ -27,6 +27,7 @@ export function MovieSection({ title, showTitle, movieList, navigation }) {
                                 title={movie.title}
                                 releaseDate={2020}
                                 navigation={navigation}
+                                movieId={movie.id}
                             />
                         )
                     })

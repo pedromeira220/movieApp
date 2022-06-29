@@ -1,12 +1,13 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { theme } from '../../global/theme';
+import { navigateToDetails } from '../publicFunctions/navigateToDetails';
 
-export function MovieItem({ poster, title, releaseDate, navigation }) {
+export function MovieItem({ poster, title, releaseDate, navigation, movieId }) {
     return (
         <TouchableOpacity
         onPress={() => {
-            navigation.navigate('DetailsScreen');
+            navigateToDetails(navigation, movieId )
         }}
         style={styles.container}>
             <Image

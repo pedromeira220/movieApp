@@ -28,6 +28,7 @@ export default function MovieListHorizontal({ title, movieList, navigation }) {
                 title={movie.title}
                 poster={`${apiConfig.imgBaseURL}/${movie.poster_path}`}
                 navigation={navigation}
+                movieId={movie.id}
               />
             )
 

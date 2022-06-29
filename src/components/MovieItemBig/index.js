@@ -4,16 +4,18 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { theme } from "../../global/theme";
 
+import { navigateToDetails } from "../publicFunctions/navigateToDetails";
 
-export function MovieItemBig({ rating, image, title, navigation}) {
+export function MovieItemBig({ rating, image, title, navigation, movieId }) {
     return (
 
         <TouchableOpacity
             style={styles.container}
             onPress={() => {
-                navigation.navigate('DetailsScreen');
+                navigateToDetails(navigation, movieId);
+
             }}
-            >
+        >
             <Image
                 source={{ uri: image }}
                 style={styles.img}

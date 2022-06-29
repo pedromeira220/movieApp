@@ -35,6 +35,7 @@ export default function movieListSection({ movieList, navigation }) {
                                 image={`${apiConfig.imgBaseURL}/${movie.poster_path}`}
                                 rating={movie.vote_average}
                                 navigation={navigation}
+                                movieId={movie.id}
                             />
 
 

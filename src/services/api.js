@@ -18,7 +18,7 @@ export const apiFunctions = {
 
         try {
 
-            return await api.get(url);
+            return (await api.get(url));
         } catch (err) {
             return null;
         }
