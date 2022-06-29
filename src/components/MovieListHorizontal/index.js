@@ -18,6 +18,7 @@ export default function MovieListHorizontal({ title, movieList, navigation }) {
 
       <ScrollView
         horizontal={true}
+        showsHorizontalScrollIndicator={false}
       >
 
         {

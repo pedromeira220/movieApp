@@ -15,7 +15,7 @@ import { GenreCategory } from "../../components/GenreCategory";
 import MovieListHorizontal from "../../components/MovieListHorizontal";
 import { api, apiFunctions, apiConfig } from "../../services/api";
 
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 
 export function DetailsScreen({ navigation }) {
     const [relatedMovies, setRelatedMovies] = useState([]);
@@ -23,14 +23,21 @@ export function DetailsScreen({ navigation }) {
     const [movie, setMovie] = useState({});
 
     const route = useRoute();
-    const navigator = useNavigation();
 
     async function loadData() {
-        setMovieId(route?.params?.movieId);
 
 
-        setMovie((await apiFunctions.getMovie(movieId)).data);
-        setRelatedMovies(await (await apiFunctions.getRecommendations(movieId))?.data?.results);
+
+        try {
+            setMovieId(route?.params?.movieId);
+            setMovie((await apiFunctions.getMovie(movieId)).data);
+            setRelatedMovies(await (await apiFunctions.getRecommendations(movieId))?.data?.results);
+        } catch (err) {
+
+            console.log(err);
+
+        }
+
 
     }
 
@@ -38,12 +45,9 @@ export function DetailsScreen({ navigation }) {
         setMovieId(route?.params?.movieId);
     }, []);
 
-    useEffect(
-        function () {
-            loadData();
-        },
-        [movieId]
-    );
+    useEffect(function () {
+        loadData();
+    }, [movieId]);
 
     return (
         <View style={styles.container}>
