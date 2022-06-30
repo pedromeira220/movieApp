@@ -16,11 +16,16 @@ import MovieListHorizontal from "../../components/MovieListHorizontal";
 import { api, apiFunctions, apiConfig } from "../../services/api";
 
 import { useRoute } from "@react-navigation/native";
+import { TextWithReadMoreButton } from "../../components/TextWithReadMoreButton";
 
 export function DetailsScreen({ navigation }) {
     const [relatedMovies, setRelatedMovies] = useState([]);
     const [movieId, setMovieId] = useState(0);
     const [movie, setMovie] = useState({});
+
+    const [numberOfLinesOverview, setNumberOfLinesOverview] = useState(0);
+
+    const [canShowReadMoreButtonOverview, setCanShowReadMoreButtonOverview] = useState(false);
 
     const route = useRoute();
 
@@ -29,9 +34,20 @@ export function DetailsScreen({ navigation }) {
 
 
         try {
+
+            setNumberOfLinesOverview(4);
+
             setMovieId(route?.params?.movieId);
             setMovie((await apiFunctions.getMovie(movieId)).data);
             setRelatedMovies(await (await apiFunctions.getRecommendations(movieId))?.data?.results);
+
+
+            if (movie.overview.length > 229) {
+                setCanShowReadMoreButtonOverview(true);
+            } else {
+                setCanShowReadMoreButtonOverview(false);
+            }
+
         } catch (err) {
 
             console.log(err);
@@ -48,6 +64,9 @@ export function DetailsScreen({ navigation }) {
     useEffect(function () {
         loadData();
     }, [movieId]);
+
+
+
 
     return (
         <View style={styles.container}>
@@ -185,18 +204,21 @@ export function DetailsScreen({ navigation }) {
                     >
                         Synopsis
                     </Text>
-                    <Text
-                        style={[
+
+
+                    <TextWithReadMoreButton
+                        readMoreStyle={styles.readMoreStyle}
+                        text={movie.overview}
+                        textStyle={[
                             {
                                 color: theme.colors.secondaryInformation,
                                 fontSize: 12,
                                 marginTop: 16,
                             },
                         ]}
-                        numberOfLines={4}
-                    >
-                        {movie.overview}
-                    </Text>
+                    />
+
+
                 </View>
                 <MovieListHorizontal
                     title="Related Movies"
@@ -255,4 +277,12 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: theme.colors.inactiveTabBar,
     },
+    readMoreStyle: {
+        color: theme.colors.text,
+    },
+    movieOverViewText: {
+
+
+
+    }
 });
