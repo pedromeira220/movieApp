@@ -42,12 +42,6 @@ export function DetailsScreen({ navigation }) {
             setRelatedMovies(await (await apiFunctions.getRecommendations(movieId))?.data?.results);
 
 
-            if (movie.overview.length > 229) {
-                setCanShowReadMoreButtonOverview(true);
-            } else {
-                setCanShowReadMoreButtonOverview(false);
-            }
-
         } catch (err) {
 
             console.log(err);
