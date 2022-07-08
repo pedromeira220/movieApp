@@ -10,19 +10,23 @@ import {
     TouchableOpacity,
 } from "react-native";
 import { theme } from "../../global/theme";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { GenreCategory } from "../../components/GenreCategory";
 import MovieListHorizontal from "../../components/MovieListHorizontal";
 import { api, apiFunctions, apiConfig } from "../../services/api";
 
 import { useRoute } from "@react-navigation/native";
 import { TextWithReadMoreButton } from "../../components/TextWithReadMoreButton";
+import { asyncStorage } from "../../services/AsyncStorage";
+    
 
 export function DetailsScreen({ navigation }) {
     const [relatedMovies, setRelatedMovies] = useState([]);
     const [movieId, setMovieId] = useState(0);
     const [movie, setMovie] = useState({});
     const [canShowMovieGenres, setCanShowMovieGenres] = useState(false);
+
+    const [isFavoriteIconClicked, setIsFavoriteIconClicked] = useState(false);
 
     const [numberOfLinesOverview, setNumberOfLinesOverview] = useState(0);
 
@@ -81,6 +85,12 @@ export function DetailsScreen({ navigation }) {
 
     }
 
+    function handleFavoriteButtonClick() {
+        setIsFavoriteIconClicked(!isFavoriteIconClicked);
+        const movieList = [];
+        movieList.push(movie.id);
+        asyncStorage.ASmovieList.storeData("favoriteMovies", JSON.stringify(movieList));
+    }
 
     return (
         <View style={styles.container}>
@@ -141,6 +151,15 @@ export function DetailsScreen({ navigation }) {
                                 {movie.vote_average}
                             </Text>
                         </View>
+                        <TouchableOpacity
+                            style={styles.favoriteView}
+                            onPress={() => {
+                                handleFavoriteButtonClick();
+                            }}
+                            activeOpacity={0.9}
+                        >
+                            <MaterialIcons name={isFavoriteIconClicked ? 'favorite' : 'favorite-outline'} size={24} color={theme.colors.secondaryInformation} />
+                        </TouchableOpacity>
                     </View>
                 </View>
 
@@ -180,40 +199,40 @@ export function DetailsScreen({ navigation }) {
                         }}
                     >
 
-                    {
-                        canShowMovieGenres && (
-                            <>
-                            <Text
-                            style={[
-                                styles.minorTitle,
-                                {
-                                    color: theme.colors.text,
-                                },
-                            ]}
-                        >
-                            Genres
-                        </Text>
+                        {
+                            canShowMovieGenres && (
+                                <>
+                                    <Text
+                                        style={[
+                                            styles.minorTitle,
+                                            {
+                                                color: theme.colors.text,
+                                            },
+                                        ]}
+                                    >
+                                        Genres
+                                    </Text>
 
-                        <View
-                            style={{
-                                width: "100%",
-                                flexDirection: "row",
-                                marginTop: 8,
-                                marginBottom: 16,
-                            }}
-                        >
-                            {
-                                returnMovieGenres(movie).map((genre) => {
-                                    return (
-                                        <GenreCategory key={genre.id}>{genre.name}</GenreCategory>
-                                    )
-                                })
-                            }
-                        </View>
-                            </>
-                        )
-                    }
-                        
+                                    <View
+                                        style={{
+                                            width: "100%",
+                                            flexDirection: "row",
+                                            marginTop: 8,
+                                            marginBottom: 16,
+                                        }}
+                                    >
+                                        {
+                                            returnMovieGenres(movie).map((genre) => {
+                                                return (
+                                                    <GenreCategory key={genre.id}>{genre.name}</GenreCategory>
+                                                )
+                                            })
+                                        }
+                                    </View>
+                                </>
+                            )
+                        }
+
                     </View>
                 </View>
 
@@ -249,11 +268,11 @@ export function DetailsScreen({ navigation }) {
 
                 </View>
             </ScrollView>
-                <MovieListHorizontal
-                    title="Related Movies"
-                    movieList={relatedMovies}
-                    navigation={navigation}
-                />
+            <MovieListHorizontal
+                title="Related Movies"
+                movieList={relatedMovies}
+                navigation={navigation}
+            />
         </View>
     );
 }
@@ -286,7 +305,7 @@ const styles = StyleSheet.create({
     secondaryInformationContainer: {
         marginTop: 16,
         flexDirection: "row",
-        width: "60%",
+        width: "100%",
         justifyContent: "space-between",
     },
     minorTitle: {
@@ -298,6 +317,12 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         marginBottom: 16,
+        justifyContent: "space-between",
+    },
+    favoriteView: {
+        marginBottom: 8,
+        alignItems: "center",
+        justifyContent: "center",
     },
     tertiaryInformationContainer: {
         flexDirection: "row",

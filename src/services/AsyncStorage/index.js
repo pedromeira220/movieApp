@@ -1,4 +1,5 @@
 import AS_movieList from '@react-native-async-storage/async-storage';
+import AS_favoritesMovies from '@react-native-async-storage/async-storage';
 
 
 export const asyncStorage = {
