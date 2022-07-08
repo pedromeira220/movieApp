@@ -19,6 +19,7 @@ export default function MovieListHorizontal({ title, movieList, navigation }) {
       <ScrollView
         horizontal={true}
         showsHorizontalScrollIndicator={false}
+        style={styles.scrollView}
       >
 
         {
@@ -47,8 +48,13 @@ const styles = StyleSheet.create({
   container: {
 
   },
+  scrollView: {
+    paddingLeft: 24,
+    paddingRight: 24
+  },
   title: {
     marginBottom: 16,
+    marginLeft: 24,
     fontSize: 24,
     color: theme.colors.text,
   },

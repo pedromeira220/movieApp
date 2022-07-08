@@ -208,13 +208,11 @@ export function DetailsScreen({ navigation }) {
                                         <GenreCategory key={genre.id}>{genre.name}</GenreCategory>
                                     )
                                 })
-
                             }
                         </View>
                             </>
                         )
                     }
-
                         
                     </View>
                 </View>
@@ -250,12 +248,12 @@ export function DetailsScreen({ navigation }) {
 
 
                 </View>
+            </ScrollView>
                 <MovieListHorizontal
                     title="Related Movies"
                     movieList={relatedMovies}
                     navigation={navigation}
                 />
-            </ScrollView>
         </View>
     );
 }
