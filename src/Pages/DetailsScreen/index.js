@@ -17,8 +17,8 @@ import { api, apiFunctions, apiConfig } from "../../services/api";
 
 import { useRoute } from "@react-navigation/native";
 import { TextWithReadMoreButton } from "../../components/TextWithReadMoreButton";
-import { asyncStorage } from "../../services/AsyncStorage";
-    
+import { asyncStorage } from "../../services/asyncStorage";
+
 
 export function DetailsScreen({ navigation }) {
     const [relatedMovies, setRelatedMovies] = useState([]);
@@ -85,10 +85,11 @@ export function DetailsScreen({ navigation }) {
 
     }
 
-    function handleFavoriteButtonClick() {
+    async function handleFavoriteButtonClick() {
         setIsFavoriteIconClicked(!isFavoriteIconClicked);
-        const movieList = [];
-        movieList.push(movie.id);
+        const movieListFromLocalStorage = JSON.parse(await asyncStorage.ASmovieList.getData("favoriteMovies"));
+        const movieList = [...movieListFromLocalStorage];
+        movieList.push(movie);
         asyncStorage.ASmovieList.storeData("favoriteMovies", JSON.stringify(movieList));
     }
 
