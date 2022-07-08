@@ -62,6 +62,10 @@ export function DetailsScreen({ navigation }) {
         loadData();
     }, [movieId]);
 
+    useEffect(function () {
+        loadData();
+    }, [route]);
+
 
     function returnMovieGenres(movie) {
         const quantitiesOfGenres = 2;
