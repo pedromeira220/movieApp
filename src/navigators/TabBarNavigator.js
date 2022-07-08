@@ -9,6 +9,7 @@ import { DiscoveryScreen } from '../Pages/DiscoveryScreen'
 import { DetailsScreen } from '../Pages/DetailsScreen'
 import { theme } from '../global/theme';
 import { View } from 'react-native';
+import { MovieListScreen } from '../Pages/MovieListScreen';
 
 
 const Tab = createBottomTabNavigator();
@@ -48,6 +49,16 @@ export function TabBarNavigator() {
                                 resizeMode="cover"
                             />
                         </View>
+                    )
+                }}
+            />
+            <Tab.Screen
+                name="MovieListScreen"
+                component={MovieListScreen}
+                options={{
+                    tabBarIcon: ({ size, color, focused }) => (
+                        <FontAwesome name="plus" size={size * 1.4} color={color} />
+
                     )
                 }}
             />

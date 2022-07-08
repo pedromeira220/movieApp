@@ -22,6 +22,7 @@ export function DetailsScreen({ navigation }) {
     const [relatedMovies, setRelatedMovies] = useState([]);
     const [movieId, setMovieId] = useState(0);
     const [movie, setMovie] = useState({});
+    const [canShowMovieGenres, setCanShowMovieGenres] = useState(false);
 
     const [numberOfLinesOverview, setNumberOfLinesOverview] = useState(0);
 
@@ -40,11 +41,11 @@ export function DetailsScreen({ navigation }) {
             setMovieId(route?.params?.movieId);
             setMovie((await apiFunctions.getMovie(movieId)).data);
             setRelatedMovies(await (await apiFunctions.getRecommendations(movieId))?.data?.results);
-
+            setCanShowMovieGenres(true);
 
         } catch (err) {
 
-            console.log(err);
+
 
         }
 
@@ -53,6 +54,8 @@ export function DetailsScreen({ navigation }) {
 
     useEffect(function () {
         setMovieId(route?.params?.movieId);
+
+
     }, []);
 
     useEffect(function () {
@@ -60,6 +63,19 @@ export function DetailsScreen({ navigation }) {
     }, [movieId]);
 
 
+    function returnMovieGenres(movie) {
+        const quantitiesOfGenres = 2;
+        const allGenres = movie['genres'];
+        const genres = [];
+
+        for (let i = 0; i < quantitiesOfGenres; i++) {
+            genres.push(allGenres[i]);
+        }
+
+        return genres;
+
+
+    }
 
 
     return (
@@ -100,12 +116,14 @@ export function DetailsScreen({ navigation }) {
                                     `${movie.runtime} minutes`
                                 }
                             </Text>
+
+                            Some movies do not have the runtime property
                         </View> */}
 
                         <View style={styles.secondaryInformation}>
                             <AntDesign
                                 name="star"
-                                size={24}
+                                size={12}
                                 color={theme.colors.secondaryInformation}
                             />
                             <Text
@@ -157,7 +175,11 @@ export function DetailsScreen({ navigation }) {
                             width: "50%",
                         }}
                     >
-                        <Text
+
+                    {
+                        canShowMovieGenres && (
+                            <>
+                            <Text
                             style={[
                                 styles.minorTitle,
                                 {
@@ -165,7 +187,7 @@ export function DetailsScreen({ navigation }) {
                                 },
                             ]}
                         >
-                            Genre
+                            Genres
                         </Text>
 
                         <View
@@ -176,10 +198,20 @@ export function DetailsScreen({ navigation }) {
                                 marginBottom: 16,
                             }}
                         >
-                            <GenreCategory>Action</GenreCategory>
+                            {
+                                returnMovieGenres(movie).map((genre) => {
+                                    return (
+                                        <GenreCategory key={genre.id}>{genre.name}</GenreCategory>
+                                    )
+                                })
 
-                            <GenreCategory>Sci-Fi</GenreCategory>
+                            }
                         </View>
+                            </>
+                        )
+                    }
+
+                        
                     </View>
                 </View>
 
