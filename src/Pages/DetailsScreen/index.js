@@ -27,10 +27,17 @@ export function DetailsScreen({ navigation }) {
     const [canShowMovieGenres, setCanShowMovieGenres] = useState(false);
 
     const [isFavoriteIconClicked, setIsFavoriteIconClicked] = useState(false);
+    const [canShowFavoriteIcon, setCanShowFavoriteIcon] = useState(false);
 
     const [numberOfLinesOverview, setNumberOfLinesOverview] = useState(0);
 
+
+
     const [canShowReadMoreButtonOverview, setCanShowReadMoreButtonOverview] = useState(false);
+
+    const [favoritesMovies, setFavoriteMovies] = useState([]);
+
+
 
     const route = useRoute();
 
@@ -47,6 +54,9 @@ export function DetailsScreen({ navigation }) {
             setRelatedMovies(await (await apiFunctions.getRecommendations(movieId))?.data?.results);
             setCanShowMovieGenres(true);
 
+            loadMovies();
+
+
         } catch (err) {
 
 
@@ -56,19 +66,35 @@ export function DetailsScreen({ navigation }) {
 
     }
 
-    useEffect(function () {
-        setMovieId(route?.params?.movieId);
 
+
+    useEffect(function () {
+        loadData();
+        setMovieId(route?.params?.movieId);
 
     }, []);
 
-    useEffect(function () {
-        loadData();
-    }, [movieId]);
 
     useEffect(function () {
         loadData();
-    }, [route]);
+
+
+    }, [movieId, route]);
+
+
+    async function loadMovies() {
+        setFavoriteMovies(JSON.parse(await asyncStorage.ASmovieList.getData("favoriteMovies")));
+        console.log(favoritesMovies);
+        setCanShowFavoriteIcon(true);
+        favoritesMovies.forEach((movieInList) => {
+            if (movieInList.id === movie.id) {
+                setIsFavoriteIconClicked(true);
+                return;
+            } else {
+                setIsFavoriteIconClicked(false);
+            }
+        })
+    }
 
 
     function returnMovieGenres(movie) {
@@ -90,6 +116,7 @@ export function DetailsScreen({ navigation }) {
         const movieListFromLocalStorage = JSON.parse(await asyncStorage.ASmovieList.getData("favoriteMovies"));
         const movieList = [...movieListFromLocalStorage];
         movieList.push(movie);
+
         asyncStorage.ASmovieList.storeData("favoriteMovies", JSON.stringify(movieList));
     }
 
@@ -159,7 +186,12 @@ export function DetailsScreen({ navigation }) {
                             }}
                             activeOpacity={0.9}
                         >
-                            <MaterialIcons name={isFavoriteIconClicked ? 'favorite' : 'favorite-outline'} size={24} color={theme.colors.secondaryInformation} />
+                            {
+                                canShowFavoriteIcon && (
+
+                                    <MaterialIcons name={isFavoriteIconClicked ? 'favorite' : 'favorite-outline'} size={24} color={theme.colors.secondaryInformation} />
+                                )
+                            }
                         </TouchableOpacity>
                     </View>
                 </View>

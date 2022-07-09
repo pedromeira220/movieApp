@@ -4,6 +4,7 @@ import { theme } from '../../global/theme';
 
 import { MovieSection } from '../../components/MovieSection'
 import { asyncStorage } from '../../services/asyncStorage';
+import { apiFunctions } from '../../services/api';
 
 
 export function MovieListScreen({ navigation }) {
@@ -20,7 +21,10 @@ export function MovieListScreen({ navigation }) {
 
     async function loadData() {
         const favoriteMoviesString = (await asyncStorage.ASmovieList.getData("favoriteMovies"));
-        setFavoriteMovies(JSON.parse(favoriteMoviesString));
+        const favoriteMovies= JSON.parse(favoriteMoviesString);
+        setFavoriteMovies(favoriteMovies);
+
+
 
     }
 
@@ -39,12 +43,14 @@ export function MovieListScreen({ navigation }) {
             </View>
 
             <View style={styles.content}>
+
                 <MovieSection
                     movieList={favoriteMovies}
                     navigation={navigation}
                     showTitle={false}
 
                 />
+
             </View>
 
 
