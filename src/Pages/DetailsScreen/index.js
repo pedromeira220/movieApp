@@ -97,7 +97,7 @@ export function DetailsScreen({ navigation }) {
         const movieListFromLocalStorage = JSON.parse(await asyncStorage.ASmovieList.getData("favoriteMovies"));
         const movieList = [...movieListFromLocalStorage];
         movieList.push(movie);
-        asyncStorage.ASmovieList.storeData("favoriteMovies", JSON.stringify([]), true);
+        asyncStorage.ASmovieList.storeData("favoriteMovies", JSON.stringify(movieList));
 
     }
 
