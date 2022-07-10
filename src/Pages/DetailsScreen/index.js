@@ -17,8 +17,8 @@ import { api, apiFunctions, apiConfig } from "../../services/api";
 
 import { useRoute } from "@react-navigation/native";
 import { TextWithReadMoreButton } from "../../components/TextWithReadMoreButton";
-import { asyncStorage } from "../../services/AsyncStorage";
-    
+import { asyncStorage } from "../../services/asyncStorage";
+
 
 export function DetailsScreen({ navigation }) {
     const [relatedMovies, setRelatedMovies] = useState([]);
