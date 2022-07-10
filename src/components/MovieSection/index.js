@@ -7,7 +7,7 @@ import { api, apiConfig, apiFunctions } from '../../services/api';
 
 export function MovieSection({ title, showTitle, movieList, navigation }) {
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
 
 
 
@@ -37,7 +37,7 @@ export function MovieSection({ title, showTitle, movieList, navigation }) {
 
 
 
-        </View>
+        </ScrollView>
     );
 }
 

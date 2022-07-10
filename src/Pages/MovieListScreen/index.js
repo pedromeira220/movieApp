@@ -6,26 +6,28 @@ import { MovieSection } from '../../components/MovieSection'
 import { asyncStorage } from '../../services/asyncStorage';
 import { apiFunctions } from '../../services/api';
 
+import { useIsFocused } from '@react-navigation/native';
+
 
 export function MovieListScreen({ navigation }) {
+
+    const isFocused = useIsFocused();
+
 
     const [favoriteMovies, setFavoriteMovies] = useState([]);
 
     useEffect(function () {
-        loadData()
-    }, []);
 
-    useEffect(function () {
         loadData()
-    }, [favoriteMovies]);
+        
+    }, [isFocused]);
+
 
     async function loadData() {
+
         const favoriteMoviesString = (await asyncStorage.ASmovieList.getData("favoriteMovies"));
-        const favoriteMovies= JSON.parse(favoriteMoviesString);
-        setFavoriteMovies(favoriteMovies);
-
-
-
+        const favoriteMoviesParsed= JSON.parse(favoriteMoviesString);
+        setFavoriteMovies(favoriteMoviesParsed);
     }
 
     return (

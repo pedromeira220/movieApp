@@ -20,6 +20,7 @@ import { TextWithReadMoreButton } from "../../components/TextWithReadMoreButton"
 import { asyncStorage } from "../../services/asyncStorage";
 
 
+
 export function DetailsScreen({ navigation }) {
     const [relatedMovies, setRelatedMovies] = useState([]);
     const [movieId, setMovieId] = useState(0);
@@ -41,53 +42,33 @@ export function DetailsScreen({ navigation }) {
 
     const route = useRoute();
 
-    async function loadData() {
-
-
-
-        try {
-
-            setNumberOfLinesOverview(4);
-
-            setMovieId(route?.params?.movieId);
-            setMovie((await apiFunctions.getMovie(movieId)).data);
-            setRelatedMovies(await (await apiFunctions.getRecommendations(movieId))?.data?.results);
-            setCanShowMovieGenres(true);
-
-            loadMovies();
-
-
-        } catch (err) {
-
-
-
-        }
-
-
-    }
-
 
 
     useEffect(function () {
-        loadData();
         setMovieId(route?.params?.movieId);
-
+        loadData();
+        console.log("O use effect sem dependências foi chamado");
     }, []);
 
 
     useEffect(function () {
         loadData();
-
-
     }, [movieId, route]);
 
 
     async function loadMovies() {
+
         setFavoriteMovies(JSON.parse(await asyncStorage.ASmovieList.getData("favoriteMovies")));
-        console.log(favoritesMovies);
+        console.log("favorite movies", favoritesMovies);
+        if (!favoritesMovies) {
+            setFavoriteMovies(JSON.parse(asyncStorage.ASmovieList.data.favoriteMovies));
+        }
+
+        //console.log(favoritesMovies);
         setCanShowFavoriteIcon(true);
         favoritesMovies.forEach((movieInList) => {
-            if (movieInList.id === movie.id) {
+            console.log("função chamada");
+            if (movieInList.id == movie.id) {
                 setIsFavoriteIconClicked(true);
                 return;
             } else {
@@ -116,8 +97,26 @@ export function DetailsScreen({ navigation }) {
         const movieListFromLocalStorage = JSON.parse(await asyncStorage.ASmovieList.getData("favoriteMovies"));
         const movieList = [...movieListFromLocalStorage];
         movieList.push(movie);
+        asyncStorage.ASmovieList.storeData("favoriteMovies", JSON.stringify([]), true);
 
-        asyncStorage.ASmovieList.storeData("favoriteMovies", JSON.stringify(movieList));
+    }
+
+    async function loadData() {
+        try {
+
+            setNumberOfLinesOverview(4);
+
+            setMovieId(route?.params?.movieId);
+            setMovie((await apiFunctions.getMovie(movieId)).data);
+            setRelatedMovies(await (await apiFunctions.getRecommendations(movieId))?.data?.results);
+            setCanShowMovieGenres(true);
+
+            loadMovies();
+
+
+        } catch (err) {
+        }
+
     }
 
     return (
