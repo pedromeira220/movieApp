@@ -13,6 +13,7 @@ import { MovieListScreen } from '../Pages/MovieListScreen';
 
 
 import HomeSvg from '../assets/Home.svg';
+import { CustomIcon } from '../components/CustomIcon';
 
 const Tab = createBottomTabNavigator();
 export function TabBarNavigator() {
@@ -47,7 +48,7 @@ export function TabBarNavigator() {
                                 alignItems: "center"
                             }}
                         >
-                            <HomeSvg fill={focused ? theme.colors.primary : theme.colors.inactiveTabBar} />
+                            <HomeSvg width="36px" height="36px" fill={focused ? theme.colors.primary : theme.colors.inactiveTabBar} />
                         </View>
                     )
                 }}
@@ -57,8 +58,11 @@ export function TabBarNavigator() {
                 component={MovieListScreen}
                 options={{
                     tabBarIcon: ({ size, color, focused }) => (
-                        <FontAwesome name="plus" size={size * 1.4} color={color} />
+                        <FontAwesome name="plus" size={36} color={focused ? theme.colors.text : theme.colors.inactiveTabBar} />
 
+                    ),
+                    tabBarButton: (props) => (
+                        <CustomIcon {...props} />
                     )
                 }}
             />
@@ -67,7 +71,7 @@ export function TabBarNavigator() {
                 component={DiscoveryScreen}
                 options={{
                     tabBarIcon: ({ size, color, focused }) => (
-                        <FontAwesome name="search" size={size * 1.4} color={color} />
+                        <FontAwesome name="search" size={36} color={color} />
 
                     )
                 }}
