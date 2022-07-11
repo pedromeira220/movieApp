@@ -8,9 +8,11 @@ import { ProfileScreen } from '../Pages/ProfileScreen'
 import { DiscoveryScreen } from '../Pages/DiscoveryScreen'
 import { DetailsScreen } from '../Pages/DetailsScreen'
 import { theme } from '../global/theme';
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 import { MovieListScreen } from '../Pages/MovieListScreen';
 
+
+import HomeSvg from '../assets/Home.svg';
 
 const Tab = createBottomTabNavigator();
 export function TabBarNavigator() {
@@ -45,9 +47,7 @@ export function TabBarNavigator() {
                                 alignItems: "center"
                             }}
                         >
-                            <Foundation name="home" size={size * 1.4} color={color}
-                                resizeMode="cover"
-                            />
+                            <HomeSvg fill={focused ? theme.colors.primary : theme.colors.inactiveTabBar} />
                         </View>
                     )
                 }}
