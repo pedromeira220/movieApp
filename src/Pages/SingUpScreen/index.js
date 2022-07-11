@@ -42,8 +42,7 @@ export function SingUpScreen() {
     return (
         <KeyboardAwareScrollView
             style={styles.container}
-
-
+            alwaysBounceVertical={false}
 
         >
 
@@ -55,13 +54,13 @@ export function SingUpScreen() {
 
                 <View style={[styles.content, { justifyContent: "flex-end" }]}>
                     <View style={styles.titleContainer}>
-                        <Text style={styles.title}>Sing Up</Text>
+                        <Text style={styles.title}>Register</Text>
                     </View>
 
                     <View style={styles.inputsContainer}>
 
                         <InputWithIcon placeholder="Your email" Icon={<MaterialIcons name="email" size={24} color={theme.colors.text} onChangeText={handleTextChange} />} />
-                        <InputWithIcon placeholder="Your password" Icon={<FontAwesome5 name="key" size={24} color={theme.colors.text} onChangeText={handleTextChange} />} />
+                        <InputWithIcon placeholder="Your password" Icon={<FontAwesome5 name="key" size={24} color={theme.colors.text} onChangeText={handleTextChange} />} secureTextEntry={true} />
                         <PrimaryButton color={theme.colors.primary} text="Create account" textColor={theme.colors.text} onPress={handleSubmit} />
 
                         <View style={styles.bottomInfo}>
