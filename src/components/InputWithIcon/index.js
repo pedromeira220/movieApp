@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TextInput } from "react-native";
 import { theme } from "../../global/theme";
 import { Ionicons } from '@expo/vector-icons'
 
-export function InputWithIcon({ placeholder, Icon, onChangeText, secureTextEntry = false }) {
+export function InputWithIcon({ placeholder, Icon, onChangeText, secureTextEntry = false, ...props }) {
     return (
         <View style={styles.containerInput}>
 
@@ -27,6 +27,7 @@ export function InputWithIcon({ placeholder, Icon, onChangeText, secureTextEntry
                 style={styles.movieInput}
                 keyboardAppearance="dark"
                 onChangeText={onChangeText}
+                {...props}
             ></TextInput>
 
         </View>

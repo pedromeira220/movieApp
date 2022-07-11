@@ -39,48 +39,50 @@ export function SingUpScreen() {
     }
 
 
+
+
     return (
         <KeyboardAwareScrollView
             style={styles.container}
             alwaysBounceVertical={false}
-
+            extraScrollHeight={30}
         >
 
 
             <SafeAreaView style={styles.bannerContainer}>
                 <HomeCinemaSvg height="100%" style={styles.banner} />
             </SafeAreaView>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 
-                <View style={[styles.content, { justifyContent: "flex-end" }]}>
-                    <View style={styles.titleContainer}>
-                        <Text style={styles.title}>Register</Text>
-                    </View>
 
-                    <View style={styles.inputsContainer}>
-
-                        <InputWithIcon placeholder="Your email" Icon={<MaterialIcons name="email" size={24} color={theme.colors.text} onChangeText={handleTextChange} />} />
-                        <InputWithIcon placeholder="Your password" Icon={<FontAwesome5 name="key" size={24} color={theme.colors.text} onChangeText={handleTextChange} />} secureTextEntry={true} />
-                        <PrimaryButton color={theme.colors.primary} text="Create account" textColor={theme.colors.text} onPress={handleSubmit} />
-
-                        <View style={styles.bottomInfo}>
-                            <Text style={styles.text}>Join us before?</Text>
-                            <TouchableOpacity
-                                onPress={() => {
-                                    navigateAndReset(navigation, "LogInScreen");
-                                }}
-                            >
-                                <Text style={[styles.text, {
-                                    color: theme.colors.text,
-                                    fontWeight: "bold",
-                                    marginLeft: 4,
-                                }]}>Login</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
+            <View style={[styles.content, { justifyContent: "flex-end" }]}>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>Register</Text>
                 </View>
-            </TouchableWithoutFeedback>
+
+                <View style={styles.inputsContainer}>
+
+                    <InputWithIcon placeholder="Your email" Icon={<MaterialIcons name="email" size={24} color={theme.colors.text} onChangeText={handleTextChange} />} />
+                    <InputWithIcon placeholder="Your password" Icon={<FontAwesome5 name="key" size={24} color={theme.colors.text} onChangeText={handleTextChange} />} secureTextEntry={true} />
+                    <PrimaryButton color={theme.colors.primary} text="Create account" textColor={theme.colors.text} onPress={handleSubmit} />
+
+                    <View style={styles.bottomInfo}>
+                        <Text style={styles.text}>Join us before?</Text>
+                        <TouchableOpacity
+                            onPress={() => {
+                                navigateAndReset(navigation, "LogInScreen");
+                            }}
+                        >
+                            <Text style={[styles.text, {
+                                color: theme.colors.text,
+                                fontWeight: "bold",
+                                marginLeft: 4,
+                            }]}>Login</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+            </View>
+
 
         </KeyboardAwareScrollView >
     )

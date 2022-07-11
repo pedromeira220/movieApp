@@ -43,6 +43,7 @@ export function LogInScreen() {
         <KeyboardAwareScrollView
             style={styles.container}
             alwaysBounceVertical={false}
+            extraScrollHeight={30}
         >
 
 
