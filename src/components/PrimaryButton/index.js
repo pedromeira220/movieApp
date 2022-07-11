@@ -7,9 +7,9 @@ import { theme } from "../../global/theme";
 
 
 
-export function PrimaryButton({ color, text, textColor }) {
+export function PrimaryButton({ color, text, textColor, onPress }) {
     return (
-        <TouchableOpacity activeOpacity={0.8} style={[styles.container, {
+        <TouchableOpacity onPress={onPress} activeOpacity={0.8} style={[styles.container, {
             backgroundColor: color
         }]}>
             <Text style={[styles.title, {

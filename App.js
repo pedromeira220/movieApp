@@ -6,6 +6,7 @@ import { TabBarNavigator } from './src/navigators/TabBarNavigator'
 import { DetailsScreen } from './src/Pages/DetailsScreen'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SingUpScreen } from './src/Pages/SingUpScreen';
+import { LogInScreen } from './src/Pages/LogInScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,7 +16,12 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="SignInScreen"
+          name="LogInScreen"
+          component={LogInScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SingUpScreen"
           component={SingUpScreen}
           options={{ headerShown: false }}
         />

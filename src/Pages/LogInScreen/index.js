@@ -2,8 +2,9 @@ import React from "react";
 
 import { View, Text, StyleSheet, SafeAreaView, TextInput, TouchableOpacity } from "react-native";
 import { theme } from "../../global/theme";
-import HomeCinemaSvg from "../../assets/undraw_home_cinema_l7yl 1.svg";
+import HomeCinemaSvg from "../../assets/undraw_video_streaming_re_v3qg.svg";
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+
 
 
 import { InputWithIcon } from "../../components/InputWithIcon";
@@ -11,7 +12,9 @@ import { PrimaryButton } from "../../components/PrimaryButton";
 import { useNavigation } from "@react-navigation/native";
 import { navigateAndReset } from "../../components/publicFunctions/navigateAndReset";
 
-export function SingUpScreen() {
+
+
+export function LogInScreen() {
 
     const navigation = useNavigation();
 
@@ -27,27 +30,27 @@ export function SingUpScreen() {
 
             <View style={styles.content}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title}>Sing Up</Text>
+                    <Text style={styles.title}>Log In now</Text>
                 </View>
 
                 <View style={styles.inputsContainer}>
 
                     <InputWithIcon placeholder="Your email" Icon={<MaterialIcons name="email" size={24} color={theme.colors.text} />} />
                     <InputWithIcon placeholder="Your password" Icon={<FontAwesome5 name="key" size={24} color={theme.colors.text} />} />
-                    <PrimaryButton color={theme.colors.primary} text="Create account" textColor={theme.colors.text} onPress={handleSubmit} />
+                    <PrimaryButton color={theme.colors.primary} text="Login" textColor={theme.colors.text} onPress={handleSubmit} />
 
                     <View style={styles.bottomInfo}>
-                        <Text style={styles.text}>Join us before?</Text>
+                        <Text style={styles.text}>New to Movie App?</Text>
                         <TouchableOpacity
                             onPress={() => {
-                                navigateAndReset(navigation, "LogInScreen");
+                                navigateAndReset(navigation, "SingUpScreen");
                             }}
                         >
                             <Text style={[styles.text, {
                                 color: theme.colors.text,
                                 fontWeight: "bold",
                                 marginLeft: 4,
-                            }]}>Login</Text>
+                            }]}>Register</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
