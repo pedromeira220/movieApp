@@ -1,6 +1,15 @@
 import React from "react";
 
-import { View, Text, StyleSheet, SafeAreaView, TextInput, TouchableOpacity } from "react-native";
+import {
+    View,
+    Text,
+    StyleSheet,
+    SafeAreaView,
+    TouchableOpacity,
+    KeyboardAvoidingView,
+    TouchableWithoutFeedback,
+    Keyboard
+} from "react-native";
 import { theme } from "../../global/theme";
 import HomeCinemaSvg from "../../assets/undraw_video_streaming_re_v3qg.svg";
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';

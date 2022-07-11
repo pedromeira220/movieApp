@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TextInput } from "react-native";
 import { theme } from "../../global/theme";
 import { Ionicons } from '@expo/vector-icons'
 
-export function InputWithIcon({ placeholder, Icon }) {
+export function InputWithIcon({ placeholder, Icon, onChangeText }) {
     return (
         <View style={styles.containerInput}>
 
@@ -19,13 +19,14 @@ export function InputWithIcon({ placeholder, Icon }) {
             </View>
 
             <TextInput
+
+                autoCorrect={false}
+                secureTextEntry={true}
                 placeholder={placeholder}
                 placeholderTextColor="#BBBBBB"
                 style={styles.movieInput}
                 keyboardAppearance="dark"
-                onChangeText={(text) => {
-                    handleInputChange(text);
-                }}
+                onChangeText={onChangeText}
             ></TextInput>
 
         </View>
