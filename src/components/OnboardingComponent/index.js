@@ -1,8 +1,12 @@
+import { useNavigation } from "@react-navigation/native";
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import { theme } from '../../global/theme';
+import { navigateAndReset } from "../publicFunctions/navigateAndReset";
 
 export function OnboardingComponent({ title, subtitle, activeBullet, Icon }) {
+
+    const navigation = useNavigation();
 
     return (
         <View style={styles.container}>
@@ -37,12 +41,17 @@ export function OnboardingComponent({ title, subtitle, activeBullet, Icon }) {
                         }]} />
                     </View>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                    >
                         <Text style={styles.actionButton}>Next</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.skipButtonContainer}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigateAndReset(navigation, "LogInScreen");
+                        }}
+                    >
                         <Text style={styles.skipText}>Skip tutorial</Text>
                     </TouchableOpacity>
                 </View>

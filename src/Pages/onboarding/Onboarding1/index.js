@@ -1,5 +1,4 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
 import { OnboardingComponent } from '../../../components/OnboardingComponent';
 import The_searchSvg from '../../../assets/undraw_the_search_s0xf.svg';
 
@@ -13,7 +12,3 @@ export function Onboarding1() {
         </>
     )
 }
-
-const styles = StyleSheet.create({
-
-});
