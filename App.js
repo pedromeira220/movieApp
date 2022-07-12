@@ -7,6 +7,7 @@ import { DetailsScreen } from './src/Pages/DetailsScreen'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SingUpScreen } from './src/Pages/SingUpScreen';
 import { LogInScreen } from './src/Pages/LogInScreen';
+import { Onboarding1 } from './src/Pages/onboarding/Onboarding1';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,6 +16,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen
+          name="Onboarding1"
+          component={Onboarding1}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="LogInScreen"
           component={LogInScreen}
