@@ -4,7 +4,7 @@ import { View, StyleSheet, Text, TouchableOpacity, SafeAreaView } from 'react-na
 import { theme } from '../../global/theme';
 import { navigateAndReset } from "../publicFunctions/navigateAndReset";
 
-export function OnboardingComponent({ title, subtitle, activeBullet, Icon }) {
+export function OnboardingComponent({ title, subtitle, page, Icon }) {
 
     const navigation = useNavigation();
 
@@ -25,25 +25,38 @@ export function OnboardingComponent({ title, subtitle, activeBullet, Icon }) {
 
             <View style={styles.bottomInfo}>
                 <View style={styles.actionButtonsContainer}>
-                    <TouchableOpacity>
-                        <Text style={styles.actionButton}>Prev</Text>
+                    <TouchableOpacity
+                        onPress={() => {
+                            if (page != 1) {
+                                navigation.navigate(`Onboarding` + (page - 1));
+                            }
+                        }}
+                    >
+                        <Text style={styles.actionButton}>{page == 1 ? "" : "Prev"}</Text>
                     </TouchableOpacity>
 
                     <View style={styles.bulletsContainer}>
                         <View style={[styles.bullet, {
-                            backgroundColor: activeBullet == 1 ? theme.colors.primary : theme.colors.inactiveTabBar
+                            backgroundColor: page == 1 ? theme.colors.primary : theme.colors.inactiveTabBar
                         }]} />
                         <View style={[styles.bullet, {
-                            backgroundColor: activeBullet == 2 ? theme.colors.primary : theme.colors.inactiveTabBar
+                            backgroundColor: page == 2 ? theme.colors.primary : theme.colors.inactiveTabBar
                         }]} />
                         <View style={[styles.bullet, {
-                            backgroundColor: activeBullet == 3 ? theme.colors.primary : theme.colors.inactiveTabBar
+                            backgroundColor: page == 3 ? theme.colors.primary : theme.colors.inactiveTabBar
                         }]} />
                     </View>
 
                     <TouchableOpacity
+                        onPress={() => {
+                            if (page != 3) {
+                                navigation.navigate(`Onboarding` + (page + 1));
+                            } else {
+                                navigateAndReset(navigation, "LogInScreen");
+                            }
+                        }}
                     >
-                        <Text style={styles.actionButton}>Next</Text>
+                        <Text style={styles.actionButton}>{page == 3 ? "Finish" : "Next"}</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.skipButtonContainer}>

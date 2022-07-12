@@ -4,11 +4,13 @@ import The_searchSvg from '../../../assets/undraw_note_list_re_r4u9.svg';
 
 export function Onboarding3() {
 
+    const page = 3;
+
     const subtitle = "Create multiple lists to organize your movies"
 
     return (
         <>
-            <OnboardingComponent title="Create" subtitle={subtitle} activeBullet={3} Icon={<The_searchSvg height={328} />} />
+            <OnboardingComponent title="Create" subtitle={subtitle} page={page} Icon={<The_searchSvg height={328} />} />
         </>
     )
 }

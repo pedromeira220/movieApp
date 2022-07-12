@@ -20,6 +20,16 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen
           name="Onboarding1"
+          component={Onboarding1}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Onboarding2"
+          component={Onboarding2}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Onboarding3"
           component={Onboarding3}
           options={{ headerShown: false }}
         />
