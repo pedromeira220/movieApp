@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { OnboardingComponent } from '../../../components/OnboardingComponent';
+import The_searchSvg from '../../../assets/undraw_the_search_s0xf.svg';
 
 export function Onboarding1() {
 
@@ -8,7 +9,7 @@ export function Onboarding1() {
 
     return (
         <>
-            <OnboardingComponent title="Discovery" subtitle={subtitle} />
+            <OnboardingComponent title="Discovery" subtitle={subtitle} activeBullet={1} Icon={<The_searchSvg height={328} />} />
         </>
     )
 }
