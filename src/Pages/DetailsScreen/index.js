@@ -17,7 +17,7 @@ import { api, apiFunctions, apiConfig } from "../../services/api";
 
 import { useRoute } from "@react-navigation/native";
 import { TextWithReadMoreButton } from "../../components/TextWithReadMoreButton";
-import { asyncStorage } from "../../services/asyncStorage";
+import { asyncStorage } from "../../services/AsyncStorage";
 
 
 export function DetailsScreen({ navigation }) {
