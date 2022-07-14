@@ -21,6 +21,7 @@ export function OnboardingComponent({ title, subtitle, page, Icon }) {
                 <Text style={styles.subtitle}>
                     {subtitle}
                 </Text>
+
             </View>
 
             <View style={styles.bottomInfo}>
