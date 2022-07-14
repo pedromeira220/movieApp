@@ -4,9 +4,11 @@ import { View, Text, StyleSheet, TextInput } from "react-native";
 import { theme } from "../../global/theme";
 import { Ionicons } from '@expo/vector-icons'
 
-export function InputWithIcon({ placeholder, Icon, onChangeText, secureTextEntry = false, ...props }) {
+export function InputWithIcon({ placeholder, canAutoFocus = false, Icon, onChangeText, cannotPutMarginTop = false, secureTextEntry = false, ...props }) {
     return (
-        <View style={styles.containerInput}>
+        <View style={[styles.containerInput, {
+            marginTop: cannotPutMarginTop ? 0 : 32,
+        }]}>
 
             <View
                 style={{
@@ -19,7 +21,7 @@ export function InputWithIcon({ placeholder, Icon, onChangeText, secureTextEntry
             </View>
 
             <TextInput
-
+                autoFocus={canAutoFocus}
                 autoCorrect={false}
                 secureTextEntry={secureTextEntry}
                 placeholder={placeholder}
@@ -40,7 +42,6 @@ const styles = StyleSheet.create({
 
         color: theme.colors.text,
         padding: 16,
-        marginTop: 32,
         borderRadius: 24,
         flexDirection: 'row',
     },
