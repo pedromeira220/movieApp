@@ -1,12 +1,15 @@
 import React from "react";
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { theme } from "../../global/theme";
 
 import { AntDesign } from '@expo/vector-icons';
 
-export function MovieListItem({ title, Icon }) {
+export function MovieListItem({ title, Icon, onPress }) {
     return (
-        <View style={styles.container}>
+        <TouchableOpacity
+            style={styles.container}
+            onPress={onPress}
+        >
             <View style={{
                 flexDirection: "row",
                 minWidth: 99,
@@ -19,7 +22,7 @@ export function MovieListItem({ title, Icon }) {
             <View>
                 <AntDesign name="right" size={24} color={theme.colors.text} />
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 

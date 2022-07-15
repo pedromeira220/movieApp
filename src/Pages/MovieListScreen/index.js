@@ -9,10 +9,12 @@ import { InputWithIcon } from '../../components/InputWithIcon';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
+import { useNavigation } from '@react-navigation/native';
 
 
+export function MovieListScreen() {
 
-export function MovieListScreen({ navigation }) {
+    const navigation = useNavigation();
 
     const [movieLists, setMovieLists] = useState([
         { title: "Main List", icon: <AntDesign name="clockcircle" size={24} color={theme.colors.text} />, id: 1 },
@@ -20,6 +22,10 @@ export function MovieListScreen({ navigation }) {
         { title: "Friends recommendations", icon: <FontAwesome5 name="user-friends" size={24} color={theme.colors.text} />, id: 3 },
 
     ]);
+
+    function handleMovieListItemClick() {
+        navigation.navigate("ListOfMovies");
+    }
 
     return (
         <View style={{
@@ -31,7 +37,7 @@ export function MovieListScreen({ navigation }) {
                 data={movieLists}
                 renderItem={function ({ item }) {
                     return (
-                        <MovieListItem Icon={item.icon} title={item.title} />
+                        <MovieListItem Icon={item.icon} title={item.title} onPress={handleMovieListItemClick} />
                     )
                 }}
                 keyExtractor={function (item) {

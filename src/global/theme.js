@@ -1,6 +1,7 @@
 export const theme = {
     colors: {
         primary: "#FF8F71",
+        secondary: "#EF2D1A",
         text: "#ffffff",
         background: "#15141F",
         inactiveTabBar: "#dadada4d",

@@ -82,11 +82,16 @@ export function DiscoveryScreen({ navigation }) {
                     <MovieCategory name="Sci-fi" active={false} />
                 </ScrollView>
 
-                <MovieSection
-                    showTitle={false}
-                    movieList={topRatedMovies}
-                    navigation={navigation}
-                />
+                <View style={{
+                    marginTop: 56
+                }}>
+                    <MovieSection
+                        showTitle={false}
+                        movieList={topRatedMovies}
+                        navigation={navigation}
+                    />
+                </View>
+
 
             </View>
         </ScrollView>

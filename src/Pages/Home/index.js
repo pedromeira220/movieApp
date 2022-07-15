@@ -20,7 +20,7 @@ export function Home({ navigation }) {
         async function loadData() {
             setPopularMovies((await apiFunctions.getPopular(1)).data.results);
             setTopRatedMovies((await apiFunctions.getPopular(3)).data.results);
-            
+
 
         }
 
@@ -50,7 +50,7 @@ export function Home({ navigation }) {
                 />
 
                 <View style={styles.main}>
-                    
+
 
                     <MovieSection
                         title="Top Rated"
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: "row",
         marginHorizontal: 24,
-        marginTop: 40,
+        marginTop: 20,
         marginBottom: 24,
     },
     name: {
@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     main: {
+        marginTop: 56,
         marginHorizontal: 24,
     },
     title: {

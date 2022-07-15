@@ -43,7 +43,6 @@ export function MovieSection({ title, showTitle, movieList, navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 56,
         width: Dimensions.get('window').width - 48,
     },
     movieList: {
