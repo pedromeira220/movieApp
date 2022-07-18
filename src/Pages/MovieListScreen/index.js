@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, SafeAreaView, StyleSheet, ScrollView, Image, TouchableOpacity, FlatList } from 'react-native';
 import { MovieListItem } from '../../components/MovieListItem';
 
@@ -10,11 +10,14 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 
 import { useNavigation } from '@react-navigation/native';
-
+import { myApiFunctions } from '../../services/backend';
+import { asyncStorage } from '../../services/asyncStorage';
+import { useFocusEffect } from '@react-navigation/native';
 
 export function MovieListScreen() {
 
     const navigation = useNavigation();
+
 
     const [movieLists, setMovieLists] = useState([
         { title: "Main List", icon: <AntDesign name="clockcircle" size={24} color={theme.colors.text} />, id: 1 },
@@ -23,8 +26,54 @@ export function MovieListScreen() {
 
     ]);
 
+    const [user, setUser] = useState({});
+
     function handleMovieListItemClick() {
         navigation.navigate("ListOfMovies");
+    }
+
+    async function loadData() {
+        setUser({
+            id: await asyncStorage.ASuser.getData("user_id"),
+            token: await asyncStorage.ASuser.getData("user_token"),
+        });
+        const response = await myApiFunctions.getAllLists({ token: user.token, userId: user.id });
+
+        const lists = response.lists;
+
+        console.log(lists);
+
+        lists.forEach(function (list) {
+            console.log("uma lista");
+            addNewListToList({ listId: list.id, listName: list.name });
+        });
+
+    }
+
+    //useFocusEffect(
+    //    useCallback(() => {
+    //        loadData();
+    //    }, [])
+    //);
+
+
+
+    useEffect(function () {
+        //loadData();
+        (async function () {
+            setUser({
+                id: await asyncStorage.ASuser.getData("user_id"),
+                token: await asyncStorage.ASuser.getData("user_token"),
+            });
+        })()
+
+
+    }, []);
+
+    function addNewListToList({ listName, listId }) {
+        const newMovieLists = [{ title: listName, icon: <FontAwesome name="list-ul" size={24} color={theme.colors.text} />, id: listId }, ...movieLists]
+        setMovieLists(newMovieLists);
+        return newMovieLists;
     }
 
     return (
@@ -43,7 +92,7 @@ export function MovieListScreen() {
                 keyExtractor={function (item) {
                     return item.id
                 }}
-                ListHeaderComponent={<FlatListHeader movieLists={movieLists} setMovieLists={setMovieLists} />}
+                ListHeaderComponent={<FlatListHeader movieLists={movieLists} setMovieLists={setMovieLists} user={user} />}
                 style={styles.movieListsList}
             />
         </View>
@@ -98,7 +147,7 @@ const styles = StyleSheet.create({
     },
 });
 
-function FlatListHeader({ movieLists, setMovieLists }) {
+function FlatListHeader({ movieLists, setMovieLists, user }) {
 
     const [isAddListButtonActive, setIsAddListButtonActive] = useState(false);
     const [canFocus, setCanFocus] = useState(false);
@@ -110,11 +159,15 @@ function FlatListHeader({ movieLists, setMovieLists }) {
 
     }
 
-    function handleOnInputWithIconKeyboardOut() {
+
+
+    async function handleOnInputWithIconKeyboardOut() {
 
         const newMovieLists = [{ title: newNameListText, icon: <FontAwesome name="list-ul" size={24} color={theme.colors.text} />, id: movieLists.length + 1 }, ...movieLists]
         setMovieLists(newMovieLists);
         setIsAddListButtonActive(false);
+        console.log(user);
+        await myApiFunctions.createList({ listName: newNameListText, listType: 4, userId: user.id, token: user.token });
     }
 
     function handleOnInputWithIconChangeText(text) {

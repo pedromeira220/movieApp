@@ -62,6 +62,58 @@ export const myApiFunctions = {
             return { status: status, msg: data.msg, error: data.error }
         }
     },
+    createList: async function ({ listName, listType, userId, token }) {
+        let response;
+
+
+        const url = "/user/create_list";
+        const bodyParams = {
+            list_name: listName,
+            list_type: String(listType),
+            user_id: userId
+        };
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+
+
+        try {
+            response = await myApi.post(url, bodyParams, config);
+
+            const responseToReturn = response.data;
+            responseToReturn.status = response.status;
+
+            return responseToReturn;
+        } catch (error) {
+            console.error("error has been ocurred");
+            console.log(error);
+            const { status, data } = error.response;
+
+
+            return { status: status, msg: data.msg, error: data.error }
+        }
+    },
+    getAllLists: async function ({ userId, token }) {
+        let response;
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+
+        try {
+            response = await myApi.get(`/user/list_all_lists/${userId}`, config);
+
+            const responseToReturn = response.data;
+            responseToReturn.status = response.status;
+
+            return responseToReturn;
+        } catch (error) {
+
+            const { status, data } = error.response;
+
+
+            return { status: status, msg: data.msg, error: data.error }
+        }
+    },
 
 }
 
