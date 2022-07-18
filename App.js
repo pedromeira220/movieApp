@@ -11,6 +11,7 @@ import { Onboarding1 } from './src/Pages/onboarding/Onboarding1';
 import { Onboarding2 } from './src/Pages/onboarding/Onboarding2';
 import { Onboarding3 } from './src/Pages/onboarding/Onboarding3';
 import { ListOfMovies } from './src/Pages/ListOfMovies';
+import { theme } from './src/global/theme';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,11 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
+      <StatusBar
+        style='light'
+        backgroundColor="transparent"
+
+      />
       <Stack.Navigator>
         <Stack.Screen
           name="Onboarding1"
