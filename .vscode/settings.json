@@ -3,6 +3,7 @@
         "clockcircle",
         "clockcircleo",
         "Fontisto",
-        "Ionicons"
+        "Ionicons",
+        "localstorage"
     ]
 }

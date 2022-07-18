@@ -13,6 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import { myApiFunctions } from '../../services/backend';
 import { asyncStorage } from '../../services/asyncStorage';
 import { useFocusEffect } from '@react-navigation/native';
+import { localstorage } from '../../services/localstorage';
 
 export function MovieListScreen() {
 
@@ -33,8 +34,11 @@ export function MovieListScreen() {
     }
 
     async function loadData() {
-        const id = await asyncStorage.ASuser.getData("user_id")
-        const token = await asyncStorage.ASuser.getData("user_token")
+
+        const id = localstorage.user.id;
+        const token = localstorage.user.token;
+
+
 
         setUser({
             id,
@@ -42,15 +46,13 @@ export function MovieListScreen() {
         });
 
 
-        const response = await myApiFunctions.getAllLists({ token: user.token, userId: user.id });
+        const response = await myApiFunctions.getAllLists({ token, userId: id });
 
         const lists = response.lists;
 
-        console.log("Array de listas", lists);
         const newLists = [];
 
-        for (let i = 0; i < lists.length; i++) {
-            console.log(lists[i]);
+        for (let i = lists.length - 1; i >= 0; i--) {
             newLists.push({ title: lists[i].name, icon: <FontAwesome name="list-ul" size={24} color={theme.colors.text} />, id: lists[i].id });
 
         }

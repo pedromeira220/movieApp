@@ -3,6 +3,7 @@ import AS_favoritesMovies from '@react-native-async-storage/async-storage';
 import AS_user from '@react-native-async-storage/async-storage';
 
 
+
 export const asyncStorage = {
     ASmovieList: {
         storeData: (key, value) => {

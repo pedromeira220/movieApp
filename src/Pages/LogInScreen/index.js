@@ -24,6 +24,7 @@ import { useNavigation } from "@react-navigation/native";
 import { navigateAndReset } from "../../components/publicFunctions/navigateAndReset";
 import { myApiFunctions } from "../../services/backend";
 import { asyncStorage } from "../../services/asyncStorage";
+import { localstorage } from "../../services/localstorage";
 
 const bannerHeight = parseInt(Math.round((Dimensions.get("screen").height) * 0.45).toFixed(0));
 export function LogInScreen() {
@@ -49,7 +50,11 @@ export function LogInScreen() {
         setCanShowErrorMessage(false);
 
         asyncStorage.ASuser.storeData("user_id", data.user.id);
-        asyncStorage.ASuser.storeData("user_token", data.user.token);
+        localstorage.user.id = data.user.id;
+
+        const loginData = await myApiFunctions.login({ email: emailText, password: passwordText });
+        asyncStorage.ASuser.storeData("user_token", loginData.user.token);
+        localstorage.user.token = loginData.user.token;
 
         navigateAndReset(navigation, "TabBarNavigator");
     }
