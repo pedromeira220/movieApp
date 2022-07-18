@@ -1,1 +1,2 @@
-export const lang = "pt-br"
+export const lang = "en-US";
+export const region = "US";

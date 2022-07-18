@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { credentials } from '../global/credentials';
-import { lang } from '../global/lang'
+import { lang, region } from '../global/lang'
 
 
 export const api = axios.create({
@@ -14,7 +14,7 @@ export const apiConfig = {
 export const apiFunctions = {
     getMovie: async (movieId) => {
 
-        const url = `/movie/${movieId}?api_key=${credentials.API_KEY}&language=pt-br`;
+        const url = `/movie/${movieId}?api_key=${credentials.API_KEY}&language=${lang}`;
 
         try {
 
@@ -24,7 +24,7 @@ export const apiFunctions = {
         }
     },
     getListByMovieName: async (movieName) => {
-        const url = `/search/movie?api_key=${credentials.API_KEY}&language=pt-br&query=${movieName}&page=1&include_adult=false&region=br`;
+        const url = `/search/movie?api_key=${credentials.API_KEY}&language=${lang}&query=${movieName}&page=1&include_adult=false&region=${region}`;
         try {
 
             return await (api.get(url));
@@ -33,8 +33,7 @@ export const apiFunctions = {
         }
     },
     getPopular: async (page = 1) => {
-        const region = "br"
-        const url = `/movie/popular?api_key=${credentials.API_KEY}&language=pt-br&page=${page}&region=${region}`;
+        const url = `/movie/popular?api_key=${credentials.API_KEY}&language=${lang}&page=${page}&region=${region}`;
 
         try {
             return (await api.get(url));
@@ -43,7 +42,7 @@ export const apiFunctions = {
         }
     },
     getTopRated: async () => {
-        const url = `/movie/top_rated?api_key=${credentials.API_KEY}&language=pt-br&page=1`;
+        const url = `/movie/top_rated?api_key=${credentials.API_KEY}&language=${lang}&page=1`;
 
         try {
 
@@ -53,7 +52,7 @@ export const apiFunctions = {
         }
     },
     getLast: async () => {
-        const url = `/movie/latest?api_key=${credentials.API_KEY}&language=pt-br`;
+        const url = `/movie/latest?api_key=${credentials.API_KEY}&language=${lang}`;
 
         try {
 
@@ -63,7 +62,7 @@ export const apiFunctions = {
         }
     },
     getNowPlaying: async () => {
-        const url = `/movie/now_playing?api_key=${credentials.API_KEY}&language=pt-br&page=1`;
+        const url = `/movie/now_playing?api_key=${credentials.API_KEY}&language=${lang}&page=1`;
 
         try {
 
@@ -73,7 +72,7 @@ export const apiFunctions = {
         }
     },
     getUpcoming: async () => {
-        const url = `/movie/upcoming?api_key=${credentials.API_KEY}&language=pt-br&page=1&region=BR`;
+        const url = `/movie/upcoming?api_key=${credentials.API_KEY}&language=${lang}&page=1&region=${region}`;
 
         try {
 
@@ -83,7 +82,7 @@ export const apiFunctions = {
         }
     },
     getRecommendations: async (movieId) => {
-        const url = `/movie/${movieId}/recommendations?api_key=${credentials.API_KEY}&language=pt-br&page=1`;
+        const url = `/movie/${movieId}/recommendations?api_key=${credentials.API_KEY}&language=${lang}&page=1`;
 
         try {
 
