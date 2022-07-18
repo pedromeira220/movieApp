@@ -18,11 +18,28 @@ export const myApiFunctions = {
 
     },
     register: async function ({ email, name, password, }) {
-        return baseFunctionPOST("/user/register", {
-            user: {
-                email, name, password,
-            }
-        })
+        let response;
+
+        try {
+            response = await myApi.post("/user/register", {
+                user: {
+                    email,
+                    name,
+                    password
+                }
+            });
+
+            const responseToReturn = response.data;
+            responseToReturn.status = response.status;
+
+            return responseToReturn;
+        } catch (error) {
+
+            const { status, data } = error.response;
+
+
+            return { status: status, msg: data.msg, error: data.error }
+        }
     },
     getUserData: async function ({ userId }) {
         let response;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
     View,
@@ -15,27 +15,53 @@ import {
 } from "react-native";
 import { theme } from "../../global/theme";
 import HomeCinemaSvg from "../../assets/undraw_home_cinema_l7yl 1.svg";
-import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+import { MaterialIcons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { InputWithIcon } from "../../components/InputWithIcon";
 import { PrimaryButton } from "../../components/PrimaryButton";
 import { useNavigation } from "@react-navigation/native";
 import { navigateAndReset } from "../../components/publicFunctions/navigateAndReset";
+import { myApiFunctions } from "../../services/backend";
 
-const bannerHeight = parseInt(Math.round((Dimensions.get("screen").height) * 0.45).toFixed(0));
+const bannerHeight = parseInt(Math.round((Dimensions.get("screen").height) * 0.4).toFixed(0));
 export function SingUpScreen() {
 
-
+    const [emailText, setEmailText] = useState("");
+    const [passwordText, setPasswordText] = useState("");
+    const [nameText, setNameText] = useState("");
+    const [canShowErrorMessage, setCanShowErrorMessage] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const navigation = useNavigation();
 
-    function handleSubmit() {
+    async function handleSubmit() {
+        const data = await myApiFunctions.register({ email: emailText, password: passwordText, name: nameText });
+
+
+        if (data.error) {
+            setCanShowErrorMessage(true);
+            setErrorMessage(data.msg);
+            return;
+        }
+
+        console.log(data);
+        setCanShowErrorMessage(false);
+
+
+
         navigateAndReset(navigation, "TabBarNavigator");
     }
 
-    function handleTextChange(text) {
-        console.log(text);
+    function handleEmailTextChange(text) {
+        setEmailText(text);
+    }
+    function handlePasswordTextChange(text) {
+        setPasswordText(text);
+    }
+
+    function handleNameTextChange(text) {
+        setNameText(text);
     }
 
 
@@ -57,12 +83,18 @@ export function SingUpScreen() {
             <View style={[styles.content, { justifyContent: "flex-end" }]}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>Register</Text>
+                    {
+                        canShowErrorMessage && (
+                            <Text style={styles.errorMessage}>{errorMessage}</Text>
+                        )
+                    }
                 </View>
 
                 <View style={styles.inputsContainer}>
 
-                    <InputWithIcon placeholder="Your email" Icon={<MaterialIcons name="email" size={24} color={theme.colors.text} onChangeText={handleTextChange} />} />
-                    <InputWithIcon placeholder="Your password" Icon={<FontAwesome5 name="key" size={24} color={theme.colors.text} onChangeText={handleTextChange} />} secureTextEntry={true} />
+                    <InputWithIcon placeholder="Your email" Icon={<MaterialIcons name="email" size={24} color={theme.colors.text} />} onChangeText={handleEmailTextChange} keyboardType="email-address" autoCapitalize="none" />
+                    <InputWithIcon placeholder="Your Name" Icon={<FontAwesome name="user" size={24} color={theme.colors.text} />} onChangeText={handleNameTextChange} autoCapitalize="none" />
+                    <InputWithIcon placeholder="Your password" Icon={<FontAwesome5 name="key" size={24} color={theme.colors.text} />} secureTextEntry={true} onChangeText={handlePasswordTextChange} autoCapitalize="none" />
                     <PrimaryButton color={theme.colors.primary} text="Create account" textColor={theme.colors.text} onPress={handleSubmit} />
 
                     <View style={styles.bottomInfo}>
@@ -109,6 +141,12 @@ const styles = StyleSheet.create({
         fontSize: 40,
         color: theme.colors.text,
         fontWeight: 'bold',
+    },
+    errorMessage: {
+        color: theme.colors.secondary,
+        marginTop: 8,
+        fontWeight: 'bold',
+        fontSize: 16
     },
     inputsContainer: {
         marginHorizontal: 24,
