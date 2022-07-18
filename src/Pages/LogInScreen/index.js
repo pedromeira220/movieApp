@@ -37,6 +37,7 @@ export function LogInScreen() {
     async function handleSubmit() {
         const data = await myApiFunctions.login({ email: emailText, password: passwordText });
 
+
         if (data.error == true) {
             setCanShowErrorMessage(true);
             setErrorMessage(data.msg);
