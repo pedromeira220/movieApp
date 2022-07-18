@@ -45,6 +45,9 @@ export function LogInScreen() {
 
         console.log(data);
         setCanShowErrorMessage(false);
+
+
+
         navigateAndReset(navigation, "TabBarNavigator");
     }
 
@@ -81,7 +84,7 @@ export function LogInScreen() {
 
                     <View style={styles.inputsContainer}>
 
-                        <InputWithIcon Icon={<MaterialIcons name="email" size={24} color={theme.colors.text} />} placeholder="Your email" onChangeText={handleEmailTextChange} />
+                        <InputWithIcon Icon={<MaterialIcons name="email" size={24} color={theme.colors.text} />} placeholder="Your email" onChangeText={handleEmailTextChange} keyboardType="email-address" autoCapitalize="none" />
                         <InputWithIcon placeholder="Your password" Icon={<FontAwesome5 name="key" size={24} color={theme.colors.text} />} onChangeText={handlePasswordTextChange} secureTextEntry={true} />
                         <PrimaryButton color={theme.colors.primary} text="LogIn" textColor={theme.colors.text} onPress={handleSubmit} />
 
