@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
     View,
@@ -22,20 +22,37 @@ import { InputWithIcon } from "../../components/InputWithIcon";
 import { PrimaryButton } from "../../components/PrimaryButton";
 import { useNavigation } from "@react-navigation/native";
 import { navigateAndReset } from "../../components/publicFunctions/navigateAndReset";
+import { myApiFunctions } from "../../services/backend";
 
 const bannerHeight = parseInt(Math.round((Dimensions.get("screen").height) * 0.45).toFixed(0));
 export function LogInScreen() {
 
-
+    const [emailText, setEmailText] = useState("");
+    const [passwordText, setPasswordText] = useState("");
+    const [canShowErrorMessage, setCanShowErrorMessage] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const navigation = useNavigation();
 
-    function handleSubmit() {
+    async function handleSubmit() {
+        const data = await myApiFunctions.login({ email: emailText, password: passwordText });
+
+        if (data.error == true) {
+            setCanShowErrorMessage(true);
+            setErrorMessage(data.msg);
+            return;
+        }
+
+        console.log(data);
+        setCanShowErrorMessage(false);
         navigateAndReset(navigation, "TabBarNavigator");
     }
 
-    function handleTextChange(text) {
-        console.log(text);
+    function handleEmailTextChange(text) {
+        setEmailText(text);
+    }
+    function handlePasswordTextChange(text) {
+        setPasswordText(text);
     }
 
 
@@ -54,13 +71,18 @@ export function LogInScreen() {
 
                 <View style={[styles.content, { justifyContent: "flex-end" }]}>
                     <View style={styles.titleContainer}>
-                        <Text style={styles.title}>Log In</Text>
+                        <Text style={styles.title}>Log in</Text>
+                        {
+                            canShowErrorMessage && (
+                                <Text style={styles.errorMessage}>{errorMessage}</Text>
+                            )
+                        }
                     </View>
 
                     <View style={styles.inputsContainer}>
 
-                        <InputWithIcon placeholder="Your email" Icon={<MaterialIcons name="email" size={24} color={theme.colors.text} onChangeText={handleTextChange} />} />
-                        <InputWithIcon placeholder="Your password" Icon={<FontAwesome5 name="key" size={24} color={theme.colors.text} onChangeText={handleTextChange} />} secureTextEntry={true} />
+                        <InputWithIcon Icon={<MaterialIcons name="email" size={24} color={theme.colors.text} />} placeholder="Your email" onChangeText={handleEmailTextChange} />
+                        <InputWithIcon placeholder="Your password" Icon={<FontAwesome5 name="key" size={24} color={theme.colors.text} />} onChangeText={handlePasswordTextChange} secureTextEntry={true} />
                         <PrimaryButton color={theme.colors.primary} text="LogIn" textColor={theme.colors.text} onPress={handleSubmit} />
 
                         <View style={styles.bottomInfo}>
@@ -107,6 +129,12 @@ const styles = StyleSheet.create({
         fontSize: 40,
         color: theme.colors.text,
         fontWeight: 'bold',
+    },
+    errorMessage: {
+        color: theme.colors.secondary,
+        marginTop: 8,
+        fontWeight: 'bold',
+        fontSize: 16
     },
     inputsContainer: {
         marginHorizontal: 24,
