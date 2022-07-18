@@ -41,11 +41,14 @@ export const myApiFunctions = {
             return { status: status, msg: data.msg, error: data.error }
         }
     },
-    getUserData: async function ({ userId }) {
+    getUserData: async function ({ userId, token }) {
         let response;
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
 
         try {
-            response = await myApi.get(`/user/${userId}`);
+            response = await myApi.get(`/user/data/${userId}`, config);
 
             const responseToReturn = response.data;
             responseToReturn.status = response.status;

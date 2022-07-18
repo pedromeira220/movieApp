@@ -8,6 +8,7 @@ import { credentials } from '../../global/credentials';
 import { theme } from '../../global/theme';
 import { api, apiConfig, apiFunctions } from '../../services/api';
 import { asyncStorage } from '../../services/asyncStorage';
+import { myApiFunctions } from '../../services/backend';
 
 
 export function Home({ navigation }) {
@@ -26,7 +27,8 @@ export function Home({ navigation }) {
                 id: await asyncStorage.ASuser.getData("user_id"),
                 token: await asyncStorage.ASuser.getData("user_token"),
             }
-            console.log(user);
+            console.log(user.id);
+            console.log(await myApiFunctions.getUserData({ userId: user.id, token: user.token }));
         }
 
         loadData()
