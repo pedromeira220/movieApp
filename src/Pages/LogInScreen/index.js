@@ -23,6 +23,7 @@ import { PrimaryButton } from "../../components/PrimaryButton";
 import { useNavigation } from "@react-navigation/native";
 import { navigateAndReset } from "../../components/publicFunctions/navigateAndReset";
 import { myApiFunctions } from "../../services/backend";
+import { asyncStorage } from "../../services/asyncStorage";
 
 const bannerHeight = parseInt(Math.round((Dimensions.get("screen").height) * 0.45).toFixed(0));
 export function LogInScreen() {
@@ -44,10 +45,11 @@ export function LogInScreen() {
             return;
         }
 
-        console.log(data);
+
         setCanShowErrorMessage(false);
 
-
+        asyncStorage.ASuser.storeData("user_id", data.user.id);
+        asyncStorage.ASuser.storeData("user_token", data.user.token);
 
         navigateAndReset(navigation, "TabBarNavigator");
     }

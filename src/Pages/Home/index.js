@@ -7,6 +7,7 @@ import PopularMoviesSection from '../../components/PopularMoviesSection';
 import { credentials } from '../../global/credentials';
 import { theme } from '../../global/theme';
 import { api, apiConfig, apiFunctions } from '../../services/api';
+import { asyncStorage } from '../../services/asyncStorage';
 
 
 export function Home({ navigation }) {
@@ -21,7 +22,11 @@ export function Home({ navigation }) {
             setPopularMovies((await apiFunctions.getPopular(1)).data.results);
             setTopRatedMovies((await apiFunctions.getPopular(3)).data.results);
 
-
+            const user = {
+                id: await asyncStorage.ASuser.getData("user_id"),
+                token: await asyncStorage.ASuser.getData("user_token"),
+            }
+            console.log(user);
         }
 
         loadData()

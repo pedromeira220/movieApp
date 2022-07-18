@@ -23,8 +23,9 @@ import { PrimaryButton } from "../../components/PrimaryButton";
 import { useNavigation } from "@react-navigation/native";
 import { navigateAndReset } from "../../components/publicFunctions/navigateAndReset";
 import { myApiFunctions } from "../../services/backend";
+import { asyncStorage } from "../../services/asyncStorage";
 
-const bannerHeight = parseInt(Math.round((Dimensions.get("screen").height) * 0.4).toFixed(0));
+const bannerHeight = parseInt(Math.round((Dimensions.get("screen").height) * 0.35).toFixed(0));
 export function SingUpScreen() {
 
     const [emailText, setEmailText] = useState("");
@@ -45,10 +46,13 @@ export function SingUpScreen() {
             return;
         }
 
-        console.log(data);
+
         setCanShowErrorMessage(false);
 
+        asyncStorage.ASuser.storeData("user_id", data.data.id);
 
+        const loginData = await myApiFunctions.login({ email: emailText, password: passwordText });
+        asyncStorage.ASuser.storeData("user_token", loginData.user.token);
 
         navigateAndReset(navigation, "TabBarNavigator");
     }
