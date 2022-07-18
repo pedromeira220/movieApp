@@ -33,21 +33,28 @@ export function MovieListScreen() {
     }
 
     async function loadData() {
+        const id = await asyncStorage.ASuser.getData("user_id")
+        const token = await asyncStorage.ASuser.getData("user_token")
+
         setUser({
-            id: await asyncStorage.ASuser.getData("user_id"),
-            token: await asyncStorage.ASuser.getData("user_token"),
+            id,
+            token
         });
+
+
         const response = await myApiFunctions.getAllLists({ token: user.token, userId: user.id });
 
         const lists = response.lists;
 
-        console.log(lists);
+        console.log("Array de listas", lists);
+        const newLists = [];
 
-        lists.forEach(function (list) {
-            console.log("uma lista");
-            addNewListToList({ listId: list.id, listName: list.name });
-        });
+        for (let i = 0; i < lists.length; i++) {
+            console.log(lists[i]);
+            newLists.push({ title: lists[i].name, icon: <FontAwesome name="list-ul" size={24} color={theme.colors.text} />, id: lists[i].id });
 
+        }
+        setMovieLists([...newLists, ...movieLists]);
     }
 
     //useFocusEffect(
@@ -59,13 +66,10 @@ export function MovieListScreen() {
 
 
     useEffect(function () {
-        //loadData();
-        (async function () {
-            setUser({
-                id: await asyncStorage.ASuser.getData("user_id"),
-                token: await asyncStorage.ASuser.getData("user_token"),
-            });
-        })()
+
+
+        loadData();
+
 
 
     }, []);
@@ -166,7 +170,6 @@ function FlatListHeader({ movieLists, setMovieLists, user }) {
         const newMovieLists = [{ title: newNameListText, icon: <FontAwesome name="list-ul" size={24} color={theme.colors.text} />, id: movieLists.length + 1 }, ...movieLists]
         setMovieLists(newMovieLists);
         setIsAddListButtonActive(false);
-        console.log(user);
         await myApiFunctions.createList({ listName: newNameListText, listType: 4, userId: user.id, token: user.token });
     }
 
