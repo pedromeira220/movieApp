@@ -45,6 +45,11 @@ export function ListOfMovies() {
 
         loadData()
 
+
+        return () => {
+            setMovies([]);
+        }
+
     }, []);
 
     const navigation = useNavigation();
@@ -82,11 +87,18 @@ export function ListOfMovies() {
                         handleGoBackClick();
                     }}
                 >
-                    <AntDesign name="left" size={24} color={theme.colors.text} />
+                    <AntDesign name="left" size={32} color={theme.colors.text} />
 
                 </TouchableOpacity>
+                <View style={{
+                    flex: 1,
+                }}>
+                    <Text style={[styles.title, {
+                        marginLeft: 16
+                    }]}>{route.params.listName}</Text>
+                </View>
 
-                <Text style={styles.title}>{route.params.listName}</Text>
+
                 {
                     listType == 3 && (
                         <View>
