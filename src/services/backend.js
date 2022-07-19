@@ -86,7 +86,7 @@ export const myApiFunctions = {
             return responseToReturn;
         } catch (error) {
             console.error("error has been ocurred");
-            console.log(error);
+            console.error(error);
             const { status, data } = error.response;
 
 
@@ -169,7 +169,7 @@ export const myApiFunctions = {
             return responseToReturn;
         } catch (error) {
             console.error("error has been ocurred");
-            console.log(error);
+            console.error(error);
             const { status, data } = error.response;
 
 

@@ -17,20 +17,21 @@ export function Home({ navigation }) {
     const [popularMovies, setPopularMovies] = useState([]);
     const [topRatedMovies, setTopRatedMovies] = useState([]);
 
-    useEffect(() => {
+    async function loadData() {
+        setPopularMovies((await apiFunctions.getPopular(1)).data.results);
+        setTopRatedMovies((await apiFunctions.getPopular(3)).data.results);
 
-        async function loadData() {
-            setPopularMovies((await apiFunctions.getPopular(1)).data.results);
-            setTopRatedMovies((await apiFunctions.getPopular(3)).data.results);
-
-            const user = {
-                id: await asyncStorage.ASuser.getData("user_id"),
-                token: await asyncStorage.ASuser.getData("user_token"),
-            }
-
+        const user = {
+            id: await asyncStorage.ASuser.getData("user_id"),
+            token: await asyncStorage.ASuser.getData("user_token"),
         }
 
-        loadData()
+    }
+    useEffect(() => {
+
+
+
+        loadData();
 
     }, [])
     return (

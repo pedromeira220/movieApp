@@ -26,24 +26,23 @@ export function MovieListScreen() {
 
     const [user, setUser] = useState({});
 
-    function handleMovieListItemClick({ listId, listName }) {
+    function handleMovieListItemClick({ listId, listName, listType }) {
 
-        navigation.navigate("ListOfMovies", { listId, listName });
+
+
+        navigation.navigate("ListOfMovies", { listId, listName, listType });
     }
 
     async function loadData() {
 
+
         const id = localstorage.user.id;
         const token = localstorage.user.token;
-
-
 
         setUser({
             id,
             token
         });
-
-
 
         const response = await myApiFunctions.getAllLists({ token, userId: id });
 
@@ -63,18 +62,11 @@ export function MovieListScreen() {
         const newLists = [];
 
         for (let i = lists.length - 1; i >= 0; i--) {
-            newLists.push({ title: lists[i].name, icon: <FontAwesome name="list-ul" size={24} color={theme.colors.text} />, id: lists[i].id });
-
+            newLists.push(createList({ title: lists[i].name, type: lists[i].type, id: lists[i].id }));
+            //{ title: lists[i].name, icon: <FontAwesome name="list-ul" size={24} color={theme.colors.text} />, id: lists[i].id }
         }
         setMovieLists([...newLists]);
     }
-
-    //useFocusEffect(
-    //    useCallback(() => {
-    //        loadData();
-    //    }, [])
-    //);
-
 
 
     useEffect(function () {
@@ -86,10 +78,52 @@ export function MovieListScreen() {
         loadData();
     }, [isScreenFocused]);
 
+    /*
     function addNewListToList({ listName, listId }) {
         const newMovieLists = [{ title: listName, icon: <FontAwesome name="list-ul" size={24} color={theme.colors.text} />, id: listId }, ...movieLists]
         setMovieLists(newMovieLists);
         return newMovieLists;
+    }
+    */
+    function createList({ title, type, id }) {
+
+        const listName = title;
+        const listIcon = getListIcon(type);
+        const listId = id;
+
+        //<FontAwesome name="list-ul" size={24} color={theme.colors.text} />
+
+        const listCreated = { title: listName, icon: listIcon, id: listId, type };
+
+        return listCreated;
+    }
+
+    function getListIcon(type) {
+        const iconOptions = [
+            <AntDesign name="clockcircle" size={24} color={theme.colors.text} />,
+            <Fontisto name="favorite" size={24} color={theme.colors.text} />,
+            <FontAwesome5 name="user-friends" size={24} color={theme.colors.text} />,
+            <FontAwesome name="list-ul" size={24} color={theme.colors.text} />
+        ];
+
+        let icon;
+
+        iconOptions.forEach(function (option, currentOptionIndex) {
+            if (currentOptionIndex == type) {
+                icon = option;
+            }
+        });
+
+        return icon;
+
+        /*
+[
+        { title: "Main List", icon: <AntDesign name="clockcircle" size={24} color={theme.colors.text} />, id: 1 },
+        { title: "Favorite", icon: <Fontisto name="favorite" size={24} color={theme.colors.text} />, id: 2 },
+        { title: "Friends recommendations", icon: <FontAwesome5 name="user-friends" size={24} color={theme.colors.text} />, id: 3 },
+
+    ]
+*/
     }
 
     return (
@@ -98,19 +132,18 @@ export function MovieListScreen() {
             backgroundColor: theme.colors.background
         }}>
             <FlatList
-
                 data={movieLists}
                 renderItem={function ({ item }) {
                     return (
                         <MovieListItem Icon={item.icon} title={item.title} listId={item.id} onPress={function () {
-                            handleMovieListItemClick({ listId: item.id, listName: item.title });
+                            handleMovieListItemClick({ listId: item.id, listName: item.title, listType: item.type });
                         }} />
                     )
                 }}
                 keyExtractor={function (item) {
                     return item.id
                 }}
-                ListHeaderComponent={<FlatListHeader movieLists={movieLists} setMovieLists={setMovieLists} user={user} />}
+                ListHeaderComponent={<FlatListHeader movieLists={movieLists} createList={createList} setMovieLists={setMovieLists} user={user} />}
                 style={styles.movieListsList}
             />
         </View>
@@ -165,7 +198,7 @@ const styles = StyleSheet.create({
     },
 });
 
-function FlatListHeader({ movieLists, setMovieLists, user }) {
+function FlatListHeader({ movieLists, setMovieLists, user, createList }) {
 
     const [isAddListButtonActive, setIsAddListButtonActive] = useState(false);
     const [canFocus, setCanFocus] = useState(false);
@@ -181,10 +214,18 @@ function FlatListHeader({ movieLists, setMovieLists, user }) {
 
     async function handleOnInputWithIconKeyboardOut() {
 
-        const newMovieLists = [{ title: newNameListText, icon: <FontAwesome name="list-ul" size={24} color={theme.colors.text} />, id: movieLists.length + 1 }, ...movieLists]
+        const listType = 3;
+
+        const response = await myApiFunctions.createList({ listName: newNameListText, listType, userId: user.id, token: user.token });
+
+        if (response.error) {
+            console.error(response.msg);
+            return;
+        }
+
+        const newMovieLists = [createList({ title: newNameListText, type: listType, id: response.listCreated.id }), ...movieLists]
         setMovieLists(newMovieLists);
         setIsAddListButtonActive(false);
-        await myApiFunctions.createList({ listName: newNameListText, listType: 4, userId: user.id, token: user.token });
     }
 
     function handleOnInputWithIconChangeText(text) {

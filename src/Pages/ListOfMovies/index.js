@@ -15,6 +15,7 @@ export function ListOfMovies() {
 
     const [movies, setMovies] = useState([]);
 
+    const listType = route.params.listType;
 
 
     async function loadData() {
@@ -44,7 +45,7 @@ export function ListOfMovies() {
 
         loadData()
 
-    }, [])
+    }, []);
 
     const navigation = useNavigation();
 
@@ -59,7 +60,7 @@ export function ListOfMovies() {
 
         const { id, token } = localstorage.user;
 
-        console.log(token);
+
 
         const response = await myApiFunctions.deleteList({ listId, token, ownerId: id });
 
@@ -86,19 +87,23 @@ export function ListOfMovies() {
                 </TouchableOpacity>
 
                 <Text style={styles.title}>{route.params.listName}</Text>
+                {
+                    listType == 3 && (
+                        <View>
+                            <TouchableOpacity
+                                activeOpacity={0.5}
+                                style={styles.deleteButton}
+                                onPress={function () {
+                                    handleDeleteButtonClick();
+                                }}
+                            >
+                                <Text style={styles.deleteText}>Delete list</Text>
+                                <MaterialIcons name="delete" size={18} color={theme.colors.secondary} />
+                            </TouchableOpacity>
+                        </View>
+                    )
+                }
 
-                <View>
-                    <TouchableOpacity
-                        activeOpacity={0.5}
-                        style={styles.deleteButton}
-                        onPress={function () {
-                            handleDeleteButtonClick();
-                        }}
-                    >
-                        <Text style={styles.deleteText}>Delete list</Text>
-                        <MaterialIcons name="delete" size={18} color={theme.colors.secondary} />
-                    </TouchableOpacity>
-                </View>
 
             </SafeAreaView>
 
