@@ -87,9 +87,6 @@ export function DetailsScreen({ navigation }) {
 
     function handleFavoriteButtonClick() {
         setIsFavoriteIconClicked(!isFavoriteIconClicked);
-        const movieList = [];
-        movieList.push(movie.id);
-        asyncStorage.ASmovieList.storeData("favoriteMovies", JSON.stringify(movieList));
     }
 
     return (
@@ -158,7 +155,7 @@ export function DetailsScreen({ navigation }) {
                             }}
                             activeOpacity={0.9}
                         >
-                            <MaterialIcons name={isFavoriteIconClicked ? 'favorite' : 'favorite-outline'} size={24} color={theme.colors.secondaryInformation} />
+                            <MaterialIcons name={isFavoriteIconClicked ? 'favorite' : 'favorite-outline'} size={32} color={theme.colors.secondaryInformation} />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -335,7 +332,5 @@ const styles = StyleSheet.create({
     },
     movieOverViewText: {
 
-
-
-    }
+    },
 });
