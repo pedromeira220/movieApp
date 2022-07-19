@@ -33,6 +33,11 @@ export function Home({ navigation }) {
 
         loadData();
 
+        return function () {
+            setPopularMovies([]);
+            setTopRatedMovies([]);
+        }
+
     }, [])
     return (
         <>
