@@ -4,7 +4,7 @@ import { theme } from "../../global/theme";
 
 import { AntDesign } from '@expo/vector-icons';
 
-export function MovieListItem({ title, Icon, onPress }) {
+export function MovieListItem({ title, Icon, onPress, hasCheck = false, isActive = false }) {
     return (
         <TouchableOpacity
             style={styles.container}
@@ -20,7 +20,16 @@ export function MovieListItem({ title, Icon, onPress }) {
                 <Text numberOfLines={1} style={styles.listName}>{title}</Text>
             </View>
             <View>
-                <AntDesign name="right" size={24} color={theme.colors.text} />
+                {
+                    hasCheck ? (
+                        <>
+                            {
+                                isActive && <AntDesign name="checkcircle" size={24} color={theme.colors.inactiveTabBar} />
+                            }
+                        </>
+                    ) : <AntDesign name="right" size={24} color={theme.colors.text} />
+                }
+
             </View>
         </TouchableOpacity>
     )

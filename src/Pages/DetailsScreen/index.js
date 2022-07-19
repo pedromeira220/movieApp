@@ -8,6 +8,7 @@ import {
     ScrollView,
     SafeAreaView,
     TouchableOpacity,
+    Button,
 } from "react-native";
 import { theme } from "../../global/theme";
 import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
@@ -17,22 +18,28 @@ import { api, apiFunctions, apiConfig } from "../../services/api";
 
 import { useRoute } from "@react-navigation/native";
 import { TextWithReadMoreButton } from "../../components/TextWithReadMoreButton";
-import { asyncStorage } from "../../services/asyncStorage";
+
+import { ModalView } from "../../components/ModalView";
+import { ListOfMovieList } from "../../components/ListOfMovieList";
 
 
 export function DetailsScreen({ navigation }) {
     const [relatedMovies, setRelatedMovies] = useState([]);
-    const [movieId, setMovieId] = useState(0);
+
     const [movie, setMovie] = useState({});
     const [canShowMovieGenres, setCanShowMovieGenres] = useState(false);
 
-    const [isFavoriteIconClicked, setIsFavoriteIconClicked] = useState(false);
+
 
     const [numberOfLinesOverview, setNumberOfLinesOverview] = useState(0);
 
     const [canShowReadMoreButtonOverview, setCanShowReadMoreButtonOverview] = useState(false);
 
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
     const route = useRoute();
+
+    let movieId = route?.params?.movieId;
 
     async function loadData() {
 
@@ -42,7 +49,7 @@ export function DetailsScreen({ navigation }) {
 
             setNumberOfLinesOverview(4);
 
-            setMovieId(route?.params?.movieId);
+            movieId = route?.params?.movieId;
             setMovie((await apiFunctions.getMovie(movieId)).data);
             setRelatedMovies(await (await apiFunctions.getRecommendations(movieId))?.data?.results);
             setCanShowMovieGenres(true);
@@ -57,7 +64,7 @@ export function DetailsScreen({ navigation }) {
     }
 
     useEffect(function () {
-        setMovieId(route?.params?.movieId);
+        movieId = route?.params?.movieId;
 
 
     }, []);
@@ -86,7 +93,7 @@ export function DetailsScreen({ navigation }) {
     }
 
     function handleFavoriteButtonClick() {
-        setIsFavoriteIconClicked(!isFavoriteIconClicked);
+        setIsModalVisible(true);
     }
 
     return (
@@ -155,7 +162,11 @@ export function DetailsScreen({ navigation }) {
                             }}
                             activeOpacity={0.9}
                         >
-                            <MaterialIcons name={isFavoriteIconClicked ? 'favorite' : 'favorite-outline'} size={32} color={theme.colors.secondaryInformation} />
+                            <MaterialIcons
+                                name={'favorite'}
+                                size={32}
+                                color={theme.colors.secondaryInformation}
+                            />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -270,6 +281,16 @@ export function DetailsScreen({ navigation }) {
                 movieList={relatedMovies}
                 navigation={navigation}
             />
+
+            <ModalView
+                visible={isModalVisible}
+            >
+                <ListOfMovieList
+
+                    setIsModalVisible={setIsModalVisible}
+                    TMDBmovieId={movieId}
+                />
+            </ModalView>
         </View>
     );
 }

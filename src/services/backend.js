@@ -176,6 +176,93 @@ export const myApiFunctions = {
             return { status: status, msg: data.msg, error: data.error }
         }
     },
+    addMovieToList: async function ({ listId, TMDBmovieId, token }) {
+        let response;
+
+
+        const url = "/user/add_movie_to_list/";
+        const bodyParams = {
+            list_id: listId,
+            TMDB_id: TMDBmovieId
+        };
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+
+
+        try {
+            response = await myApi.post(url, bodyParams, config);
+
+            const responseToReturn = response.data;
+            responseToReturn.status = response.status;
+
+            return responseToReturn;
+        } catch (error) {
+            console.error("error has been ocurred");
+            console.error(error);
+            const { status, data } = error.response;
+
+
+            return { status: status, msg: data.msg, error: data.error }
+        }
+    },
+    getMovieByListIdAndTMDBid: async function ({ listId, TMDBmovieId, token }) {
+        let response;
+
+
+
+        const url = `user/get_movie_by_api_id_and_list_id/${TMDBmovieId}/${listId}`;
+
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+
+
+        try {
+            response = await myApi.get(url, config);
+
+            const responseToReturn = response.data;
+            responseToReturn.status = response.status;
+
+            return responseToReturn;
+        } catch (error) {
+            const { status, data } = error.response;
+
+
+            return { status: status, msg: data.msg, error: data.error }
+        }
+    },
+    deleteMovie: async function ({ token, listId, TMDBmovieId }) {
+        let response;
+
+
+        const url = "/user/delete_movie";
+        const bodyParams = {
+            list_id: listId,
+            TMDB_id: TMDBmovieId
+        };
+        const config = {
+            headers: { Authorization: `Bearer ${token}` },
+            data: bodyParams,
+        };
+
+
+        try {
+            response = await myApi.delete(url, config);
+
+            const responseToReturn = response.data;
+            responseToReturn.status = response.status;
+
+            return responseToReturn;
+        } catch (error) {
+            console.error("error has been ocurred");
+            console.error(error);
+            const { status, data } = error.response;
+
+
+            return { status: status, msg: data.msg, error: data.error }
+        }
+    }
 }
 
 async function baseFunctionPOST({ url, params }) {
