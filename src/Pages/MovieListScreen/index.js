@@ -9,7 +9,7 @@ import { InputWithIcon } from '../../components/InputWithIcon';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { myApiFunctions } from '../../services/backend';
 import { asyncStorage } from '../../services/asyncStorage';
 import { useFocusEffect } from '@react-navigation/native';
@@ -18,20 +18,16 @@ import { localstorage } from '../../services/localstorage';
 export function MovieListScreen() {
 
     const navigation = useNavigation();
+    const isScreenFocused = useIsFocused();
 
     const [canGetMovieListFromApi, setCanGetMovieListFromApi] = useState(true);
 
-    const [movieLists, setMovieLists] = useState([
-        { title: "Main List", icon: <AntDesign name="clockcircle" size={24} color={theme.colors.text} />, id: 1 },
-        { title: "Favorite", icon: <Fontisto name="favorite" size={24} color={theme.colors.text} />, id: 2 },
-        { title: "Friends recommendations", icon: <FontAwesome5 name="user-friends" size={24} color={theme.colors.text} />, id: 3 },
-
-    ]);
+    const [movieLists, setMovieLists] = useState([]);
 
     const [user, setUser] = useState({});
 
     function handleMovieListItemClick({ listId, listName }) {
-        console.log("list id: 1", listId);
+
         navigation.navigate("ListOfMovies", { listId, listName });
     }
 
@@ -48,7 +44,19 @@ export function MovieListScreen() {
         });
 
 
+
         const response = await myApiFunctions.getAllLists({ token, userId: id });
+
+        if (response.error) {
+            console.error(response.msg);
+            return;
+        }
+
+
+
+        if (response.list == []) {
+            return;
+        }
 
         const lists = response.lists;
 
@@ -58,7 +66,7 @@ export function MovieListScreen() {
             newLists.push({ title: lists[i].name, icon: <FontAwesome name="list-ul" size={24} color={theme.colors.text} />, id: lists[i].id });
 
         }
-        setMovieLists([...newLists, ...movieLists]);
+        setMovieLists([...newLists]);
     }
 
     //useFocusEffect(
@@ -70,17 +78,13 @@ export function MovieListScreen() {
 
 
     useEffect(function () {
-
-        if (canGetMovieListFromApi) {
-            loadData();
-            setCanGetMovieListFromApi(false);
-        }
-
-
-
-
+        loadData();
 
     }, []);
+
+    useEffect(function () {
+        loadData();
+    }, [isScreenFocused]);
 
     function addNewListToList({ listName, listId }) {
         const newMovieLists = [{ title: listName, icon: <FontAwesome name="list-ul" size={24} color={theme.colors.text} />, id: listId }, ...movieLists]
@@ -239,3 +243,13 @@ function FlatListHeader({ movieLists, setMovieLists, user }) {
         </KeyboardAwareScrollView>
     )
 }
+
+
+/*
+[
+        { title: "Main List", icon: <AntDesign name="clockcircle" size={24} color={theme.colors.text} />, id: 1 },
+        { title: "Favorite", icon: <Fontisto name="favorite" size={24} color={theme.colors.text} />, id: 2 },
+        { title: "Friends recommendations", icon: <FontAwesome5 name="user-friends" size={24} color={theme.colors.text} />, id: 3 },
+
+    ]
+*/ 

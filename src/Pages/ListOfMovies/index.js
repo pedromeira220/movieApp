@@ -16,6 +16,7 @@ export function ListOfMovies() {
     const [movies, setMovies] = useState([]);
 
 
+
     async function loadData() {
 
         const listId = route.params.listId;
@@ -51,6 +52,27 @@ export function ListOfMovies() {
         navigation.goBack();
     }
 
+    async function handleDeleteButtonClick() {
+
+        const listId = route.params.listId;
+
+
+        const { id, token } = localstorage.user;
+
+        console.log(token);
+
+        const response = await myApiFunctions.deleteList({ listId, token, ownerId: id });
+
+        if (response.error) {
+            console.error(response.msg);
+            return;
+        }
+
+
+
+        navigation.goBack();
+    }
+
     return (
         <View style={styles.container}>
             <SafeAreaView style={styles.header}>
@@ -69,6 +91,9 @@ export function ListOfMovies() {
                     <TouchableOpacity
                         activeOpacity={0.5}
                         style={styles.deleteButton}
+                        onPress={function () {
+                            handleDeleteButtonClick();
+                        }}
                     >
                         <Text style={styles.deleteText}>Delete list</Text>
                         <MaterialIcons name="delete" size={18} color={theme.colors.secondary} />

@@ -100,10 +100,19 @@ export const myApiFunctions = {
         };
 
         try {
+
+
+
             response = await myApi.get(`/user/list_all_lists/${userId}`, config);
 
+
+
             const responseToReturn = response.data;
+
+
+
             responseToReturn.status = response.status;
+
 
             return responseToReturn;
         } catch (error) {
@@ -120,6 +129,7 @@ export const myApiFunctions = {
             headers: { Authorization: `Bearer ${token}` }
         };
 
+
         try {
             response = await myApi.get(`/user/get_all_movies_from_list/${listId}`, config);
 
@@ -129,6 +139,37 @@ export const myApiFunctions = {
             return responseToReturn;
         } catch (error) {
 
+            const { status, data } = error.response;
+
+
+            return { status: status, msg: data.msg, error: data.error }
+        }
+    },
+    deleteList: async function ({ listId, ownerId, token }) {
+        let response;
+
+
+        const url = "/user/delete_list";
+        const bodyParams = {
+            list_id: listId,
+            owner_id: ownerId
+        };
+        const config = {
+            headers: { Authorization: `Bearer ${token}` },
+            data: bodyParams
+        };
+
+
+        try {
+            response = await myApi.delete(url, config);
+
+            const responseToReturn = response.data;
+            responseToReturn.status = response.status;
+
+            return responseToReturn;
+        } catch (error) {
+            console.error("error has been ocurred");
+            console.log(error);
             const { status, data } = error.response;
 
 
