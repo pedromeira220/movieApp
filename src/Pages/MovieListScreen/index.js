@@ -235,51 +235,57 @@ function FlatListHeader({ movieLists, setMovieLists, user, createList }) {
         <KeyboardAwareScrollView
             enableAutomaticScroll={false}
 
-            style={styles.container}>
-            <SafeAreaView>
-                <View style={styles.header}>
-                    <Text style={styles.title}>My lists</Text>
+
+        >
+
+            <View
+                style={styles.container}
+            >
+                <SafeAreaView>
+                    <View style={styles.header}>
+                        <Text style={styles.title}>My lists</Text>
+                    </View>
+
+
+                </SafeAreaView>
+
+                <View style={styles.content}>
+
+                    {
+                        isAddListButtonActive ? (
+                            <View style={{
+                                marginBottom: 18
+                            }}>
+                                <InputWithIcon
+                                    autoComplete={true}
+                                    autoCorrect={true}
+                                    secureTextEntry={false}
+                                    onSubmitEditing={handleOnInputWithIconKeyboardOut}
+                                    onChangeText={handleOnInputWithIconChangeText}
+                                    canAutoFocus={canFocus} cannotPutMarginTop={true}
+                                    placeholder="List name"
+                                    Icon={<AntDesign name="pluscircle" size={24} color={theme.colors.text} />}
+                                />
+                            </View>
+
+                        ) : (
+                            <TouchableOpacity
+                                style={styles.addListButton}
+                                onPress={function () {
+                                    handleAddListButtonClick();
+                                }}
+                            >
+                                <AntDesign name="pluscircle" size={24} color={theme.colors.text} />
+                                <Text style={styles.listName}>Add a new list</Text>
+                            </TouchableOpacity>
+                        )
+                    }
+
+
+
+
+
                 </View>
-
-
-            </SafeAreaView>
-
-            <View style={styles.content}>
-
-                {
-                    isAddListButtonActive ? (
-                        <View style={{
-                            marginBottom: 18
-                        }}>
-                            <InputWithIcon
-                                autoComplete={true}
-                                autoCorrect={true}
-                                secureTextEntry={false}
-                                onSubmitEditing={handleOnInputWithIconKeyboardOut}
-                                onChangeText={handleOnInputWithIconChangeText}
-                                canAutoFocus={canFocus} cannotPutMarginTop={true}
-                                placeholder="List name"
-                                Icon={<AntDesign name="pluscircle" size={24} color={theme.colors.text} />}
-                            />
-                        </View>
-
-                    ) : (
-                        <TouchableOpacity
-                            style={styles.addListButton}
-                            onPress={function () {
-                                handleAddListButtonClick();
-                            }}
-                        >
-                            <AntDesign name="pluscircle" size={24} color={theme.colors.text} />
-                            <Text style={styles.listName}>Add a new list</Text>
-                        </TouchableOpacity>
-                    )
-                }
-
-
-
-
-
             </View>
         </KeyboardAwareScrollView>
     )
