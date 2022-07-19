@@ -3,22 +3,43 @@ import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView } fr
 import { theme } from "../../global/theme";
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { MovieSection } from '../../components/MovieSection'
 import { api, apiFunctions } from "../../services/api";
+import { myApiFunctions } from "../../services/backend";
+import { localstorage } from "../../services/localstorage";
 
 export function ListOfMovies() {
 
+    const route = useRoute();
+
     const [movies, setMovies] = useState([]);
+
+
+    async function loadData() {
+
+        const listId = route.params.listId;
+        const response = await myApiFunctions.getAllMoviesFromList({ listId, token: localstorage.user.token });
+
+        if (response.error) {
+            console.error(response.msg);
+        }
+
+        const tmdbMovieList = [];
+
+
+        for (let i = 0; i < response.list.length; i++) {
+            const movie = response.list[i];
+            const movieFound = await apiFunctions.getMovie(movie.TMDBid);
+            tmdbMovieList.push(movieFound.data);
+        }
+
+
+        setMovies(tmdbMovieList);
+    }
 
     useEffect(() => {
 
-        async function loadData() {
-            setMovies((await apiFunctions.getPopular(1)).data.results);
-
-
-
-        }
 
         loadData()
 
@@ -42,7 +63,7 @@ export function ListOfMovies() {
 
                 </TouchableOpacity>
 
-                <Text style={styles.title}>Main list</Text>
+                <Text style={styles.title}>{route.params.listName}</Text>
 
                 <View>
                     <TouchableOpacity

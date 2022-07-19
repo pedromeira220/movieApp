@@ -19,6 +19,7 @@ export function MovieListScreen() {
 
     const navigation = useNavigation();
 
+    const [canGetMovieListFromApi, setCanGetMovieListFromApi] = useState(true);
 
     const [movieLists, setMovieLists] = useState([
         { title: "Main List", icon: <AntDesign name="clockcircle" size={24} color={theme.colors.text} />, id: 1 },
@@ -29,8 +30,9 @@ export function MovieListScreen() {
 
     const [user, setUser] = useState({});
 
-    function handleMovieListItemClick() {
-        navigation.navigate("ListOfMovies");
+    function handleMovieListItemClick({ listId, listName }) {
+        console.log("list id: 1", listId);
+        navigation.navigate("ListOfMovies", { listId, listName });
     }
 
     async function loadData() {
@@ -69,8 +71,12 @@ export function MovieListScreen() {
 
     useEffect(function () {
 
+        if (canGetMovieListFromApi) {
+            loadData();
+            setCanGetMovieListFromApi(false);
+        }
 
-        loadData();
+
 
 
 
@@ -92,7 +98,9 @@ export function MovieListScreen() {
                 data={movieLists}
                 renderItem={function ({ item }) {
                     return (
-                        <MovieListItem Icon={item.icon} title={item.title} onPress={handleMovieListItemClick} />
+                        <MovieListItem Icon={item.icon} title={item.title} listId={item.id} onPress={function () {
+                            handleMovieListItemClick({ listId: item.id, listName: item.title });
+                        }} />
                     )
                 }}
                 keyExtractor={function (item) {

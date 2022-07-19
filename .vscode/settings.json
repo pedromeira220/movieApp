@@ -4,6 +4,7 @@
         "clockcircleo",
         "Fontisto",
         "Ionicons",
-        "localstorage"
+        "localstorage",
+        "tmdb"
     ]
 }

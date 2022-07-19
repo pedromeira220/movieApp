@@ -114,7 +114,27 @@ export const myApiFunctions = {
             return { status: status, msg: data.msg, error: data.error }
         }
     },
+    getAllMoviesFromList: async function ({ listId, token }) {
+        let response;
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
 
+        try {
+            response = await myApi.get(`/user/get_all_movies_from_list/${listId}`, config);
+
+            const responseToReturn = response.data;
+            responseToReturn.status = response.status;
+
+            return responseToReturn;
+        } catch (error) {
+
+            const { status, data } = error.response;
+
+
+            return { status: status, msg: data.msg, error: data.error }
+        }
+    },
 }
 
 async function baseFunctionPOST({ url, params }) {
