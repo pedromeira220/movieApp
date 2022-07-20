@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, ScrollView, Image } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 
 import { MovieSection } from '../../components/MovieSection';
 import PopularMoviesSection from '../../components/PopularMoviesSection';
+
+import { Ionicons } from '@expo/vector-icons';
 
 import { credentials } from '../../global/credentials';
 import { theme } from '../../global/theme';
 import { api, apiConfig, apiFunctions } from '../../services/api';
 import { asyncStorage } from '../../services/asyncStorage';
 import { myApiFunctions } from '../../services/backend';
+import { logOut } from '../../utils/logOut';
 
 
 export function Home({ navigation }) {
@@ -26,6 +29,12 @@ export function Home({ navigation }) {
             token: await asyncStorage.ASuser.getData("user_token"),
         }
 
+    }
+
+
+    function handleLogOut() {
+
+        logOut();
     }
     useEffect(() => {
 
@@ -50,10 +59,20 @@ export function Home({ navigation }) {
                     backgroundColor: theme.colors.background,
                 }}>
                     <View style={styles.header}>
-                        <Text style={styles.namePrimary}>Stream </Text>
-                        <Text style={styles.name}>Everywhere</Text>
-
+                        <View style={{
+                            flexDirection: "row",
+                        }}>
+                            <Text style={styles.namePrimary}>Movie{" "}</Text>
+                            <Text style={styles.name}>App</Text>
+                        </View>
+                        <TouchableOpacity
+                            onPress={handleLogOut}
+                        >
+                            <Ionicons name="exit" size={36} color={theme.colors.text} />
+                        </TouchableOpacity>
                     </View>
+
+
                 </SafeAreaView>
 
                 <PopularMoviesSection
@@ -91,6 +110,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 24,
         marginTop: 20,
         marginBottom: 24,
+        justifyContent: "space-between"
     },
     name: {
         color: theme.colors.text,

@@ -14,16 +14,19 @@ import { asyncStorage } from '../services/asyncStorage';
 
 
 
-
-
 const Stack = createNativeStackNavigator();
 const AuthStack = createNativeStackNavigator();
 const NonAuthStack = createNativeStackNavigator();
 
 
+
+
 export function Routes() {
 
     const [userToken, setUserToken] = useState("");
+
+
+
 
     async function loadData() {
 
@@ -42,10 +45,15 @@ export function Routes() {
 
         loadData();
 
-        return () => {
-            setUserToken("");
-        }
+
     }, []);
+
+    useEffect(function () {
+
+        loadData();
+
+
+    }, [localstorage.user.token]);
 
 
     return (
@@ -57,10 +65,6 @@ export function Routes() {
                         component={AuthRoutes}
                         options={{ headerShown: false }}
                     />
-
-
-
-
                 ) : (
                     <Stack.Screen
                         name="NonAuthRoutes"
@@ -134,3 +138,4 @@ function NonAuthRoutes() {
         </NonAuthStack.Navigator>
     )
 }
+

@@ -26,6 +26,7 @@ import { myApiFunctions } from "../../services/backend";
 import { asyncStorage } from "../../services/asyncStorage";
 import { localstorage } from "../../services/localstorage";
 
+
 const bannerHeight = parseInt(Math.round((Dimensions.get("screen").height) * 0.45).toFixed(0));
 export function LogInScreen() {
 
