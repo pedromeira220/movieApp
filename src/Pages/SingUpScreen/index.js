@@ -57,7 +57,7 @@ export function SingUpScreen() {
         asyncStorage.ASuser.storeData("user_token", loginData.user.token);
         localstorage.user.token = loginData.user.token;
 
-        navigateAndReset(navigation, "TabBarNavigator");
+
     }
 
     function handleEmailTextChange(text) {
