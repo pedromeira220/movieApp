@@ -33,6 +33,8 @@ export function LogInScreen() {
 
     const auth = useContext(AuthContext);
 
+    const [isPrimaryButtonLoading, setIsPrimaryButtonLoading] = useState(false);
+
     const [emailText, setEmailText] = useState("");
     const [passwordText, setPasswordText] = useState("");
     const [canShowErrorMessage, setCanShowErrorMessage] = useState(false);
@@ -41,12 +43,16 @@ export function LogInScreen() {
     const navigation = useNavigation();
 
     async function handleSubmit() {
+
+        setIsPrimaryButtonLoading(true);
+
         const data = await myApiFunctions.login({ email: emailText, password: passwordText });
 
 
         if (data.error == true) {
             setCanShowErrorMessage(true);
             setErrorMessage(data.msg);
+            setIsPrimaryButtonLoading(false);
             return;
         }
 
@@ -96,9 +102,37 @@ export function LogInScreen() {
 
                     <View style={styles.inputsContainer}>
 
-                        <InputWithIcon Icon={<MaterialIcons name="email" size={24} color={theme.colors.text} />} placeholder="Your email" onChangeText={handleEmailTextChange} keyboardType="email-address" autoCapitalize="none" />
-                        <InputWithIcon placeholder="Your password" Icon={<FontAwesome5 name="key" size={24} color={theme.colors.text} />} onChangeText={handlePasswordTextChange} secureTextEntry={true} autoCapitalize="none" />
-                        <PrimaryButton color={theme.colors.primary} text="LogIn" textColor={theme.colors.text} onPress={handleSubmit} />
+                        <InputWithIcon
+                            Icon={<MaterialIcons
+                                name="email"
+                                size={24}
+                                color={theme.colors.text}
+                            />}
+                            placeholder="Your email"
+                            onChangeText={handleEmailTextChange}
+                            keyboardType="email-address"
+                            autoCapitalize="none"
+                        />
+                        <InputWithIcon
+                            placeholder="Your password"
+                            Icon={<FontAwesome5
+                                name="key" size={24}
+                                color={theme.colors.text}
+                            />}
+                            onChangeText={handlePasswordTextChange}
+                            secureTextEntry={true}
+                            autoCapitalize="none"
+                        />
+                        <PrimaryButton
+                            color={theme.colors.primary}
+                            text="Log In"
+                            textColor={theme.colors.text}
+                            onPress={handleSubmit}
+                            isLoading={isPrimaryButtonLoading}
+                            disabledColor={theme.colors.disabledPrimary}
+
+
+                        />
 
                         <View style={styles.bottomInfo}>
                             <Text style={styles.text}>New to Movie App?</Text>

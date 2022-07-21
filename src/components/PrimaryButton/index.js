@@ -1,20 +1,36 @@
 import React from "react";
 
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Loading } from "../../assets/Loading";
 import { theme } from "../../global/theme";
 
 
 
 
 
-export function PrimaryButton({ color, text, textColor, onPress }) {
+export function PrimaryButton({ color, disabledColor, text, textColor, isLoading = false, onPress, ...rest }) {
     return (
-        <TouchableOpacity onPress={onPress} activeOpacity={0.8} style={[styles.container, {
-            backgroundColor: color
-        }]}>
-            <Text style={[styles.title, {
-                color: textColor
-            }]}>{text}</Text>
+        <TouchableOpacity
+            onPress={onPress}
+            activeOpacity={0.8}
+            style={[styles.container, {
+                backgroundColor: isLoading ? disabledColor : color
+            }]}
+            disabled={isLoading}
+            {...rest}
+        >
+
+            {
+                isLoading ? (
+                    <Loading />
+                )
+                    : (
+                        <Text style={[styles.title, {
+                            color: textColor,
+                        }]}>{text}</Text>
+                    )
+            }
+
         </TouchableOpacity>
     )
 }

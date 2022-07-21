@@ -7,7 +7,8 @@ export const theme = {
         inactiveTabBar: "#dadada4d",
         gray: "#211F30",
         secondaryInformation: "#BCBCBC",
-        overlay: "rgba(0, 0, 0, 0.7)"
+        overlay: "rgba(0, 0, 0, 0.7)",
+        disabledPrimary: "rgba(255, 143, 113, 0.4)"
 
     },
     sizes: {
