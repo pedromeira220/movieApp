@@ -9,6 +9,7 @@ import {
     SafeAreaView,
     TouchableOpacity,
     Button,
+    Modal,
 } from "react-native";
 import { theme } from "../../global/theme";
 import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
@@ -21,6 +22,8 @@ import { TextWithReadMoreButton } from "../../components/TextWithReadMoreButton"
 
 import { ModalView } from "../../components/ModalView";
 import { ListOfMovieList } from "../../components/ListOfMovieList";
+import { Loading } from "../../components/Loading";
+import { LoadingModal } from "../../components/LoadingModal";
 
 
 export function DetailsScreen({ navigation }) {
@@ -37,6 +40,8 @@ export function DetailsScreen({ navigation }) {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
 
+    const [isLoadingModalVisible, setIsLoadingModalVisible] = useState(false);
+
     const route = useRoute();
 
     let movieId = route?.params?.movieId;
@@ -46,19 +51,22 @@ export function DetailsScreen({ navigation }) {
 
 
         try {
-
+            setIsLoadingModalVisible(true);
             setNumberOfLinesOverview(4);
 
             movieId = route?.params?.movieId;
             setMovie((await apiFunctions.getMovie(movieId)).data);
             setRelatedMovies(await (await apiFunctions.getRecommendations(movieId))?.data?.results);
-            setCanShowMovieGenres(true);
 
+            setCanShowMovieGenres(true);
+            setIsLoadingModalVisible(false);
         } catch (err) {
 
-
+            setIsLoadingModalVisible(false);
 
         }
+
+        setIsLoadingModalVisible(false);
 
 
     }
@@ -69,13 +77,11 @@ export function DetailsScreen({ navigation }) {
 
     }, []);
 
-    useEffect(function () {
-        loadData();
-    }, [movieId]);
 
     useEffect(function () {
         loadData();
-    }, [route]);
+        setIsLoadingModalVisible(false);
+    }, [route, movieId]);
 
 
     function returnMovieGenres(movie) {
@@ -84,7 +90,14 @@ export function DetailsScreen({ navigation }) {
         const genres = [];
 
         for (let i = 0; i < quantitiesOfGenres; i++) {
-            genres.push(allGenres[i]);
+
+            const currentGenre = allGenres[i];
+
+            if (currentGenre) {
+                genres.push(currentGenre);
+            }
+
+
         }
 
         return genres;
@@ -232,7 +245,7 @@ export function DetailsScreen({ navigation }) {
                                         {
                                             returnMovieGenres(movie).map((genre) => {
                                                 return (
-                                                    <GenreCategory key={genre.id}>{genre.name}</GenreCategory>
+                                                    <GenreCategory key={genre?.id}>{genre?.name}</GenreCategory>
                                                 )
                                             })
                                         }
@@ -291,6 +304,9 @@ export function DetailsScreen({ navigation }) {
                     TMDBmovieId={movieId}
                 />
             </ModalView>
+
+            <LoadingModal setIsLoadingModalVisible={setIsLoadingModalVisible} visible={isLoadingModalVisible} />
+
         </View>
     );
 }

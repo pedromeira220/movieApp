@@ -141,11 +141,6 @@ export function ListOfMovieList({ TMDBmovieId, setIsModalVisible }) {
             }
         }
 
-
-
-
-
-
         setIsModalVisible(false);
     }
 
