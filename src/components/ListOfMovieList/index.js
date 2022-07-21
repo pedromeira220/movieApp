@@ -10,6 +10,7 @@ import { AntDesign, Fontisto, FontAwesome5, FontAwesome } from '@expo/vector-ico
 import { theme } from "../../global/theme";
 import { MovieListItem } from "../MovieListItem";
 import { PrimaryButton } from "../PrimaryButton";
+import { Loading } from "../Loading";
 
 export function ListOfMovieList({ TMDBmovieId, setIsModalVisible }) {
 
@@ -156,6 +157,7 @@ export function ListOfMovieList({ TMDBmovieId, setIsModalVisible }) {
             <FlatList
                 ListHeaderComponent={<FlatListHeaderComponent setIsModalVisible={setIsModalVisible} />}
                 data={movieLists}
+                ListEmptyComponent={Loading}
                 renderItem={function ({ item }) {
                     return (
                         <MovieListItem

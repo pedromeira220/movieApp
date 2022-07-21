@@ -1,7 +1,7 @@
 import React from "react";
 
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Loading } from "../../assets/Loading";
+import { Loading } from "../../components/Loading";
 import { theme } from "../../global/theme";
 
 

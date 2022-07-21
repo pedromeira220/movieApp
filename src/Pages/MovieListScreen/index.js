@@ -15,6 +15,8 @@ import { asyncStorage } from '../../services/asyncStorage';
 import { useFocusEffect } from '@react-navigation/native';
 import { localstorage } from '../../services/localstorage';
 
+import { Loading } from '../../components/Loading/index'
+
 export function MovieListScreen() {
 
     const navigation = useNavigation();
@@ -133,6 +135,7 @@ export function MovieListScreen() {
         }}>
             <FlatList
                 data={movieLists}
+                ListEmptyComponent={Loading}
                 renderItem={function ({ item }) {
                     return (
                         <MovieListItem Icon={item.icon} title={item.title} listId={item.id} onPress={function () {
