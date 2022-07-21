@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import {
     View,
@@ -25,10 +25,13 @@ import { navigateAndReset } from "../../components/publicFunctions/navigateAndRe
 import { myApiFunctions } from "../../services/backend";
 import { asyncStorage } from "../../services/asyncStorage";
 import { localstorage } from "../../services/localstorage";
+import { AuthContext } from "../../utils/contexts/AuthContext";
 
 
 const bannerHeight = parseInt(Math.round((Dimensions.get("screen").height) * 0.45).toFixed(0));
 export function LogInScreen() {
+
+    const auth = useContext(AuthContext);
 
     const [emailText, setEmailText] = useState("");
     const [passwordText, setPasswordText] = useState("");
@@ -57,7 +60,7 @@ export function LogInScreen() {
         asyncStorage.ASuser.storeData("user_token", loginData.user.token);
         localstorage.user.token = loginData.user.token;
 
-
+        auth.logIn();
     }
 
     function handleEmailTextChange(text) {

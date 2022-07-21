@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import {
     View,
@@ -25,6 +25,7 @@ import { navigateAndReset } from "../../components/publicFunctions/navigateAndRe
 import { myApiFunctions } from "../../services/backend";
 import { asyncStorage } from "../../services/asyncStorage";
 import { localstorage } from "../../services/localstorage";
+import { AuthContext } from "../../utils/contexts/AuthContext";
 
 const bannerHeight = parseInt(Math.round((Dimensions.get("screen").height) * 0.35).toFixed(0));
 export function SingUpScreen() {
@@ -36,6 +37,7 @@ export function SingUpScreen() {
     const [errorMessage, setErrorMessage] = useState("");
 
     const navigation = useNavigation();
+    const auth = useContext(AuthContext);
 
     async function handleSubmit() {
         const data = await myApiFunctions.register({ email: emailText, password: passwordText, name: nameText });
@@ -57,7 +59,7 @@ export function SingUpScreen() {
         asyncStorage.ASuser.storeData("user_token", loginData.user.token);
         localstorage.user.token = loginData.user.token;
 
-
+        auth.register();
     }
 
     function handleEmailTextChange(text) {

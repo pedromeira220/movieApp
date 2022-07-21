@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, SafeAreaView, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 
 import { MovieSection } from '../../components/MovieSection';
@@ -12,9 +12,17 @@ import { api, apiConfig, apiFunctions } from '../../services/api';
 import { asyncStorage } from '../../services/asyncStorage';
 import { myApiFunctions } from '../../services/backend';
 import { logOut } from '../../utils/logOut';
+import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from '../../utils/contexts/AuthContext';
 
 
-export function Home({ navigation }) {
+
+
+export function Home({ }) {
+
+    const auth = useContext(AuthContext);
+
+    const navigation = useNavigation();
 
     const [movie, setMovie] = useState({});
     const [popularMovies, setPopularMovies] = useState([]);
@@ -35,6 +43,7 @@ export function Home({ navigation }) {
     function handleLogOut() {
 
         logOut();
+        auth.logOut();
     }
     useEffect(() => {
 

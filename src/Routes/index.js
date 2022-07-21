@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { TabBarNavigator } from '../navigators/TabBarNavigator';
@@ -11,6 +11,8 @@ import { SingUpScreen } from '../Pages/SingUpScreen';
 import { LogInScreen } from '../Pages/LogInScreen'
 import { localstorage } from '../services/localstorage';
 import { asyncStorage } from '../services/asyncStorage';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { AuthContext } from '../utils/contexts/AuthContext';
 
 
 
@@ -23,7 +25,30 @@ const NonAuthStack = createNativeStackNavigator();
 
 export function Routes() {
 
-    const [userToken, setUserToken] = useState("");
+
+    const [userToken, setUserToken] = useState(null);
+
+    const navigation = useNavigation();
+
+
+    const authContext = useMemo(function () {
+        return {
+            logIn: async function () {
+                setUserToken(await this.getUserToken());
+            },
+            register: async function () {
+                setUserToken(await this.getUserToken());
+            },
+            logOut: function () {
+                setUserToken(null);
+            },
+            getUserToken: async function () {
+                const userToken = await asyncStorage.ASuser.getData("user_token");
+
+                return userToken;
+            }
+        }
+    }, []);
 
 
 
@@ -35,12 +60,11 @@ export function Routes() {
         localstorage.user.token = AStoken;
         localstorage.user.id = ASid;
 
-
-        if (AStoken) {
-            setUserToken(AStoken);
-        }
+        setUserToken(AStoken);
 
     }
+
+
     useEffect(function () {
 
         loadData();
@@ -53,28 +77,82 @@ export function Routes() {
         loadData();
 
 
-    }, [localstorage.user.token]);
+    }, [localstorage.user.token, userToken]);
+
+    useEffect(function () {
+        setUserToken(localstorage.user.token);
+
+    });
 
 
     return (
-        <Stack.Navigator>
-            {
-                userToken ? (
-                    <Stack.Screen
-                        name="AuthRoutes"
-                        component={AuthRoutes}
-                        options={{ headerShown: false }}
-                    />
-                ) : (
-                    <Stack.Screen
-                        name="NonAuthRoutes"
-                        component={NonAuthRoutes}
-                        options={{ headerShown: false }}
-                    />
-                )
-            }
+        <AuthContext.Provider value={authContext}>
+            <Stack.Navigator>
 
-        </Stack.Navigator>
+                {
+                    !userToken ?
+
+                        <Stack.Group>
+
+                            <Stack.Screen
+                                name="Onboarding1"
+                                component={Onboarding1}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="Onboarding2"
+                                component={Onboarding2}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="Onboarding3"
+                                component={Onboarding3}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="LogInScreen"
+                                component={LogInScreen}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="SingUpScreen"
+                                component={SingUpScreen}
+                                options={{ headerShown: false }}
+                            />
+
+                        </Stack.Group>
+
+                        :
+                        <Stack.Group>
+
+
+                            <Stack.Screen
+                                name="TabBarNavigator"
+                                component={TabBarNavigator}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="DetailsScreen"
+                                component={DetailsScreen}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="ListOfMovies"
+                                component={ListOfMovies}
+                                options={{ headerShown: false }}
+                            />
+
+
+                        </Stack.Group>
+
+                }
+
+
+
+
+
+            </Stack.Navigator>
+        </AuthContext.Provider>
 
 
     )
@@ -84,58 +162,58 @@ export function Routes() {
 
 function AuthRoutes() {
     return (
-        <AuthStack.Navigator>
+        <>
 
-            <AuthStack.Screen
+            <Stack.Screen
                 name="TabBarNavigator"
                 component={TabBarNavigator}
                 options={{ headerShown: false }}
             />
-            <AuthStack.Screen
+            <Stack.Screen
                 name="DetailsScreen"
                 component={DetailsScreen}
                 options={{ headerShown: false }}
             />
-            <AuthStack.Screen
+            <Stack.Screen
                 name="ListOfMovies"
                 component={ListOfMovies}
                 options={{ headerShown: false }}
             />
 
-        </AuthStack.Navigator>
+        </>
     )
 }
 
 
 function NonAuthRoutes() {
     return (
-        <NonAuthStack.Navigator>
-            <NonAuthStack.Screen
+        <>
+            <Stack.Screen
                 name="Onboarding1"
                 component={Onboarding1}
                 options={{ headerShown: false }}
             />
-            <NonAuthStack.Screen
+            <Stack.Screen
                 name="Onboarding2"
                 component={Onboarding2}
                 options={{ headerShown: false }}
             />
-            <NonAuthStack.Screen
+            <Stack.Screen
                 name="Onboarding3"
                 component={Onboarding3}
                 options={{ headerShown: false }}
             />
-            <NonAuthStack.Screen
+            <Stack.Screen
                 name="LogInScreen"
                 component={LogInScreen}
                 options={{ headerShown: false }}
             />
-            <NonAuthStack.Screen
+            <Stack.Screen
                 name="SingUpScreen"
                 component={SingUpScreen}
                 options={{ headerShown: false }}
             />
-        </NonAuthStack.Navigator>
+        </>
     )
 }
 
