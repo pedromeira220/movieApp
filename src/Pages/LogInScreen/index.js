@@ -130,8 +130,6 @@ export function LogInScreen() {
                             onPress={handleSubmit}
                             isLoading={isPrimaryButtonLoading}
                             disabledColor={theme.colors.disabledPrimary}
-
-
                         />
 
                         <View style={styles.bottomInfo}>

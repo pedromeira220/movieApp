@@ -30,6 +30,8 @@ import { AuthContext } from "../../utils/contexts/AuthContext";
 const bannerHeight = parseInt(Math.round((Dimensions.get("screen").height) * 0.35).toFixed(0));
 export function SingUpScreen() {
 
+    const [isPrimaryButtonLoading, setIsPrimaryButtonLoading] = useState(false);
+
     const [emailText, setEmailText] = useState("");
     const [passwordText, setPasswordText] = useState("");
     const [nameText, setNameText] = useState("");
@@ -40,12 +42,14 @@ export function SingUpScreen() {
     const auth = useContext(AuthContext);
 
     async function handleSubmit() {
+        setIsPrimaryButtonLoading(true);
         const data = await myApiFunctions.register({ email: emailText, password: passwordText, name: nameText });
 
 
         if (data.error) {
             setCanShowErrorMessage(true);
             setErrorMessage(data.msg);
+            setIsPrimaryButtonLoading(false);
             return;
         }
 
@@ -101,10 +105,42 @@ export function SingUpScreen() {
 
                 <View style={styles.inputsContainer}>
 
-                    <InputWithIcon placeholder="Your email" Icon={<MaterialIcons name="email" size={24} color={theme.colors.text} />} onChangeText={handleEmailTextChange} keyboardType="email-address" autoCapitalize="none" />
-                    <InputWithIcon placeholder="Your Name" Icon={<FontAwesome name="user" size={24} color={theme.colors.text} />} onChangeText={handleNameTextChange} autoCapitalize="none" />
-                    <InputWithIcon placeholder="Your password" Icon={<FontAwesome5 name="key" size={24} color={theme.colors.text} />} secureTextEntry={true} onChangeText={handlePasswordTextChange} autoCapitalize="none" />
-                    <PrimaryButton color={theme.colors.primary} text="Create account" textColor={theme.colors.text} onPress={handleSubmit} />
+                    <InputWithIcon
+                        placeholder="Your email"
+                        Icon={<MaterialIcons
+                            name="email"
+                            size={24}
+                            color={theme.colors.text}
+                        />}
+                        onChangeText={handleEmailTextChange}
+                        keyboardType="email-address"
+                        autoCapitalize="none" />
+                    <InputWithIcon
+                        placeholder="Your Name"
+                        Icon={<FontAwesome
+                            name="user"
+                            size={24}
+                            color={theme.colors.text} />}
+                        onChangeText={handleNameTextChange}
+                        autoCapitalize="none"
+                    />
+                    <InputWithIcon
+                        placeholder="Your password"
+                        Icon={<FontAwesome5
+                            name="key" size={24}
+                            color={theme.colors.text} />}
+                        secureTextEntry={true}
+                        onChangeText={handlePasswordTextChange}
+                        autoCapitalize="none"
+                    />
+                    <PrimaryButton
+                        color={theme.colors.primary}
+                        text="Create account"
+                        textColor={theme.colors.text}
+                        onPress={handleSubmit}
+                        isLoading={isPrimaryButtonLoading}
+                        disabledColor={theme.colors.disabledPrimary}
+                    />
 
                     <View style={styles.bottomInfo}>
                         <Text style={styles.text}>Join us before?</Text>
