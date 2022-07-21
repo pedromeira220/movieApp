@@ -114,7 +114,10 @@ export function SingUpScreen() {
                         />}
                         onChangeText={handleEmailTextChange}
                         keyboardType="email-address"
-                        autoCapitalize="none" />
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                    />
+
                     <InputWithIcon
                         placeholder="Your Name"
                         Icon={<FontAwesome
@@ -122,7 +125,7 @@ export function SingUpScreen() {
                             size={24}
                             color={theme.colors.text} />}
                         onChangeText={handleNameTextChange}
-                        autoCapitalize="none"
+
                     />
                     <InputWithIcon
                         placeholder="Your password"

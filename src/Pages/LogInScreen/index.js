@@ -112,6 +112,7 @@ export function LogInScreen() {
                             onChangeText={handleEmailTextChange}
                             keyboardType="email-address"
                             autoCapitalize="none"
+                            autoCorrect={false}
                         />
                         <InputWithIcon
                             placeholder="Your password"
