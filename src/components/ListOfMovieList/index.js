@@ -85,11 +85,11 @@ export function ListOfMovieList({ TMDBmovieId, setIsModalVisible }) {
         loadData();
 
         return function () {
-            setIsAddingMovieToList(null);
-            setIsModalVisible(null);
-            setMovieLists(null);
+            setIsAddingMovieToList(false);
+            setIsModalVisible(false);
+            setMovieLists([]);
             setMoviesSelectedId(null);
-            setUser(null);
+            setUser({});
         }
     }, []);
 
