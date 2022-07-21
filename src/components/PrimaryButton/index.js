@@ -3,7 +3,7 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Loading } from "../../components/Loading";
 import { theme } from "../../global/theme";
-
+import { PrimaryGradient } from '../PrimaryGradient';
 
 
 
@@ -13,24 +13,30 @@ export function PrimaryButton({ color, disabledColor, text, textColor, isLoading
         <TouchableOpacity
             onPress={onPress}
             activeOpacity={0.8}
-            style={[styles.container, {
-                backgroundColor: isLoading ? disabledColor : color
-            }]}
+
             disabled={isLoading}
             {...rest}
         >
+            <PrimaryGradient
+                style={[styles.container, {
+                    backgroundColor: isLoading ? disabledColor : color
+                }]}
+            >
 
-            {
-                isLoading ? (
-                    <Loading />
-                )
-                    : (
-                        <Text style={[styles.title, {
-                            color: textColor,
-                        }]}>{text}</Text>
+
+                {
+                    isLoading ? (
+                        <Loading />
                     )
-            }
+                        : (
+                            <Text style={[styles.title, {
+                                color: textColor,
+                            }]}>{text}</Text>
+                        )
+                }
 
+
+            </PrimaryGradient>
         </TouchableOpacity>
     )
 }
