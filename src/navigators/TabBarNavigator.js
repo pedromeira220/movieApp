@@ -13,6 +13,8 @@ import { MovieListScreen } from '../Pages/MovieListScreen';
 
 
 import HomeSvg from '../assets/Home.svg';
+import HomeFillSvg from '../assets/HomeFill.svg';
+import SearchFillSvg from '../assets/SearchIconFill.svg'
 import { CustomIcon } from '../components/CustomIcon';
 
 
@@ -49,7 +51,12 @@ export function TabBarNavigator() {
                                 alignItems: "center"
                             }}
                         >
-                            <HomeSvg width="36px" height="36px" fill={focused ? theme.colors.primary : theme.colors.inactiveTabBar} />
+
+                            {
+                                focused ? <HomeFillSvg width="36px" height="36px" /> : <HomeSvg width="36px" height="36px" fill={focused ? theme.colors.primary : theme.colors.inactiveTabBar} />
+                            }
+
+
                         </View>
                     )
                 }}
@@ -59,6 +66,7 @@ export function TabBarNavigator() {
                 component={MovieListScreen}
                 options={{
                     tabBarIcon: ({ size, color, focused }) => (
+
                         <FontAwesome name="plus" size={36} color={focused ? theme.colors.text : theme.colors.inactiveTabBar} />
 
                     ),
@@ -72,7 +80,11 @@ export function TabBarNavigator() {
                 component={DiscoveryScreen}
                 options={{
                     tabBarIcon: ({ size, color, focused }) => (
-                        <FontAwesome name="search" size={36} color={color} />
+                        <View>
+                            {
+                                focused ? <SearchFillSvg width="36px" height="36px" /> : <FontAwesome name="search" size={36} color={theme.colors.inactiveTabBar} />
+                            }
+                        </View>
 
                     )
                 }}
