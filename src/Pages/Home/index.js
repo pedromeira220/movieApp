@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, ScrollView, Image, TouchableOpacity, Alert } from 'react-native';
 
 import { MovieSection } from '../../components/MovieSection';
 import PopularMoviesSection from '../../components/PopularMoviesSection';
@@ -42,8 +42,22 @@ export function Home({ }) {
 
     function handleLogOut() {
 
-        logOut();
-        auth.logOut();
+        Alert.alert("Log out", "Are you sure you want to log out?", [
+            {
+                text: "Cancel", onPress: function () {
+
+                }
+            },
+            {
+                text: "Yes", onPress: function () {
+                    logOut();
+                    auth.logOut();
+                }
+            },
+
+        ]);
+
+
     }
     useEffect(() => {
 

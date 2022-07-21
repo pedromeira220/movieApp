@@ -10,6 +10,7 @@ import {
     TouchableOpacity,
     Button,
     Modal,
+    Alert,
 } from "react-native";
 import { theme } from "../../global/theme";
 import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
@@ -96,8 +97,6 @@ export function DetailsScreen({ navigation }) {
             if (currentGenre) {
                 genres.push(currentGenre);
             }
-
-
         }
 
         return genres;
@@ -106,6 +105,7 @@ export function DetailsScreen({ navigation }) {
     }
 
     function handleFavoriteButtonClick() {
+
         setIsModalVisible(true);
     }
 
