@@ -15,6 +15,7 @@ import { MovieListScreen } from '../Pages/MovieListScreen';
 import HomeSvg from '../assets/Home.svg';
 import { CustomIcon } from '../components/CustomIcon';
 
+
 const Tab = createBottomTabNavigator();
 export function TabBarNavigator() {
     return (

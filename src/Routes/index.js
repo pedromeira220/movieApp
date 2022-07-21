@@ -13,6 +13,7 @@ import { localstorage } from '../services/localstorage';
 import { asyncStorage } from '../services/asyncStorage';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { AuthContext } from '../utils/contexts/AuthContext';
+import { LoadingScreen } from '../Pages/LoadingScreen';
 
 
 
@@ -28,7 +29,11 @@ export function Routes() {
 
     const [userToken, setUserToken] = useState(null);
 
+    const [isLoading, setIsLoading] = useState(true);
+
     const navigation = useNavigation();
+
+
 
 
     const authContext = useMemo(function () {
@@ -53,7 +58,10 @@ export function Routes() {
 
 
 
+
+
     async function loadData() {
+
 
         const AStoken = await asyncStorage.ASuser.getData("user_token");
         const ASid = await asyncStorage.ASuser.getData("user_id");
@@ -61,6 +69,8 @@ export function Routes() {
         localstorage.user.id = ASid;
 
         setUserToken(AStoken);
+
+        setIsLoading(false);
 
     }
 
@@ -84,6 +94,12 @@ export function Routes() {
 
     });
 
+    if (isLoading) {
+        return (
+            <LoadingScreen />
+        )
+    }
+
 
     return (
         <AuthContext.Provider value={authContext}>
@@ -91,6 +107,7 @@ export function Routes() {
 
                 {
                     !userToken ?
+
 
                         <Stack.Group>
 
