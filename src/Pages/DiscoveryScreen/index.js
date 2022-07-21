@@ -20,6 +20,10 @@ export function DiscoveryScreen({ navigation }) {
 
         loadData();
 
+        return function () {
+            setTopRatedMovies([]);
+        }
+
     }, []);
 
     async function handleInputChange(text) {
@@ -70,20 +74,10 @@ export function DiscoveryScreen({ navigation }) {
 
                 </View>
 
-                <ScrollView
-                    style={styles.movieCategories}
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                >
-                    <MovieCategory name="Movie" active={true} />
-                    <MovieCategory name="Tv Series" active={false} />
-                    <MovieCategory name="Documentary" active={false} />
-                    <MovieCategory name="Sport" active={false} />
-                    <MovieCategory name="Sci-fi" active={false} />
-                </ScrollView>
+
 
                 <View style={{
-                    marginTop: 56
+                    marginTop: 36
                 }}>
                     <MovieSection
                         showTitle={false}
