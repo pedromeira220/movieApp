@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import { theme } from '../../global/theme';
+import { PrimaryGradient } from "../PrimaryGradient";
 import { navigateAndReset } from "../publicFunctions/navigateAndReset";
 
 export function OnboardingComponent({ title, subtitle, page, Icon }) {
@@ -37,15 +38,27 @@ export function OnboardingComponent({ title, subtitle, page, Icon }) {
                     </TouchableOpacity>
 
                     <View style={styles.bulletsContainer}>
-                        <View style={[styles.bullet, {
-                            backgroundColor: page == 1 ? theme.colors.primary : theme.colors.inactiveTabBar
-                        }]} />
-                        <View style={[styles.bullet, {
-                            backgroundColor: page == 2 ? theme.colors.primary : theme.colors.inactiveTabBar
-                        }]} />
-                        <View style={[styles.bullet, {
-                            backgroundColor: page == 3 ? theme.colors.primary : theme.colors.inactiveTabBar
-                        }]} />
+                        {
+                            page == 1 ? <PrimaryGradient
+                                style={styles.bullet}
+                            />
+                                :
+                                <View style={styles.bullet} />
+                        }
+                        {
+                            page == 2 ? <PrimaryGradient
+                                style={styles.bullet}
+                            />
+                                :
+                                <View style={styles.bullet} />
+                        }
+                        {
+                            page == 3 ? <PrimaryGradient
+                                style={styles.bullet}
+                            />
+                                :
+                                <View style={styles.bullet} />
+                        }
                     </View>
 
                     <TouchableOpacity
@@ -138,3 +151,17 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
 });
+
+
+/*
+
+<View style={[styles.bullet, {
+                            backgroundColor: page == 1 ? theme.colors.primary : theme.colors.inactiveTabBar
+                        }]} />
+                        <View style={[styles.bullet, {
+                            backgroundColor: page == 2 ? theme.colors.primary : theme.colors.inactiveTabBar
+                        }]} />
+                        <View style={[styles.bullet, {
+                            backgroundColor: page == 3 ? theme.colors.primary : theme.colors.inactiveTabBar
+}]} />
+*/
