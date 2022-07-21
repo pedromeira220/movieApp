@@ -8,7 +8,8 @@ export const theme = {
         gray: "#211F30",
         secondaryInformation: "#BCBCBC",
         overlay: "rgba(0, 0, 0, 0.7)",
-        disabledPrimary: "rgba(255, 143, 113, 0.4)"
+        disabledPrimary: "rgba(255, 143, 113, 0.4)",
+        inactiveGray: "	rgba(21, 20, 31, 0.9)"
 
     },
     sizes: {

@@ -3,41 +3,58 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { theme } from "../../global/theme";
 
 import { AntDesign } from '@expo/vector-icons';
+import { Loading } from "../Loading";
 
-export function MovieListItem({ title, Icon, onPress, hasCheck = false, isActive = false }) {
+export function MovieListItem({ title, isLoading, Icon, onPress, hasCheck = false, isActive = false }) {
     return (
         <TouchableOpacity
-            style={styles.container}
+            style={[styles.container, {
+                backgroundColor: isLoading ? theme.colors.gray : theme.colors.gray
+            }]}
             onPress={onPress}
+            disabled={isLoading}
         >
-            <View style={{
-                flexDirection: "row",
-                minWidth: 99,
+            {
+                isLoading ?
+                    <View
+                        style={styles.loadingView}
+                    >
+                        <Loading />
+                    </View>
 
-                alignItems: "center"
-            }}>
-                {Icon}
-                <Text numberOfLines={1} style={styles.listName}>{title}</Text>
-            </View>
-            <View>
-                {
-                    hasCheck ? (
+                    : (
                         <>
-                            {
-                                isActive && <AntDesign name="checkcircle" size={24} color={theme.colors.inactiveTabBar} />
-                            }
-                        </>
-                    ) : <AntDesign name="right" size={24} color={theme.colors.text} />
-                }
+                            <View style={{
+                                flexDirection: "row",
+                                minWidth: 99,
 
-            </View>
+                                alignItems: "center"
+                            }}>
+                                {Icon}
+                                <Text numberOfLines={1} style={styles.listName}>{title}</Text>
+                            </View>
+                            <View>
+                                {
+                                    hasCheck ? (
+                                        <>
+                                            {
+                                                isActive && <AntDesign name="checkcircle" size={24} color={theme.colors.inactiveTabBar} />
+                                            }
+                                        </>
+                                    ) : <AntDesign name="right" size={24} color={theme.colors.text} />
+                                }
+
+                            </View>
+                        </>
+                    )
+            }
         </TouchableOpacity>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: theme.colors.gray,
+
         width: "100%",
         padding: 16,
         borderRadius: 24,
@@ -47,6 +64,11 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         paddingHorizontal: 14,
         marginBottom: 18
+    },
+    loadingView: {
+        justifyContent: "center",
+        alignItems: "center",
+        flex: 1,
     },
     listName: {
         color: theme.colors.text,

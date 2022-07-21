@@ -17,6 +17,9 @@ export function ListOfMovieList({ TMDBmovieId, setIsModalVisible }) {
     const [movieLists, setMovieLists] = useState([]);
     const [user, setUser] = useState({});
 
+    const [isAddingMovieToList, setIsAddingMovieToList] = useState(false);
+    const [moviesSelectedId, setMoviesSelectedId] = useState("");
+
     async function loadData() {
 
 
@@ -61,6 +64,8 @@ export function ListOfMovieList({ TMDBmovieId, setIsModalVisible }) {
 
             }
 
+            setMoviesSelectedId(lists[i].id);
+
             newLists.push(createList({ title: lists[i].name, type: lists[i].type, id: lists[i].id, listHasMovie }));
             //{ title: lists[i].name, icon: <FontAwesome name="list-ul" size={24} color={theme.colors.text} />, id: lists[i].id }
         }
@@ -78,6 +83,14 @@ export function ListOfMovieList({ TMDBmovieId, setIsModalVisible }) {
 
     useEffect(function () {
         loadData();
+
+        return function () {
+            setIsAddingMovieToList(null);
+            setIsModalVisible(null);
+            setMovieLists(null);
+            setMoviesSelectedId(null);
+            setUser(null);
+        }
     }, []);
 
     function createList({ title, type, id, listHasMovie }) {
@@ -124,11 +137,14 @@ export function ListOfMovieList({ TMDBmovieId, setIsModalVisible }) {
 
     async function handleMovieListItemClick({ listId, listName, listType, listHasMovie }) {
 
+        setIsAddingMovieToList(true);
+
         if (listHasMovie) {
             const response = await myApiFunctions.deleteMovie({ listId, TMDBmovieId, token: localstorage.user.token });
 
             if (response.error) {
                 console.error(response.msg);
+                setIsAddingMovieToList(false);
                 return;
             }
 
@@ -137,11 +153,22 @@ export function ListOfMovieList({ TMDBmovieId, setIsModalVisible }) {
 
             if (response.error) {
                 console.error(response.msg);
+                setIsAddingMovieToList(false);
                 return;
             }
         }
 
+
+
         setIsModalVisible(false);
+        setTimeout(() => {
+            setIsAddingMovieToList(false);
+        }, 100);
+
+
+
+
+
     }
 
 
@@ -160,6 +187,7 @@ export function ListOfMovieList({ TMDBmovieId, setIsModalVisible }) {
                             title={item.title}
                             listId={item.id}
                             hasCheck={true}
+                            isLoading={isAddingMovieToList}
                             isActive={item.listHasMovie ? true : false}
                             onPress={function () {
 
