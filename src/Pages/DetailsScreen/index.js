@@ -11,6 +11,7 @@ import {
     Button,
     Modal,
     Alert,
+    ImageBackground,
 } from "react-native";
 import { theme } from "../../global/theme";
 import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
@@ -25,6 +26,8 @@ import { ModalView } from "../../components/ModalView";
 import { ListOfMovieList } from "../../components/ListOfMovieList";
 import { Loading } from "../../components/Loading";
 import { LoadingModal } from "../../components/LoadingModal";
+
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 export function DetailsScreen({ navigation }) {
@@ -110,28 +113,46 @@ export function DetailsScreen({ navigation }) {
     }
 
     return (
+
         <View style={styles.container}>
+
             <View style={styles.imgView}>
-                <Image
+
+
+                <ImageBackground
                     style={styles.img}
                     source={{ uri: `${apiConfig.imgBaseURL}/${movie.backdrop_path}` }}
-                />
+                >
+                    <LinearGradient
+                        colors={[theme.colors.background, "rgba(0,0,0,0.2)", theme.colors.background]}
+                        style={{
+                            backgroundColor: "transparent",
+                            position: "absolute",
+                            top: 0,
+                            bottom: 0,
+                            left: 0,
+                            right: 0
+                        }}
+                    ></LinearGradient>
+                </ImageBackground>
 
-                <SafeAreaView
-                    style={{
-                        position: "absolute",
-                        left: 16,
+
+            </View>
+
+            <SafeAreaView
+                style={{
+                    position: "absolute",
+                    left: 16,
+                }}
+            >
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.goBack();
                     }}
                 >
-                    <TouchableOpacity
-                        onPress={() => {
-                            navigation.goBack();
-                        }}
-                    >
-                        <Ionicons name="chevron-back" size={40} color={theme.colors.text} />
-                    </TouchableOpacity>
-                </SafeAreaView>
-            </View>
+                    <Ionicons name="chevron-back" size={40} color={theme.colors.text} />
+                </TouchableOpacity>
+            </SafeAreaView>
 
             <ScrollView style={styles.main}>
                 <View style={styles.primaryInformation}>
@@ -308,6 +329,7 @@ export function DetailsScreen({ navigation }) {
             <LoadingModal setIsLoadingModalVisible={setIsLoadingModalVisible} visible={isLoadingModalVisible} />
 
         </View>
+
     );
 }
 
@@ -324,9 +346,15 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "35%",
     },
+    gradient: {
+        flex: 1,
+        zIndex: 100,
+
+    },
     img: {
         width: "100%",
         height: "100%",
+        backgroundColor: "transparent"
     },
     primaryInformation: {
         borderBottomWidth: 1,
