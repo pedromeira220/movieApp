@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { theme } from '../../global/theme';
+import { PrimaryGradient } from '../PrimaryGradient';
 
 export function CustomIcon({ children, onPress }) {
     return (
@@ -12,7 +13,11 @@ export function CustomIcon({ children, onPress }) {
             <View
                 style={styles.content}
             >
-                {children}
+                <PrimaryGradient
+                    style={styles.gradient}
+                >
+                    {children}
+                </PrimaryGradient>
             </View>
         </TouchableOpacity>
     );
@@ -31,4 +36,9 @@ const styles = StyleSheet.create({
         borderRadius: 35,
         backgroundColor: theme.colors.primary
     },
+    gradient: {
+        width: "100%",
+        height: "100%",
+        borderRadius: "50%"
+    }
 });
