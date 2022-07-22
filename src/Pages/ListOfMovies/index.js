@@ -80,6 +80,7 @@ export function ListOfMovies() {
     }
 
     async function handleDeleteButtonClick() {
+        auth.checkInternetConnection();
 
         const listId = route.params.listId;
 

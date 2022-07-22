@@ -33,7 +33,7 @@ export function MovieListScreen() {
 
     function handleMovieListItemClick({ listId, listName, listType }) {
 
-
+        auth.checkInternetConnection();
 
         navigation.navigate("ListOfMovies", { listId, listName, listType });
     }
@@ -212,7 +212,10 @@ function FlatListHeader({ movieLists, setMovieLists, user, createList }) {
     const [canFocus, setCanFocus] = useState(false);
     const [newNameListText, setNewNameListText] = useState("");
 
+    const auth = useContext(AuthContext);
+
     function handleAddListButtonClick() {
+        auth.checkInternetConnection();
         setIsAddListButtonActive(true);
         setCanFocus(true);
 

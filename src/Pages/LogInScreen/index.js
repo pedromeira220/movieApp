@@ -20,7 +20,7 @@ import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { InputWithIcon } from "../../components/InputWithIcon";
 import { PrimaryButton } from "../../components/PrimaryButton";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { navigateAndReset } from "../../components/publicFunctions/navigateAndReset";
 import { myApiFunctions } from "../../services/backend";
 import { asyncStorage } from "../../services/asyncStorage";
@@ -32,6 +32,7 @@ const bannerHeight = parseInt(Math.round((Dimensions.get("screen").height) * 0.4
 export function LogInScreen() {
 
     const auth = useContext(AuthContext);
+    const isScreenFocused = useIsFocused();
 
     const [isPrimaryButtonLoading, setIsPrimaryButtonLoading] = useState(false);
 
@@ -43,6 +44,8 @@ export function LogInScreen() {
     const navigation = useNavigation();
 
     async function handleSubmit() {
+
+        auth.checkInternetConnection();
 
         setIsPrimaryButtonLoading(true);
 
@@ -76,6 +79,14 @@ export function LogInScreen() {
         setPasswordText(text);
     }
 
+
+    useEffect(function () {
+        auth.checkInternetConnection();
+    }, []);
+
+    useEffect(function () {
+        auth.checkInternetConnection();
+    }, [isScreenFocused]);
 
     return (
         <KeyboardAwareScrollView

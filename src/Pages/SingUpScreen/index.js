@@ -20,7 +20,7 @@ import { MaterialIcons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { InputWithIcon } from "../../components/InputWithIcon";
 import { PrimaryButton } from "../../components/PrimaryButton";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { navigateAndReset } from "../../components/publicFunctions/navigateAndReset";
 import { myApiFunctions } from "../../services/backend";
 import { asyncStorage } from "../../services/asyncStorage";
@@ -40,8 +40,11 @@ export function SingUpScreen() {
 
     const navigation = useNavigation();
     const auth = useContext(AuthContext);
+    const isScreenFocused = useIsFocused();
 
     async function handleSubmit() {
+
+        auth.checkInternetConnection();
         setIsPrimaryButtonLoading(true);
         const data = await myApiFunctions.register({ email: emailText, password: passwordText, name: nameText });
 
@@ -78,6 +81,13 @@ export function SingUpScreen() {
     }
 
 
+    useEffect(function () {
+        auth.checkInternetConnection();
+    }, []);
+
+    useEffect(function () {
+        auth.checkInternetConnection();
+    }, [isScreenFocused]);
 
 
     return (

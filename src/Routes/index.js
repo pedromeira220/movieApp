@@ -74,19 +74,7 @@ export function Routes() {
                     return true;
                 }
 
-                if (response.error) {
 
-
-                    if (!response?.msg) {
-                        setCanLoadContent(false);
-                        setIsLoading(false);
-                        return true;
-                    }
-
-                    console.error(response.msg);
-                    setCanLoadContent(false);
-                    return true;
-                }
 
                 setCanLoadContent(true);
                 setIsLoading(false);

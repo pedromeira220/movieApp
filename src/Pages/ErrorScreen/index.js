@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, StyleSheet, Text, Dimensions, SafeAreaView } from "react-native";
 import { Loading } from "../../components/Loading";
 import { theme } from "../../global/theme";
@@ -10,12 +10,22 @@ export function ErrorScreen() {
 
     const auth = useContext(AuthContext);
 
+    const [isLoading, setIsLoading] = useState(false);
 
     const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
-    function handleTryAgainClick() {
-        auth.checkInternetConnection();
+    async function handleTryAgainClick() {
+        setIsLoading(true);
+        await auth.checkInternetConnection();
+        setIsLoading(false);
     }
+
+    useEffect(function () {
+        auth.checkInternetConnection();
+        return () => {
+            setIsLoading(null);
+        }
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -29,11 +39,13 @@ export function ErrorScreen() {
                 <Text style={styles.subTitle}>
                     Please check your internet connection, if it doesn't work try again later
                 </Text>
-                <PrimaryButton style={{
-                    marginTop: 40,
-                }} text="Try again" textColor={theme.colors.text} onPress={() => {
-                    handleTryAgainClick();
-                }} />
+                <PrimaryButton
+                    isLoading={isLoading}
+                    style={{
+                        marginTop: 40,
+                    }} text="Try again" textColor={theme.colors.text} onPress={() => {
+                        handleTryAgainClick();
+                    }} />
             </View>
         </View>
     )
