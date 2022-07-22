@@ -12,7 +12,7 @@ import { api, apiConfig, apiFunctions } from '../../services/api';
 import { asyncStorage } from '../../services/asyncStorage';
 import { myApiFunctions } from '../../services/backend';
 import { logOut } from '../../utils/logOut';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useIsFocused, useNavigation, useRoute } from '@react-navigation/native';
 import { AuthContext } from '../../utils/contexts/AuthContext';
 
 
@@ -21,6 +21,7 @@ import { AuthContext } from '../../utils/contexts/AuthContext';
 export function Home({ }) {
 
     const auth = useContext(AuthContext);
+    const isScreenFocused = useIsFocused();
 
     const navigation = useNavigation();
 
@@ -88,7 +89,7 @@ export function Home({ }) {
             setTopRatedMovies([]);
         }
 
-    }, [route]);
+    }, [route, navigation, isScreenFocused]);
     return (
         <>
 

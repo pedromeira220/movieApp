@@ -1,17 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native'
 import { theme } from "../../global/theme";
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
 import { MovieSection } from '../../components/MovieSection'
 import { api, apiFunctions } from "../../services/api";
 import { myApiFunctions } from "../../services/backend";
 import { localstorage } from "../../services/localstorage";
+import { AuthContext } from "../../utils/contexts/AuthContext";
 
 export function ListOfMovies() {
 
+    const auth = useContext(AuthContext);
+
     const route = useRoute();
+
+    const navigation = useNavigation();
+
+    const isScreenFocused = useIsFocused();
 
     const [movies, setMovies] = useState([]);
 
@@ -19,6 +26,8 @@ export function ListOfMovies() {
 
 
     async function loadData() {
+
+        auth.checkInternetConnection();
 
         const listId = route.params.listId;
         const response = await myApiFunctions.getAllMoviesFromList({ listId, token: localstorage.user.token });
@@ -52,7 +61,19 @@ export function ListOfMovies() {
 
     }, []);
 
-    const navigation = useNavigation();
+    useEffect(() => {
+
+
+        loadData()
+
+
+        return () => {
+            setMovies([]);
+        }
+
+    }, [navigation, isScreenFocused]);
+
+
 
     function handleGoBackClick() {
         navigation.goBack();

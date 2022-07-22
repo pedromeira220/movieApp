@@ -1,4 +1,4 @@
-import react, { useState, useEffect } from "react";
+import react, { useState, useEffect, useContext } from "react";
 import {
     View, StyleSheet, Text, FlatList
 } from 'react-native'
@@ -11,17 +11,20 @@ import { theme } from "../../global/theme";
 import { MovieListItem } from "../MovieListItem";
 import { PrimaryButton } from "../PrimaryButton";
 import { Loading } from "../Loading";
+import { AuthContext } from "../../utils/contexts/AuthContext";
 
 export function ListOfMovieList({ TMDBmovieId, setIsModalVisible }) {
 
     const [movieLists, setMovieLists] = useState([]);
     const [user, setUser] = useState({});
 
+    const auth = useContext(AuthContext);
+
     const [isAddingMovieToList, setIsAddingMovieToList] = useState(false);
     const [moviesSelectedId, setMoviesSelectedId] = useState("");
 
     async function loadData() {
-
+        auth.checkInternetConnection();
 
         const id = localstorage.user.id;
         const token = localstorage.user.token;

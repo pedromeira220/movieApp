@@ -101,6 +101,8 @@ export function Routes() {
     async function loadData() {
 
 
+
+
         const AStoken = await asyncStorage.ASuser.getData("user_token");
         const ASid = await asyncStorage.ASuser.getData("user_id");
         localstorage.user.token = AStoken;
@@ -109,11 +111,11 @@ export function Routes() {
 
 
 
-
+        authContext.checkInternetConnection();
         setUserToken(AStoken);
 
 
-        authContext.checkInternetConnection();
+
 
 
 
@@ -133,7 +135,7 @@ export function Routes() {
         loadData();
 
 
-    }, [localstorage.user.token, userToken]);
+    }, [localstorage.user.token, userToken, navigation]);
 
     useEffect(function () {
         setUserToken(localstorage.user.token);

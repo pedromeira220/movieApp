@@ -19,7 +19,7 @@ import { GenreCategory } from "../../components/GenreCategory";
 import MovieListHorizontal from "../../components/MovieListHorizontal";
 import { api, apiFunctions, apiConfig } from "../../services/api";
 
-import { useRoute } from "@react-navigation/native";
+import { useIsFocused, useRoute } from "@react-navigation/native";
 import { TextWithReadMoreButton } from "../../components/TextWithReadMoreButton";
 
 import { ModalView } from "../../components/ModalView";
@@ -48,6 +48,7 @@ export function DetailsScreen({ navigation }) {
     const [isLoadingModalVisible, setIsLoadingModalVisible] = useState(false);
 
     const route = useRoute();
+    const isScreenFocused = useIsFocused();
 
     let movieId = route?.params?.movieId;
 
@@ -89,7 +90,7 @@ export function DetailsScreen({ navigation }) {
     useEffect(function () {
         loadData();
         setIsLoadingModalVisible(false);
-    }, [route, movieId]);
+    }, [route, movieId, isScreenFocused]);
 
 
     function returnMovieGenres(movie) {

@@ -83,7 +83,7 @@ export function MovieListScreen() {
 
     useEffect(function () {
         loadData();
-    }, [isScreenFocused]);
+    }, [isScreenFocused, navigation]);
 
     /*
     function addNewListToList({ listName, listId }) {

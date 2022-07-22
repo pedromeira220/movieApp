@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import { View, Text, StyleSheet, ScrollView, SafeAreaView, TextInput } from "react-native";
 import { theme } from "../../global/theme";
@@ -7,16 +7,28 @@ import { Ionicons } from '@expo/vector-icons';
 import { MovieCategory } from "../../components/MovieCategory";
 import { MovieSection } from "../../components/MovieSection";
 import { api, apiConfig, apiFunctions } from '../../services/api';
+import { AuthContext } from "../../utils/contexts/AuthContext";
+import { useIsFocused, useRoute } from "@react-navigation/native";
 
 
 export function DiscoveryScreen({ navigation }) {
     const [topRatedMovies, setTopRatedMovies] = useState([]);
 
+    const auth = useContext(AuthContext);
+
+    const route = useRoute();
+    const isScreenFocused = useIsFocused();
+
+    async function loadData() {
+
+        auth.checkInternetConnection();
+
+        setTopRatedMovies((await apiFunctions.getPopular(2)).data.results);
+    }
+
+
     useEffect(() => {
 
-        async function loadData() {
-            setTopRatedMovies((await apiFunctions.getPopular(2)).data.results);
-        }
 
         loadData();
 
@@ -25,6 +37,17 @@ export function DiscoveryScreen({ navigation }) {
         }
 
     }, []);
+
+    useEffect(() => {
+
+
+        loadData();
+
+        return function () {
+            setTopRatedMovies([]);
+        }
+
+    }, [route, navigation, isScreenFocused]);
 
     async function handleInputChange(text) {
 
