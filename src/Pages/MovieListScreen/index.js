@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { View, Text, SafeAreaView, StyleSheet, ScrollView, Image, TouchableOpacity, FlatList } from 'react-native';
 import { MovieListItem } from '../../components/MovieListItem';
 
@@ -16,6 +16,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { localstorage } from '../../services/localstorage';
 
 import { Loading } from '../../components/Loading/index'
+import { AuthContext } from '../../utils/contexts/AuthContext';
 
 export function MovieListScreen() {
 
@@ -28,6 +29,8 @@ export function MovieListScreen() {
 
     const [user, setUser] = useState({});
 
+    const auth = useContext(AuthContext);
+
     function handleMovieListItemClick({ listId, listName, listType }) {
 
 
@@ -36,6 +39,8 @@ export function MovieListScreen() {
     }
 
     async function loadData() {
+
+        auth.checkInternetConnection();
 
 
         const id = localstorage.user.id;

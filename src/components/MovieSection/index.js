@@ -10,7 +10,6 @@ export function MovieSection({ title, showTitle, movieList, navigation }) {
         <View style={styles.container}>
 
 
-
             {
                 showTitle && (
 

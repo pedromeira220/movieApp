@@ -1,8 +1,10 @@
 import axios from 'axios';
 
+
 export const myApi = axios.create({
     baseURL: 'http://10.0.0.50:3333'
-})
+});
+
 
 export const myApiFunctions = {
     login: async function ({ password, email }) {
@@ -55,6 +57,12 @@ export const myApiFunctions = {
 
             return responseToReturn;
         } catch (error) {
+
+            console.log(error.response.data);
+
+            if (!error.response.data) {
+                return
+            }
 
             const { status, data } = error.response;
 
@@ -283,3 +291,7 @@ async function baseFunctionPOST({ url, params }) {
         return { status: status, msg: data.msg, error: data.error }
     }
 }
+
+
+
+

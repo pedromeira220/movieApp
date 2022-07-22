@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import {
     View,
@@ -28,6 +28,7 @@ import { Loading } from "../../components/Loading";
 import { LoadingModal } from "../../components/LoadingModal";
 
 import { LinearGradient } from 'expo-linear-gradient';
+import { AuthContext } from "../../utils/contexts/AuthContext";
 
 
 export function DetailsScreen({ navigation }) {
@@ -50,9 +51,12 @@ export function DetailsScreen({ navigation }) {
 
     let movieId = route?.params?.movieId;
 
+    const auth = useContext(AuthContext);
+
+
     async function loadData() {
 
-
+        auth.checkInternetConnection();
 
         try {
             setIsLoadingModalVisible(true);

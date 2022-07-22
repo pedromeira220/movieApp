@@ -12,7 +12,7 @@ import { api, apiConfig, apiFunctions } from '../../services/api';
 import { asyncStorage } from '../../services/asyncStorage';
 import { myApiFunctions } from '../../services/backend';
 import { logOut } from '../../utils/logOut';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { AuthContext } from '../../utils/contexts/AuthContext';
 
 
@@ -28,7 +28,12 @@ export function Home({ }) {
     const [popularMovies, setPopularMovies] = useState([]);
     const [topRatedMovies, setTopRatedMovies] = useState([]);
 
+    const route = useRoute();
+
     async function loadData() {
+
+        auth.checkInternetConnection();
+
         setPopularMovies((await apiFunctions.getPopular(1)).data.results);
         setTopRatedMovies((await apiFunctions.getPopular(3)).data.results);
 
@@ -70,7 +75,20 @@ export function Home({ }) {
             setTopRatedMovies([]);
         }
 
-    }, [])
+    }, []);
+
+    useEffect(() => {
+
+
+
+        loadData();
+
+        return function () {
+            setPopularMovies([]);
+            setTopRatedMovies([]);
+        }
+
+    }, [route]);
     return (
         <>
 

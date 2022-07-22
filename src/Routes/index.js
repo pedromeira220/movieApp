@@ -14,6 +14,8 @@ import { asyncStorage } from '../services/asyncStorage';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { AuthContext } from '../utils/contexts/AuthContext';
 import { LoadingScreen } from '../Pages/LoadingScreen';
+import { myApiFunctions } from '../services/backend';
+import { ErrorScreen } from '../Pages/ErrorScreen';
 
 
 
@@ -30,6 +32,8 @@ export function Routes() {
     const [userToken, setUserToken] = useState(null);
 
     const [isLoading, setIsLoading] = useState(true);
+
+    const [canLoadContent, setCanLoadContent] = useState(true);
 
     const navigation = useNavigation();
 
@@ -51,11 +55,45 @@ export function Routes() {
                 const userToken = await asyncStorage.ASuser.getData("user_token");
 
                 return userToken;
-            }
+            },
+            checkInternetConnection: async function () {
+
+                const user = {
+                    token: await asyncStorage.ASuser.getData("user_token"),
+                    id: await asyncStorage.ASuser.getData("user_id")
+                }
+
+                //Trying to get data from API
+
+                const response = await myApiFunctions.getUserData({ token: user.token, userId: user.id });
+
+
+                if (!response) {
+                    setCanLoadContent(false);
+                    setIsLoading(false);
+                    return true;
+                }
+
+                if (response.error) {
+
+
+                    if (!response?.msg) {
+                        setCanLoadContent(false);
+                        setIsLoading(false);
+                        return true;
+                    }
+
+                    console.error(response.msg);
+                    setCanLoadContent(false);
+                    return true;
+                }
+
+                setCanLoadContent(true);
+                setIsLoading(false);
+                return false;
+            },
         }
     }, []);
-
-
 
 
 
@@ -68,10 +106,18 @@ export function Routes() {
         localstorage.user.token = AStoken;
         localstorage.user.id = ASid;
 
+
+
+
+
         setUserToken(AStoken);
 
-        setIsLoading(false);
 
+        authContext.checkInternetConnection();
+
+
+
+        setIsLoading(false);
     }
 
 
@@ -100,70 +146,84 @@ export function Routes() {
         )
     }
 
-
     return (
         <AuthContext.Provider value={authContext}>
             <Stack.Navigator>
 
                 {
-                    !userToken ?
+                    canLoadContent ?
+                        <>
+                            {
+                                !userToken ?
 
 
-                        <Stack.Group>
+                                    <Stack.Group>
 
-                            <Stack.Screen
-                                name="Onboarding1"
-                                component={Onboarding1}
-                                options={{ headerShown: false }}
-                            />
-                            <Stack.Screen
-                                name="Onboarding2"
-                                component={Onboarding2}
-                                options={{ headerShown: false }}
-                            />
-                            <Stack.Screen
-                                name="Onboarding3"
-                                component={Onboarding3}
-                                options={{ headerShown: false }}
-                            />
-                            <Stack.Screen
-                                name="LogInScreen"
-                                component={LogInScreen}
-                                options={{ headerShown: false }}
-                            />
-                            <Stack.Screen
-                                name="SingUpScreen"
-                                component={SingUpScreen}
-                                options={{ headerShown: false }}
-                            />
+                                        <Stack.Screen
+                                            name="Onboarding1"
+                                            component={Onboarding1}
+                                            options={{ headerShown: false }}
+                                        />
+                                        <Stack.Screen
+                                            name="Onboarding2"
+                                            component={Onboarding2}
+                                            options={{ headerShown: false }}
+                                        />
+                                        <Stack.Screen
+                                            name="Onboarding3"
+                                            component={Onboarding3}
+                                            options={{ headerShown: false }}
+                                        />
+                                        <Stack.Screen
+                                            name="LogInScreen"
+                                            component={LogInScreen}
+                                            options={{ headerShown: false }}
+                                        />
+                                        <Stack.Screen
+                                            name="SingUpScreen"
+                                            component={SingUpScreen}
+                                            options={{ headerShown: false }}
+                                        />
 
-                        </Stack.Group>
+                                    </Stack.Group>
 
+                                    :
+                                    <Stack.Group>
+
+
+                                        <Stack.Screen
+                                            name="TabBarNavigator"
+                                            component={TabBarNavigator}
+                                            options={{ headerShown: false }}
+                                        />
+                                        <Stack.Screen
+                                            name="DetailsScreen"
+                                            component={DetailsScreen}
+                                            options={{ headerShown: false }}
+                                        />
+                                        <Stack.Screen
+                                            name="ListOfMovies"
+                                            component={ListOfMovies}
+                                            options={{ headerShown: false }}
+                                        />
+
+
+                                    </Stack.Group>
+
+
+                            }
+                        </>
                         :
-                        <Stack.Group>
-
-
+                        <>
                             <Stack.Screen
-                                name="TabBarNavigator"
-                                component={TabBarNavigator}
+                                name="ErrorScreen"
+                                component={ErrorScreen}
                                 options={{ headerShown: false }}
                             />
-                            <Stack.Screen
-                                name="DetailsScreen"
-                                component={DetailsScreen}
-                                options={{ headerShown: false }}
-                            />
-                            <Stack.Screen
-                                name="ListOfMovies"
-                                component={ListOfMovies}
-                                options={{ headerShown: false }}
-                            />
-
-
-                        </Stack.Group>
-
-
+                        </>
                 }
+
+
 
 
 
