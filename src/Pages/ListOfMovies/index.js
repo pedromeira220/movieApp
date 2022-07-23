@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView, Alert } from 'react-native'
 import { theme } from "../../global/theme";
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 
@@ -82,23 +82,37 @@ export function ListOfMovies() {
     async function handleDeleteButtonClick() {
         auth.checkInternetConnection();
 
-        const listId = route.params.listId;
+        Alert.alert("Log out", "Are you sure you want to delete this list?", [
+            {
+                text: "Cancel", onPress: function () {
+
+                }
+            },
+            {
+                text: "Yes", onPress: async function () {
+                    const listId = route.params.listId;
 
 
-        const { id, token } = localstorage.user;
+                    const { id, token } = localstorage.user;
 
 
 
-        const response = await myApiFunctions.deleteList({ listId, token, ownerId: id });
+                    const response = await myApiFunctions.deleteList({ listId, token, ownerId: id });
 
-        if (response.error) {
-            console.error(response.msg);
-            return;
-        }
+                    if (response.error) {
+                        console.error(response.msg);
+                        return;
+                    }
 
 
 
-        navigation.goBack();
+                    navigation.goBack();
+                }
+            },
+
+        ]);
+
+
     }
 
     return (
