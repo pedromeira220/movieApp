@@ -29,6 +29,8 @@ import { LoadingModal } from "../../components/LoadingModal";
 
 import { LinearGradient } from 'expo-linear-gradient';
 import { AuthContext } from "../../utils/contexts/AuthContext";
+import { myApiFunctions } from "../../services/backend";
+import { asyncStorage } from "../../services/asyncStorage";
 
 
 export function DetailsScreen({ navigation }) {
@@ -47,6 +49,10 @@ export function DetailsScreen({ navigation }) {
 
     const [isLoadingModalVisible, setIsLoadingModalVisible] = useState(false);
 
+    const [movieIsAtLeastInOneList, setMovieIsAtLeastInOneList] = useState(false);
+
+    const [canUpdateScreen, setCanUpdateScreen] = useState(false);
+
     const route = useRoute();
     const isScreenFocused = useIsFocused();
 
@@ -57,6 +63,7 @@ export function DetailsScreen({ navigation }) {
 
     async function loadData() {
 
+
         auth.checkInternetConnection();
 
         try {
@@ -66,6 +73,8 @@ export function DetailsScreen({ navigation }) {
             movieId = route?.params?.movieId;
             setMovie((await apiFunctions.getMovie(movieId)).data);
             setRelatedMovies(await (await apiFunctions.getRecommendations(movieId))?.data?.results);
+
+            await checkIfMovieIsAtLeastInOneList();
 
             setCanShowMovieGenres(true);
             setIsLoadingModalVisible(false);
@@ -80,17 +89,48 @@ export function DetailsScreen({ navigation }) {
 
     }
 
+    async function checkIfMovieIsAtLeastInOneList() {
+
+        setMovieIsAtLeastInOneList(false);
+        const userToken = await asyncStorage.ASuser.getData("user_token");
+        const userId = await asyncStorage.ASuser.getData("user_id");
+
+        const response = await myApiFunctions.getUserLists({ token: userToken, userId });
+
+        if (response.error) {
+            console.error(response.msg);
+            return;
+        }
+
+        const { lists } = response;
+
+
+        const { id, movie, name } = lists;
+
+
+        lists.forEach(function (list) {
+            const { movie: movies } = list;
+
+
+
+            movies.forEach(function (movie) {
+                if (movie.TMDBid == movieId) {
+                    setMovieIsAtLeastInOneList(true);
+                }
+            });
+        });
+    }
+
     useEffect(function () {
         movieId = route?.params?.movieId;
-
-
     }, []);
 
 
     useEffect(function () {
         loadData();
         setIsLoadingModalVisible(false);
-    }, [route, movieId, isScreenFocused]);
+        console.log("entrou no effect");
+    }, [route, movieId, isScreenFocused, canUpdateScreen]);
 
 
     function returnMovieGenres(movie) {
@@ -191,7 +231,9 @@ export function DetailsScreen({ navigation }) {
                                     },
                                 ]}
                             >
-                                {movie.vote_average}
+                                {
+                                    movie.vote_average
+                                }
                             </Text>
                         </View>
                         <TouchableOpacity
@@ -202,7 +244,7 @@ export function DetailsScreen({ navigation }) {
                             activeOpacity={0.9}
                         >
                             <MaterialIcons
-                                name={'favorite'}
+                                name={movieIsAtLeastInOneList ? "favorite" : "favorite-outline"}
                                 size={32}
                                 color={theme.colors.secondaryInformation}
                             />
@@ -314,18 +356,20 @@ export function DetailsScreen({ navigation }) {
 
 
                 </View>
+
+                <MovieListHorizontal
+                    title="Related Movies"
+                    movieList={relatedMovies}
+                    navigation={navigation}
+                />
             </ScrollView>
-            <MovieListHorizontal
-                title="Related Movies"
-                movieList={relatedMovies}
-                navigation={navigation}
-            />
 
             <ModalView
                 visible={isModalVisible}
             >
                 <ListOfMovieList
-
+                    canUpdateScreen={canUpdateScreen}
+                    setCanUpdateScreen={setCanUpdateScreen}
                     setIsModalVisible={setIsModalVisible}
                     TMDBmovieId={movieId}
                 />

@@ -49,12 +49,10 @@ const styles = StyleSheet.create({
 
   },
   scrollView: {
-    paddingLeft: 24,
-    paddingRight: 24
+
   },
   title: {
     marginBottom: 16,
-    marginLeft: 24,
     fontSize: 24,
     color: theme.colors.text,
   },

@@ -12,8 +12,9 @@ import { MovieListItem } from "../MovieListItem";
 import { PrimaryButton } from "../PrimaryButton";
 import { Loading } from "../Loading";
 import { AuthContext } from "../../utils/contexts/AuthContext";
+import { asyncStorage } from "../../services/asyncStorage";
 
-export function ListOfMovieList({ TMDBmovieId, setIsModalVisible }) {
+export function ListOfMovieList({ TMDBmovieId, setIsModalVisible, setCanUpdateScreen, canUpdateScreen }) {
 
     const [movieLists, setMovieLists] = useState([]);
     const [user, setUser] = useState({});
@@ -25,6 +26,8 @@ export function ListOfMovieList({ TMDBmovieId, setIsModalVisible }) {
 
     async function loadData() {
         auth.checkInternetConnection();
+
+
 
         const id = localstorage.user.id;
         const token = localstorage.user.token;
@@ -142,6 +145,12 @@ export function ListOfMovieList({ TMDBmovieId, setIsModalVisible }) {
 
         setIsAddingMovieToList(true);
 
+        auth.checkInternetConnection();
+        setCanUpdateScreen(!canUpdateScreen);
+        console.log("oi");
+
+
+
         if (listHasMovie) {
             const response = await myApiFunctions.deleteMovie({ listId, TMDBmovieId, token: localstorage.user.token });
 
@@ -151,6 +160,8 @@ export function ListOfMovieList({ TMDBmovieId, setIsModalVisible }) {
                 return;
             }
 
+
+
         } else {
             const response = await myApiFunctions.addMovieToList({ listId, TMDBmovieId, token: localstorage.user.token });
 
@@ -159,18 +170,11 @@ export function ListOfMovieList({ TMDBmovieId, setIsModalVisible }) {
                 setIsAddingMovieToList(false);
                 return;
             }
+
         }
 
-
-
         setIsModalVisible(false);
-        setTimeout(() => {
-            setIsAddingMovieToList(false);
-        }, 100);
-
-
-
-
+        setIsAddingMovieToList(false);
 
     }
 

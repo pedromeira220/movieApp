@@ -95,6 +95,10 @@ export const myApiFunctions = {
         } catch (error) {
             console.error("error has been ocurred");
             console.error(error);
+
+            if (!error.response.data) {
+                return
+            }
             const { status, data } = error.response;
 
 
@@ -146,6 +150,34 @@ export const myApiFunctions = {
 
             return responseToReturn;
         } catch (error) {
+
+            const { status, data } = error.response;
+
+
+            return { status: status, msg: data.msg, error: data.error }
+        }
+    },
+    getUserLists: async function ({ userId, token }) {
+        let response;
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+
+
+        try {
+            response = await myApi.get(`/user/get_user_lists/${userId}`, config);
+
+            const responseToReturn = response.data;
+            responseToReturn.status = response.status;
+
+            return responseToReturn;
+        } catch (error) {
+
+            console.log(error);
+
+            if (!error.response.data) {
+                return
+            }
 
             const { status, data } = error.response;
 
