@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView, Alert } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView, Alert, Dimensions } from 'react-native'
 import { theme } from "../../global/theme";
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 
@@ -10,6 +10,7 @@ import { myApiFunctions } from "../../services/backend";
 import { localstorage } from "../../services/localstorage";
 import { AuthContext } from "../../utils/contexts/AuthContext";
 
+import NoDataSvg from '../../assets/undraw_no_data_re_kwbl.svg';
 export function ListOfMovies() {
 
     const auth = useContext(AuthContext);
@@ -22,10 +23,13 @@ export function ListOfMovies() {
 
     const [movies, setMovies] = useState([]);
 
+    const [isLoadingMovies, setIsLoadingMovies] = useState(false);
+
     const listType = route.params.listType;
 
 
     async function loadData() {
+        setIsLoadingMovies(true);
 
         auth.checkInternetConnection();
 
@@ -34,6 +38,7 @@ export function ListOfMovies() {
 
         if (response.error) {
             console.error(response.msg);
+            setIsLoadingMovies(false);
         }
 
         const tmdbMovieList = [];
@@ -47,6 +52,9 @@ export function ListOfMovies() {
 
 
         setMovies(tmdbMovieList);
+        setIsLoadingMovies(false);
+
+
     }
 
     useEffect(() => {
@@ -82,7 +90,7 @@ export function ListOfMovies() {
     async function handleDeleteButtonClick() {
         auth.checkInternetConnection();
 
-        Alert.alert("Log out", "Are you sure you want to delete this list?", [
+        Alert.alert("Delete list", "Are you sure you want to delete this list?", [
             {
                 text: "Cancel", onPress: function () {
 
@@ -155,15 +163,57 @@ export function ListOfMovies() {
 
             </SafeAreaView>
 
-            <ScrollView
+            <View
                 style={styles.content}
                 showsVerticalScrollIndicator={false}
             >
-                <MovieSection movieList={movies} navigation={navigation} showTitle={false} />
-            </ScrollView>
+                <MovieSection
+                    isLoadingMovies={isLoadingMovies}
+                    ListEmptyComponent={<ListEmptyComponent />}
+                    movieList={movies}
+                    navigation={navigation}
+                    showTitle={false}
+
+                />
+            </View>
         </View>
     )
 }
+
+
+
+function ListEmptyComponent() {
+
+    const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+
+    return (
+        <>
+            <View
+                style={{
+                    width: "100%",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: 28,
+                }}
+            >
+                <NoDataSvg height={screenHeight * 0.4} />
+            </View>
+            <Text
+                style={{
+                    color: theme.colors.text,
+                    fontSize: 24,
+                    textAlign: "center",
+                }}
+            >
+                This list is empty,
+                add movies here by clicking
+                in the favorite button in
+                the movie details screen
+            </Text>
+        </>
+    )
+}
+
 
 const styles = StyleSheet.create({
     container: {
@@ -200,3 +250,4 @@ const styles = StyleSheet.create({
         marginHorizontal: 24,
     },
 });
+

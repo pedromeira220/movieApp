@@ -58,7 +58,7 @@ export const myApiFunctions = {
             return responseToReturn;
         } catch (error) {
 
-            console.log(error.response.data);
+            console.error(error.response.data);
 
             if (!error.response.data) {
                 return
@@ -173,7 +173,7 @@ export const myApiFunctions = {
             return responseToReturn;
         } catch (error) {
 
-            console.log(error);
+            console.error(error);
 
             if (!error.response.data) {
                 return

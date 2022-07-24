@@ -1,11 +1,17 @@
-import React from 'react';
-import { ScrollView, StyleSheet, Text, View, Dimensions } from 'react-native';
+import React, { useEffect } from 'react';
+import { ScrollView, StyleSheet, Text, View, Dimensions, FlatList } from 'react-native';
 import { theme } from '../../global/theme';
 import { MovieItem } from '../MovieItem';
 import { api, apiConfig, apiFunctions } from '../../services/api';
+import { Loading } from '../Loading'
+
+export function MovieSection({ title, showTitle, movieList, navigation, ListEmptyComponent, isLoadingMovies = false }) {
+
+    useEffect(function () {
+        console.log(movieList);
+    }, []);
 
 
-export function MovieSection({ title, showTitle, movieList, navigation }) {
     return (
         <View style={styles.container}>
 
@@ -16,21 +22,53 @@ export function MovieSection({ title, showTitle, movieList, navigation }) {
                     <Text style={styles.title}>{title}</Text>
                 )
             }
+
+
             <View style={styles.movieList}>
+
                 {
-                    movieList.map((movie) => {
-                        return (
-                            <MovieItem
-                                key={movie.id}
-                                poster={`${apiConfig.imgBaseURL}/${movie.poster_path}`}
-                                title={movie.title}
-                                releaseDate={2020}
-                                navigation={navigation}
-                                movieId={movie.id}
-                            />
-                        )
-                    })
+                    !isLoadingMovies ? (
+                        <>
+                            {
+                                movieList.length > 0 ? (
+                                    <>
+                                        {
+                                            movieList.map((movie) => {
+                                                return (
+                                                    <MovieItem
+                                                        key={movie.id}
+                                                        poster={`${apiConfig.imgBaseURL}/${movie.poster_path}`}
+                                                        title={movie.title}
+                                                        releaseDate={2020}
+                                                        navigation={navigation}
+                                                        movieId={movie.id}
+                                                    />
+                                                )
+                                            })
+                                        }
+                                    </>
+                                ) : (
+                                    <>
+                                        {ListEmptyComponent}
+                                    </>
+                                )
+                            }
+                        </>
+                    ) : (
+                        <View
+                            style={{
+                                flex: 1,
+                                alignItems: "center",
+                                justifyContent: "center",
+
+                            }}
+                        >
+                            <Loading size="large" />
+                        </View>
+                    )
                 }
+
+
             </View>
 
 
@@ -55,3 +93,4 @@ const styles = StyleSheet.create({
         marginBottom: 16,
     }
 })
+
