@@ -44,12 +44,8 @@ export function Home({ }) {
             id: await asyncStorage.ASuser.getData("user_id"),
             token: await asyncStorage.ASuser.getData("user_token"),
         }
-        setTimeout(() => {
-            setIsLoadingMovies(false);
-        }, 2000);
 
-
-
+        setIsLoadingMovies(false);
 
     }
 

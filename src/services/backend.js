@@ -217,6 +217,18 @@ export const myApiFunctions = {
         }
     },
     addMovieToList: async function ({ listId, TMDBmovieId, token }) {
+
+        const listResponse = await this.getAllMoviesFromList({ listId, token });
+
+        if (listResponse.error) {
+            console.error(listResponse.msg);
+            return;
+        }
+
+        const { list } = listResponse;
+
+
+
         let response;
 
 

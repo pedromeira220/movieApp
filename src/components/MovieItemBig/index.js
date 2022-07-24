@@ -1,48 +1,123 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { theme } from "../../global/theme";
 
 import { navigateToDetails } from "../publicFunctions/navigateToDetails";
+import { myApiFunctions } from "../../services/backend";
+import { localstorage } from "../../services/localstorage";
+import { AuthContext } from "../../utils/contexts/AuthContext";
+import { SuccessModal } from "../SuccessModal";
 
 export function MovieItemBig({ rating, image, title, navigation, movieId }) {
+
+    const listTypeToAddMoviesInQuickAction = 0;
+
+    const [clickCount, setClickCount] = useState(0);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [modalText, setModalText] = useState("");
+    const [modalColor, setModalColor] = useState("");
+
+    const auth = useContext(AuthContext);
+
+    async function handleButtonLongPress() {
+
+        auth.checkInternetConnection();
+
+        const userId = localstorage.user.id;
+        const userToken = localstorage.user.token;
+
+        const response = await myApiFunctions.getAllLists({ userId, token: userToken });
+
+        if (response.error) {
+            console.error(response.msg);
+            setModalColor(theme.colors.secondary);
+            setModalText(response.msg);
+            setIsModalVisible(true);
+
+            setTimeout(() => {
+                setIsModalVisible(false);
+            }, 2 * 1000);
+        }
+
+        const { lists } = response;
+
+        lists?.forEach(async function (list) {
+
+            if (list.type == listTypeToAddMoviesInQuickAction) {
+                const response = await myApiFunctions.addMovieToList({ listId: list.id, token: userToken, TMDBmovieId: movieId });
+
+                if (response.error) {
+
+                    console.error(response.msg);
+                    setModalColor(theme.colors.secondary);
+                    setModalText(response.msg);
+                    setIsModalVisible(true);
+                    setTimeout(() => {
+                        setIsModalVisible(false);
+                    }, 2 * 1000);
+                    return;
+                }
+                setIsModalVisible(true);
+                setModalColor(theme.colors.success);
+                setModalText("The movie was added to the watch list");
+                setTimeout(() => {
+                    setIsModalVisible(false);
+                }, 1.5 * 1000);
+            }
+
+        });
+
+    }
+
     return (
+        <>
+            <TouchableOpacity
+                style={styles.container}
+                onPress={() => {
+                    setClickCount(clickCount + 1);
+                    navigateToDetails(navigation, movieId);
+                }}
+                onLongPress={() => {
+                    handleButtonLongPress()
+                }}
+            >
+                <Image
+                    source={{ uri: image }}
+                    style={styles.img}
 
-        <TouchableOpacity
-            style={styles.container}
-            onPress={() => {
-                navigateToDetails(navigation, movieId);
+                />
 
-            }}
-        >
-            <Image
-                source={{ uri: image }}
-                style={styles.img}
 
+                <View style={styles.viewTop}>
+                    <AntDesign name="star" size={16} color="#F3BE00" />
+                    <Text style={styles.title}>{rating}
+
+                    </Text>
+                </View>
+
+
+
+                <View style={styles.viewBottom}
+                >
+                    <Text style={styles.title}
+                        numberOfLines={2}
+                    >
+                        {title}
+                    </Text>
+                </View>
+            </TouchableOpacity>
+
+
+            <SuccessModal
+                color={modalColor}
+                message={modalText}
+                visible={isModalVisible}
             />
 
 
-            <View style={styles.viewTop}>
-                <AntDesign name="star" size={16} color="#F3BE00" />
-                <Text style={styles.title}>{rating}
-
-                </Text>
-            </View>
-
-
-
-            <View style={styles.viewBottom}
-            >
-                <Text style={styles.title}
-                    numberOfLines={2}
-                >
-                    {title}
-                </Text>
-            </View>
-        </TouchableOpacity>
-
-
+        </>
     )
 }
 
