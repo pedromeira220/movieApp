@@ -4,10 +4,11 @@ import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
 import { MovieItemBig } from '../../components/MovieItemBig';
 import { theme } from '../../global/theme';
 import { api, apiConfig, apiFunctions } from '../../services/api';
+import { Loading } from '../Loading';
 
 
 
-export default function movieListSection({ movieList, navigation }) {
+export default function movieListSection({ movieList, navigation, isLoadingMovies }) {
     return (
         <>
             <View style={styles.trendingMovieSection}>
@@ -17,27 +18,38 @@ export default function movieListSection({ movieList, navigation }) {
 
             </View>
 
+            {
+                isLoadingMovies ? (
+                    <>
+                        <Loading />
+                    </>
+                ) : (
+                    <>
+                        <FlatList
 
-
-            <FlatList
-
-                horizontal={true}
-                style={styles.trendingMovies}
-                showsHorizontalScrollIndicator={false}
-                data={movieList}
-                renderItem={({ item }) => {
-                    return (
-                        <MovieItemBig
-                            key={item.id}
-                            title={item.title}
-                            image={`${apiConfig.imgBaseURL}/${item.poster_path}`}
-                            rating={item.vote_average}
-                            navigation={navigation}
-                            movieId={item.id}
+                            horizontal={true}
+                            style={styles.trendingMovies}
+                            showsHorizontalScrollIndicator={false}
+                            data={movieList}
+                            renderItem={({ item }) => {
+                                return (
+                                    <MovieItemBig
+                                        key={item.id}
+                                        title={item.title}
+                                        image={`${apiConfig.imgBaseURL}/${item.poster_path}`}
+                                        rating={item.vote_average}
+                                        navigation={navigation}
+                                        movieId={item.id}
+                                    />
+                                )
+                            }}
                         />
-                    )
-                }}
-            />
+                    </>
+                )
+            }
+
+
+
 
 
 

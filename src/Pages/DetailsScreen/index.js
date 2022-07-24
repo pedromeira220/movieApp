@@ -129,7 +129,7 @@ export function DetailsScreen({ navigation }) {
     useEffect(function () {
         loadData();
         setIsLoadingModalVisible(false);
-        console.log("entrou no effect");
+
     }, [route, movieId, isScreenFocused, canUpdateScreen]);
 
 

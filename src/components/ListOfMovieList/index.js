@@ -147,7 +147,7 @@ export function ListOfMovieList({ TMDBmovieId, setIsModalVisible, setCanUpdateSc
 
         auth.checkInternetConnection();
         setCanUpdateScreen(!canUpdateScreen);
-        console.log("oi");
+
 
 
 

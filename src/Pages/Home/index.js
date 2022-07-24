@@ -28,12 +28,14 @@ export function Home({ }) {
     const [movie, setMovie] = useState({});
     const [popularMovies, setPopularMovies] = useState([]);
     const [topRatedMovies, setTopRatedMovies] = useState([]);
+    const [isLoadingMovies, setIsLoadingMovies] = useState(false);
 
     const route = useRoute();
 
     async function loadData() {
 
         auth.checkInternetConnection();
+        setIsLoadingMovies(true);
 
         setPopularMovies((await apiFunctions.getPopular(1)).data.results);
         setTopRatedMovies((await apiFunctions.getPopular(3)).data.results);
@@ -42,6 +44,12 @@ export function Home({ }) {
             id: await asyncStorage.ASuser.getData("user_id"),
             token: await asyncStorage.ASuser.getData("user_token"),
         }
+        setTimeout(() => {
+            setIsLoadingMovies(false);
+        }, 2000);
+
+
+
 
     }
 
@@ -118,6 +126,7 @@ export function Home({ }) {
                 </SafeAreaView>
 
                 <PopularMoviesSection
+                    isLoadingMovies={isLoadingMovies}
                     movieList={popularMovies}
                     navigation={navigation}
                 />
@@ -126,6 +135,7 @@ export function Home({ }) {
 
 
                     <MovieSection
+                        isLoadingMovies={isLoadingMovies}
                         title="Top Rated"
                         showTitle={true}
                         movieList={topRatedMovies}

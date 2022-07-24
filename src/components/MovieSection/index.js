@@ -8,7 +8,7 @@ import { Loading } from '../Loading'
 export function MovieSection({ title, showTitle, movieList, navigation, ListEmptyComponent, isLoadingMovies = false }) {
 
     useEffect(function () {
-        console.log(movieList);
+
     }, []);
 
 
