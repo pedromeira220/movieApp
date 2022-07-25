@@ -3,15 +3,20 @@ import react from "react";
 import {
     View,
     Modal,
-    StyleSheet
+    StyleSheet,
+    Platform
 } from 'react-native'
 import { theme } from "../../global/theme";
 
 
 
 export function ModalView({ children, ...rest }) {
+
+    const platform = Platform.OS;
+
     return (
         <Modal
+            statusBarTranslucent={true}
             transparent
             animationType="slide"
             {...rest}
