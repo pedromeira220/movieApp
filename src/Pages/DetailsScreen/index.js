@@ -188,9 +188,11 @@ export function DetailsScreen({ navigation }) {
                 style={{
                     position: "absolute",
                     left: 16,
+                    top: 32
                 }}
             >
                 <TouchableOpacity
+
                     onPress={() => {
                         navigation.goBack();
                     }}
