@@ -124,7 +124,7 @@ export function ListOfMovies() {
     }
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <SafeAreaView style={styles.header}>
                 <TouchableOpacity
                     onPress={function () {
@@ -176,7 +176,7 @@ export function ListOfMovies() {
 
                 />
             </View>
-        </View>
+        </ScrollView>
     )
 }
 

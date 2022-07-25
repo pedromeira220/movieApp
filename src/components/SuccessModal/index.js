@@ -3,7 +3,7 @@ import { Modal, StyleSheet, Text, View, Dimensions } from 'react-native';
 import { theme } from '../../global/theme';
 
 
-export function SuccessModal({ message, color = theme.colors.success, ...rest }) {
+export function SuccessModal({ message, color, ...rest }) {
 
     const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
@@ -17,8 +17,9 @@ export function SuccessModal({ message, color = theme.colors.success, ...rest })
             <View style={styles.overlay}>
                 <View style={[styles.container, {
                     marginTop: screenHeight * 0.90,
-                    marginBottom: 30,
-                    backgroundColor: color
+                    backgroundColor: color,
+                    borderRadius: 16,
+                    overflow: 'hidden',
                 }]}>
                     <View style={styles.bar} />
                     <Text style={styles.title}>{message}</Text>
@@ -38,13 +39,12 @@ const styles = StyleSheet.create({
 
     },
     container: {
+        marginBottom: 30,
         flex: 1,
 
-        borderRadius: 16,
         marginHorizontal: 24,
         justifyContent: "center",
         alignItems: "center"
-
     },
     title: {
         fontSize: 16,

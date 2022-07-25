@@ -18,6 +18,7 @@ export function MovieItemBig({ rating, image, title, navigation, movieId }) {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalText, setModalText] = useState("");
     const [modalColor, setModalColor] = useState("");
+    const modalTimeoutSeconds = 3;
 
     const auth = useContext(AuthContext);
 
@@ -31,7 +32,7 @@ export function MovieItemBig({ rating, image, title, navigation, movieId }) {
         const response = await myApiFunctions.getAllLists({ userId, token: userToken });
 
         if (response.error) {
-            console.error(response.msg);
+
             setModalColor(theme.colors.secondary);
             setModalText(response.msg);
             setIsModalVisible(true);
@@ -43,6 +44,7 @@ export function MovieItemBig({ rating, image, title, navigation, movieId }) {
 
         const { lists } = response;
 
+
         lists?.forEach(async function (list) {
 
             if (list.type == listTypeToAddMoviesInQuickAction) {
@@ -50,21 +52,22 @@ export function MovieItemBig({ rating, image, title, navigation, movieId }) {
 
                 if (response.error) {
 
-                    console.error(response.msg);
+                    setIsModalVisible(true);
                     setModalColor(theme.colors.secondary);
                     setModalText(response.msg);
-                    setIsModalVisible(true);
+
                     setTimeout(() => {
                         setIsModalVisible(false);
-                    }, 2 * 1000);
+                    }, modalTimeoutSeconds * 1000);
                     return;
                 }
                 setIsModalVisible(true);
                 setModalColor(theme.colors.success);
-                setModalText("The movie was added to the watch list");
+                setModalText("Movie added to watch list");
                 setTimeout(() => {
                     setIsModalVisible(false);
-                }, 1.5 * 1000);
+                }, modalTimeoutSeconds * 1000);
+                return
             }
 
         });

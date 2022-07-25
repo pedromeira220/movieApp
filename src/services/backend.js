@@ -251,8 +251,7 @@ export const myApiFunctions = {
 
             return responseToReturn;
         } catch (error) {
-            console.error("error has been ocurred");
-            console.error(error);
+
             const { status, data } = error.response;
 
 

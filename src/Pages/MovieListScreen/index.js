@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, ScrollView, Image, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, ScrollView, Image, TouchableOpacity, FlatList, Platform } from 'react-native';
 import { MovieListItem } from '../../components/MovieListItem';
 
 import { theme } from '../../global/theme';
@@ -30,6 +30,8 @@ export function MovieListScreen() {
     const [user, setUser] = useState({});
 
     const auth = useContext(AuthContext);
+
+
 
     function handleMovieListItemClick({ listId, listName, listType }) {
 
@@ -173,7 +175,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     header: {
-        marginTop: 25,
+
 
 
     },
@@ -213,6 +215,7 @@ function FlatListHeader({ movieLists, setMovieLists, user, createList }) {
     const [newNameListText, setNewNameListText] = useState("");
 
     const auth = useContext(AuthContext);
+    const platform = Platform.OS;
 
     function handleAddListButtonClick() {
         auth.checkInternetConnection();
@@ -253,7 +256,9 @@ function FlatListHeader({ movieLists, setMovieLists, user, createList }) {
                 style={styles.container}
             >
                 <SafeAreaView>
-                    <View style={styles.header}>
+                    <View style={[styles.header, {
+                        marginTop: platform == 'android' ? 25 + 16 : 25,
+                    }]}>
                         <Text style={styles.title}>My lists</Text>
                     </View>
 
