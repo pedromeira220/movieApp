@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, ScrollView, Image, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, ScrollView, Image, TouchableOpacity, Alert, Platform } from 'react-native';
 
 import { MovieSection } from '../../components/MovieSection';
 import PopularMoviesSection from '../../components/PopularMoviesSection';
@@ -25,6 +25,8 @@ export function Home({ }) {
 
     const navigation = useNavigation();
 
+    const platform = Platform.OS;
+
     const [movie, setMovie] = useState({});
     const [popularMovies, setPopularMovies] = useState([]);
     const [topRatedMovies, setTopRatedMovies] = useState([]);
@@ -33,6 +35,8 @@ export function Home({ }) {
     const route = useRoute();
 
     async function loadData() {
+
+
 
         auth.checkInternetConnection();
         setIsLoadingMovies(true);
@@ -103,6 +107,7 @@ export function Home({ }) {
 
                 <SafeAreaView style={{
                     backgroundColor: theme.colors.background,
+                    marginTop: platform == 'android' ? 24 : 0,
                 }}>
                     <View style={styles.header}>
                         <View style={{
