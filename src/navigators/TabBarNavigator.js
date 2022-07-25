@@ -8,21 +8,32 @@ import { ProfileScreen } from '../Pages/ProfileScreen'
 import { DiscoveryScreen } from '../Pages/DiscoveryScreen'
 import { DetailsScreen } from '../Pages/DetailsScreen'
 import { theme } from '../global/theme';
-import { Image, View } from 'react-native';
+import { Image, View, Dimensions } from 'react-native';
 import { MovieListScreen } from '../Pages/MovieListScreen';
 
 
 import HomeSvg from '../assets/Home.svg';
 import HomeFillSvg from '../assets/HomeFill.svg';
 import SearchFillSvg from '../assets/SearchIconFill.svg'
+import SearchSvg from '../assets/SearchIcon.svg'
 import { CustomIcon } from '../components/CustomIcon';
 
 
 const Tab = createBottomTabNavigator();
 export function TabBarNavigator() {
+
+    const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
+
+
     return (
 
         <Tab.Navigator
+            tabStyle={{
+                width: '100%',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'space-around'
+            }}
             screenOptions={{
                 headerShown: false,
                 tabBarStyle: {
@@ -82,7 +93,15 @@ export function TabBarNavigator() {
                     tabBarIcon: ({ size, color, focused }) => (
                         <View>
                             {
-                                focused ? <SearchFillSvg width="36px" height="36px" /> : <FontAwesome name="search" size={36} color={theme.colors.inactiveTabBar} />
+                                focused ?
+                                    <View style={{
+                                        width: 36,
+                                        height: 36,
+
+                                    }}>
+                                        <SearchFillSvg width="36px" height="36px" />
+                                    </View>
+                                    : <SearchSvg width="36px" height="36px" />
                             }
                         </View>
 

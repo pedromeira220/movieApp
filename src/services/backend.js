@@ -2,9 +2,10 @@ import axios from 'axios';
 
 
 export const myApi = axios.create({
-    baseURL: 'http://10.0.0.50:3333'
+    baseURL: 'https://movieappserver-production.up.railway.app/'
 });
 
+//DEV BASE URL: http://10.0.0.50:3333
 
 export const myApiFunctions = {
     login: async function ({ password, email }) {
@@ -58,7 +59,7 @@ export const myApiFunctions = {
             return responseToReturn;
         } catch (error) {
 
-            console.error(error.response.data);
+            console.error(error);
 
             if (!error.response.data) {
                 return

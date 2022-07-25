@@ -16,6 +16,7 @@ import { AuthContext } from '../utils/contexts/AuthContext';
 import { LoadingScreen } from '../Pages/LoadingScreen';
 import { myApiFunctions } from '../services/backend';
 import { ErrorScreen } from '../Pages/ErrorScreen';
+import { AboutScreen } from '../Pages/AboutScreen';
 
 
 
@@ -63,6 +64,10 @@ export function Routes() {
                     id: await asyncStorage.ASuser.getData("user_id")
                 }
 
+                if (!user.id || !user.token) {
+                    return;
+                }
+
                 //Trying to get data from API
 
                 const response = await myApiFunctions.getUserData({ token: user.token, userId: user.id });
@@ -87,9 +92,6 @@ export function Routes() {
 
 
     async function loadData() {
-
-
-
 
         const AStoken = await asyncStorage.ASuser.getData("user_token");
         const ASid = await asyncStorage.ASuser.getData("user_id");
@@ -197,6 +199,11 @@ export function Routes() {
                                             options={{ headerShown: false }}
                                         />
 
+                                        <Stack.Screen
+                                            name="AboutScreen"
+                                            component={AboutScreen}
+                                            options={{ headerShown: false }}
+                                        />
 
                                     </Stack.Group>
 
