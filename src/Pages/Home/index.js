@@ -14,6 +14,8 @@ import { myApiFunctions } from '../../services/backend';
 import { logOut } from '../../utils/logOut';
 import { useIsFocused, useNavigation, useRoute } from '@react-navigation/native';
 import { AuthContext } from '../../utils/contexts/AuthContext';
+import { MovieSectionHorizontal } from '../../components/MovieSectionHorizontal';
+import { Loading } from '../../components/Loading';
 
 
 
@@ -28,28 +30,38 @@ export function Home({ }) {
     const platform = Platform.OS;
 
     const [movie, setMovie] = useState({});
+    const [isLoadingMovies, setIsLoadingMovies] = useState(false);
+
     const [popularMovies, setPopularMovies] = useState([]);
     const [topRatedMovies, setTopRatedMovies] = useState([]);
-    const [isLoadingMovies, setIsLoadingMovies] = useState(false);
+    const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
+    const [upcomingMovies, setUpcomingMovies] = useState([]);
+
 
     const route = useRoute();
 
     async function loadData() {
 
-
-
         auth.checkInternetConnection();
         setIsLoadingMovies(true);
 
+
+
         setPopularMovies((await apiFunctions.getPopular(1)).data.results);
-        setTopRatedMovies((await apiFunctions.getPopular(3)).data.results);
+        setTopRatedMovies((await apiFunctions.getPopular(2)).data.results);
+        setNowPlayingMovies((await apiFunctions.getNowPlaying()).data.results);
+        setUpcomingMovies((await apiFunctions.getUpcoming()).data.results);
 
         const user = {
             id: await asyncStorage.ASuser.getData("user_id"),
             token: await asyncStorage.ASuser.getData("user_token"),
         }
 
+
         setIsLoadingMovies(false);
+
+
+
 
     }
 
@@ -125,26 +137,52 @@ export function Home({ }) {
 
 
                 </SafeAreaView>
+                {
+                    isLoadingMovies ? (
+                        <View style={styles.loadingView}>
+                            <Loading />
+                        </View>
+                    ) : (
+                        <>
+                            <PopularMoviesSection
+                                movieList={popularMovies}
+                                navigation={navigation}
+                            />
 
-                <PopularMoviesSection
-                    isLoadingMovies={isLoadingMovies}
-                    movieList={popularMovies}
-                    navigation={navigation}
-                />
+                            <View style={styles.main}>
 
-                <View style={styles.main}>
+                                {
+                                    !isLoadingMovies && (
+                                        <>
+                                            <MovieSectionHorizontal
+                                                showTitle={true}
+                                                title="Top rating"
+                                                movieList={topRatedMovies}
+                                                navigation={navigation}
+                                            />
+
+                                            <MovieSectionHorizontal
+                                                showTitle={true}
+                                                title="Up coming"
+                                                movieList={upcomingMovies}
+                                                navigation={navigation}
+                                            />
+                                            <MovieSectionHorizontal
+                                                showTitle={true}
+                                                title="Now playing"
+                                                movieList={nowPlayingMovies}
+                                                navigation={navigation}
+                                            />
+
+                                        </>
+                                    )
+                                }
+                            </View>
 
 
-                    <MovieSection
-                        isLoadingMovies={isLoadingMovies}
-                        title="Top Rated"
-                        showTitle={true}
-                        movieList={topRatedMovies}
-                        navigation={navigation}
-                    />
-                </View>
-
-
+                        </>
+                    )
+                }
 
 
             </ScrollView>
@@ -178,13 +216,26 @@ const styles = StyleSheet.create({
     },
     main: {
         marginTop: 56,
-        marginHorizontal: 24,
+        width: "100%",
     },
     title: {
         fontSize: theme.sizes.title.fontSize,
         color: theme.colors.text,
         marginBottom: 16,
     },
-
+    loadingView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
 })
+/*
 
+<MovieSection
+                        isLoadingMovies={isLoadingMovies}
+                        title="Top Rated"
+                        showTitle={true}
+                        movieList={topRatedMovies}
+                        navigation={navigation}
+/>
+*/ 

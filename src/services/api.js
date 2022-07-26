@@ -12,6 +12,7 @@ export const apiConfig = {
 }
 
 export const apiFunctions = {
+
     getMovie: async (movieId) => {
 
         const url = `/movie/${movieId}?api_key=${credentials.API_KEY}&language=${lang}`;
@@ -55,14 +56,14 @@ export const apiFunctions = {
         const url = `/movie/latest?api_key=${credentials.API_KEY}&language=${lang}`;
 
         try {
-
+            console.log(url)
             return (await api.get(url));
         } catch (err) {
             return null;
         }
     },
     getNowPlaying: async () => {
-        const url = `/movie/now_playing?api_key=${credentials.API_KEY}&language=${lang}&page=1`;
+        const url = `/movie/now_playing?api_key=${credentials.API_KEY}&language=${lang}&page=2`;
 
         try {
 

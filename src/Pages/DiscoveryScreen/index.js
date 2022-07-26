@@ -23,7 +23,7 @@ export function DiscoveryScreen({ navigation }) {
 
         auth.checkInternetConnection();
 
-        setTopRatedMovies((await apiFunctions.getPopular(2)).data.results);
+        setTopRatedMovies((await apiFunctions.getPopular(3)).data.results);
     }
 
 

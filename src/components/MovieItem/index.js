@@ -7,7 +7,7 @@ import { AuthContext } from '../../utils/contexts/AuthContext';
 import { navigateToDetails } from '../publicFunctions/navigateToDetails';
 import { SuccessModal } from '../SuccessModal';
 
-export function MovieItem({ poster, title, releaseDate, navigation, movieId }) {
+export function MovieItem({ poster, title, releaseDate, navigation, movieId, marginRight = 0 }) {
 
     const listTypeToAddMoviesInQuickAction = 0;
 
@@ -81,7 +81,9 @@ export function MovieItem({ poster, title, releaseDate, navigation, movieId }) {
                 onLongPress={() => {
                     handleButtonLongPress()
                 }}
-                style={styles.container}>
+                style={[styles.container, {
+                    marginRight: marginRight,
+                }]}>
                 <Image
                     source={{ uri: poster }}
                     style={styles.image}
@@ -117,7 +119,7 @@ const styles = StyleSheet.create({
     container: {
         marginBottom: 24,
         width: 152,
-        marginRight: 0,
+
     },
     titleView: {
         marginTop: 8,
