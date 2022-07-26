@@ -234,7 +234,14 @@ export function DetailsScreen({ navigation }) {
                                 ]}
                             >
                                 {
-                                    movie.vote_average
+                                    movie.vote_average && (
+
+                                        <>
+                                            {
+                                                movie.vote_average.toFixed(1)
+                                            }
+                                        </>
+                                    )
                                 }
                             </Text>
                         </View>
