@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Movi",
-    "slug": "Movi",
+    "name": "movi",
+    "slug": "movi",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
