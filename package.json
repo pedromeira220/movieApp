@@ -1,5 +1,5 @@
 {
-  "name": "movieapp",
+  "name": "movi",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
@@ -30,7 +30,8 @@
     "react-native-svg": "12.3.0",
     "react-native-svg-transformer": "^1.0.0",
     "react-native-web": "0.17.7",
-    "expo-linear-gradient": "~11.3.0"
+    "expo-linear-gradient": "~11.3.0",
+    "expo-updates": "~0.13.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

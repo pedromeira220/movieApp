@@ -273,7 +273,7 @@ function FlatListHeader({ movieLists, setMovieLists, user, createList }) {
                                 marginBottom: 18
                             }}>
                                 <InputWithIcon
-                                    autoComplete={true}
+
                                     autoCorrect={true}
                                     secureTextEntry={false}
                                     onSubmitEditing={handleOnInputWithIconKeyboardOut}

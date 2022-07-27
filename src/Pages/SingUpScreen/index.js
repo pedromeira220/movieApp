@@ -156,7 +156,7 @@ export function SingUpScreen() {
                     />
 
                     <View style={styles.bottomInfo}>
-                        <Text style={styles.text}>Join us before?</Text>
+                        <Text style={styles.text}>Joined us before?</Text>
                         <TouchableOpacity
                             onPress={() => {
                                 navigateAndReset(navigation, "LogInScreen");

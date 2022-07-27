@@ -21,6 +21,7 @@ export function InputWithIcon({ canAutoFocus = false, Icon, cannotPutMarginTop =
             </View>
 
             <TextInput
+
                 autoFocus={canAutoFocus}
                 placeholderTextColor="#BBBBBB"
                 style={styles.movieInput}
