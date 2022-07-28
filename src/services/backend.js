@@ -1,8 +1,10 @@
 import axios from 'axios';
+import { config } from '../global/config'
 
+const base_url = config.environment == "dev" ? config.myApi.dev.baseURL : config.myApi.production.baseURL;
 
 export const myApi = axios.create({
-    baseURL: 'https://movieappserver-production.up.railway.app/'
+    baseURL: base_url
 });
 
 //DEV BASE URL: http://10.0.0.50:3333
