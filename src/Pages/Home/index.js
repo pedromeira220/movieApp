@@ -17,7 +17,14 @@ import { AuthContext } from '../../utils/contexts/AuthContext';
 import { MovieSectionHorizontal } from '../../components/MovieSectionHorizontal';
 import { Loading } from '../../components/Loading';
 
-
+import {
+    AdMobBanner,
+    AdMobInterstitial,
+    PublisherBanner,
+    AdMobRewarded,
+    setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+import { AdBanner } from '../../components/AdBanner';
 
 
 export function Home({ }) {
@@ -31,6 +38,8 @@ export function Home({ }) {
 
     const [movie, setMovie] = useState({});
     const [isLoadingMovies, setIsLoadingMovies] = useState(false);
+
+    const [canShowInterstitialAds, setCanShowInterstitialAds] = useState(true);
 
     const [popularMovies, setPopularMovies] = useState([]);
     const [topRatedMovies, setTopRatedMovies] = useState([]);
@@ -58,10 +67,24 @@ export function Home({ }) {
         }
 
 
+        //Load ads
+
+        await AdMobInterstitial.setAdUnitID('ca-app-pub-3940256099942544/4411468910');
+
+
         setIsLoadingMovies(false);
 
 
 
+
+    }
+
+    async function loadInterstitialAd() {
+        if (canShowInterstitialAds) {
+            await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true });
+            await AdMobInterstitial.showAdAsync();
+        }
+        // Test ID, Replace with your-admob-unit-id
 
     }
 
@@ -145,6 +168,8 @@ export function Home({ }) {
                     ) : (
                         <>
                             <PopularMoviesSection
+                                setCanShowInterstitialAds={setCanShowInterstitialAds}
+                                canShowInterstitialAds={canShowInterstitialAds}
                                 movieList={popularMovies}
                                 navigation={navigation}
                             />
@@ -154,6 +179,10 @@ export function Home({ }) {
                                 {
                                     !isLoadingMovies && (
                                         <>
+                                            <AdBanner />
+                                            <View style={{
+                                                marginTop: 32
+                                            }} />
                                             <MovieSectionHorizontal
                                                 showTitle={true}
                                                 title="Top rating"
@@ -161,13 +190,22 @@ export function Home({ }) {
                                                 navigation={navigation}
                                             />
 
+                                            <AdBanner />
+                                            <View style={{
+                                                marginTop: 32
+                                            }} />
                                             <MovieSectionHorizontal
                                                 showTitle={true}
                                                 title="Up coming"
                                                 movieList={upcomingMovies}
                                                 navigation={navigation}
                                             />
+                                            <AdBanner />
+                                            <View style={{
+                                                marginTop: 32
+                                            }} />
                                             <MovieSectionHorizontal
+                                                setCanShowInterstitialAds={setCanShowInterstitialAds}
                                                 showTitle={true}
                                                 title="Now playing"
                                                 movieList={nowPlayingMovies}
@@ -215,7 +253,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     main: {
-        marginTop: 56,
+        marginTop: 32,
         width: "100%",
     },
     title: {

@@ -7,7 +7,15 @@ import { AuthContext } from '../../utils/contexts/AuthContext';
 import { navigateToDetails } from '../publicFunctions/navigateToDetails';
 import { SuccessModal } from '../SuccessModal';
 
-export function MovieItem({ poster, title, releaseDate, navigation, movieId, marginRight = 0 }) {
+import {
+    AdMobBanner,
+    AdMobInterstitial,
+    PublisherBanner,
+    AdMobRewarded,
+    setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+
+export function MovieItem({ poster, title, releaseDate, navigation, movieId, setCanShowInterstitialAds, marginRight = 0 }) {
 
     const listTypeToAddMoviesInQuickAction = 0;
 
@@ -76,6 +84,8 @@ export function MovieItem({ poster, title, releaseDate, navigation, movieId, mar
         <>
             <TouchableOpacity
                 onPress={() => {
+
+                    setCanShowInterstitialAds(false);
                     navigateToDetails(navigation, movieId)
                 }}
                 onLongPress={() => {

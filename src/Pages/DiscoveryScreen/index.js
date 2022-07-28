@@ -9,6 +9,7 @@ import { MovieSection } from "../../components/MovieSection";
 import { api, apiConfig, apiFunctions } from '../../services/api';
 import { AuthContext } from "../../utils/contexts/AuthContext";
 import { useIsFocused, useRoute } from "@react-navigation/native";
+import { AdBanner } from "../../components/AdBanner";
 
 
 export function DiscoveryScreen({ navigation }) {
@@ -59,59 +60,65 @@ export function DiscoveryScreen({ navigation }) {
 
     }
     return (
-        <ScrollView style={styles.container}>
-            <SafeAreaView
-                style={{
-                    backgroundColor: theme.colors.background,
-                }}
-            >
-                <View style={styles.header}>
+        <>
+            <ScrollView style={styles.container}>
+                <SafeAreaView
+                    style={{
+                        backgroundColor: theme.colors.background,
+                    }}
+                >
 
-                    <Text style={styles.title}>Find Movies, Tv series, and more...</Text>
-                </View>
-            </SafeAreaView>
+                    <View style={styles.header}>
 
-            <View style={styles.main}>
+                        <Text style={styles.title}>Find Movies, Tv series, and more...</Text>
+                    </View>
 
-                <View style={styles.containerInput}>
+                </SafeAreaView>
 
-                    <View
-                        style={{
-                            alignItems: "center",
-                            justifyContent: "center"
-                        }}
-                    >
-                        <Ionicons name="search" size={24} color={theme.colors.text} />
+                <View style={styles.main}>
+
+                    <View style={styles.containerInput}>
+
+                        <View
+                            style={{
+                                alignItems: "center",
+                                justifyContent: "center"
+                            }}
+                        >
+                            <Ionicons name="search" size={24} color={theme.colors.text} />
+
+                        </View>
+
+                        <TextInput
+                            placeholder="Movie Name"
+                            placeholderTextColor="#BBBBBB"
+                            style={styles.movieInput}
+                            keyboardAppearance="dark"
+                            onChangeText={(text) => {
+                                handleInputChange(text);
+                            }}
+                        ></TextInput>
 
                     </View>
 
-                    <TextInput
-                        placeholder="Movie Name"
-                        placeholderTextColor="#BBBBBB"
-                        style={styles.movieInput}
-                        keyboardAppearance="dark"
-                        onChangeText={(text) => {
-                            handleInputChange(text);
-                        }}
-                    ></TextInput>
+
+
+                    <View style={{
+                        marginTop: 36
+                    }}>
+                        <MovieSection
+                            showTitle={false}
+                            movieList={topRatedMovies}
+                            navigation={navigation}
+                        />
+                    </View>
+
 
                 </View>
 
-
-
-                <View style={{
-                    marginTop: 36
-                }}>
-                    <MovieSection
-                        showTitle={false}
-                        movieList={topRatedMovies}
-                        navigation={navigation}
-                    />
-                </View>
-
-
-            </View>
-        </ScrollView>
+            </ScrollView>
+            <AdBanner />
+        </>
     );
 }
 

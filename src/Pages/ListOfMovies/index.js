@@ -11,6 +11,7 @@ import { localstorage } from "../../services/localstorage";
 import { AuthContext } from "../../utils/contexts/AuthContext";
 
 import NoDataSvg from '../../assets/undraw_no_data_re_kwbl.svg';
+import { AdBanner } from "../../components/AdBanner";
 export function ListOfMovies() {
 
     const auth = useContext(AuthContext);
@@ -162,7 +163,7 @@ export function ListOfMovies() {
 
 
             </SafeAreaView>
-
+            <AdBanner />
             <View
                 style={styles.content}
                 showsVerticalScrollIndicator={false}
@@ -176,6 +177,7 @@ export function ListOfMovies() {
 
                 />
             </View>
+
         </ScrollView>
     )
 }
@@ -248,6 +250,7 @@ const styles = StyleSheet.create({
     },
     content: {
         marginHorizontal: 24,
+        marginTop: 24,
     },
 });
 

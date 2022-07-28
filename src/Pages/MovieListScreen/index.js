@@ -8,6 +8,7 @@ import { AntDesign, Fontisto, FontAwesome5, FontAwesome } from '@expo/vector-ico
 import { InputWithIcon } from '../../components/InputWithIcon';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
+import { AdBanner } from '../../components/AdBanner'
 
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { myApiFunctions } from '../../services/backend';
@@ -156,6 +157,7 @@ export function MovieListScreen() {
                 ListHeaderComponent={<FlatListHeader movieLists={movieLists} createList={createList} setMovieLists={setMovieLists} user={user} />}
                 style={styles.movieListsList}
             />
+            <AdBanner />
         </View>
 
 
@@ -260,10 +262,12 @@ function FlatListHeader({ movieLists, setMovieLists, user, createList }) {
                         marginTop: platform == 'android' ? 25 + 16 : 25,
                     }]}>
                         <Text style={styles.title}>My lists</Text>
+
                     </View>
 
 
                 </SafeAreaView>
+
 
                 <View style={styles.content}>
 
@@ -303,6 +307,7 @@ function FlatListHeader({ movieLists, setMovieLists, user, createList }) {
 
                 </View>
             </View>
+
         </KeyboardAwareScrollView>
     )
 }

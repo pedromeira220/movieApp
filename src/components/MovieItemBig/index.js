@@ -9,8 +9,15 @@ import { myApiFunctions } from "../../services/backend";
 import { localstorage } from "../../services/localstorage";
 import { AuthContext } from "../../utils/contexts/AuthContext";
 import { SuccessModal } from "../SuccessModal";
+import {
+    AdMobBanner,
+    AdMobInterstitial,
+    PublisherBanner,
+    AdMobRewarded,
+    setTestDeviceIDAsync,
+} from 'expo-ads-admob';
 
-export function MovieItemBig({ rating, image, title, navigation, movieId }) {
+export function MovieItemBig({ rating, image, title, navigation, setCanShowInterstitialAds, canShowInterstitialAds, movieId }) {
 
     const listTypeToAddMoviesInQuickAction = 0;
 
@@ -19,6 +26,7 @@ export function MovieItemBig({ rating, image, title, navigation, movieId }) {
     const [modalText, setModalText] = useState("");
     const [modalColor, setModalColor] = useState("");
     const modalTimeoutSeconds = 3;
+
 
     const auth = useContext(AuthContext);
 
@@ -78,9 +86,17 @@ export function MovieItemBig({ rating, image, title, navigation, movieId }) {
         <>
             <TouchableOpacity
                 style={styles.container}
-                onPress={() => {
-                    setClickCount(clickCount + 1);
+                onPress={async () => {
+                    if (canShowInterstitialAds) {
+                        await AdMobInterstitial.setAdUnitID('ca-app-pub-3940256099942544/4411468910');
+
+                        await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true });
+                        await AdMobInterstitial.showAdAsync();
+                    }
+
+
                     navigateToDetails(navigation, movieId);
+                    setCanShowInterstitialAds(false);
                 }}
                 onLongPress={() => {
                     handleButtonLongPress()

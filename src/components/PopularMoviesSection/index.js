@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
 
 import { MovieItemBig } from '../../components/MovieItemBig';
@@ -8,7 +8,9 @@ import { Loading } from '../Loading';
 
 
 
-export default function movieListSection({ movieList, navigation, isLoadingMovies }) {
+export default function movieListSection({ movieList, setCanShowInterstitialAds, canShowInterstitialAds, navigation, isLoadingMovies }) {
+
+
     return (
         <>
             <View style={styles.trendingMovieSection}>
@@ -34,6 +36,8 @@ export default function movieListSection({ movieList, navigation, isLoadingMovie
                             renderItem={({ item }) => {
                                 return (
                                     <MovieItemBig
+                                        setCanShowInterstitialAds={setCanShowInterstitialAds}
+                                        canShowInterstitialAds={canShowInterstitialAds}
                                         key={item.id}
                                         title={item.title}
                                         image={`${apiConfig.imgBaseURL}/${item.poster_path}`}

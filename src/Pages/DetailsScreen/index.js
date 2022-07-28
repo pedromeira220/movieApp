@@ -89,6 +89,23 @@ export function DetailsScreen({ navigation }) {
 
     }
 
+    function clearStates() {
+        setMovie({})
+        setCanShowMovieGenres(false);
+
+        setNumberOfLinesOverview(0);
+
+        setCanShowReadMoreButtonOverview(false);
+
+        setIsModalVisible(false);
+
+        setIsLoadingModalVisible(false);
+
+        setMovieIsAtLeastInOneList(false);
+
+        setCanUpdateScreen(false);
+    }
+
     async function checkIfMovieIsAtLeastInOneList() {
 
         setMovieIsAtLeastInOneList(false);
@@ -123,12 +140,19 @@ export function DetailsScreen({ navigation }) {
 
     useEffect(function () {
         movieId = route?.params?.movieId;
+        return () => {
+            clearStates();
+        }
     }, []);
 
 
     useEffect(function () {
         loadData();
         setIsLoadingModalVisible(false);
+
+        return () => {
+            clearStates();
+        }
 
     }, [route, movieId, isScreenFocused, canUpdateScreen]);
 
