@@ -5,7 +5,7 @@ import { MovieItem } from '../MovieItem';
 import { api, apiConfig, apiFunctions } from '../../services/api';
 import { Loading } from '../Loading'
 
-export function MovieSectionHorizontal({ title, showTitle, movieList, navigation, ListEmptyComponent, isLoadingMovies = false }) {
+export function MovieSectionHorizontal({ title, showTitle, movieList, setCanShowInterstitialAds, navigation, ListEmptyComponent, isLoadingMovies = false }) {
 
     useEffect(function () {
 
@@ -34,6 +34,7 @@ export function MovieSectionHorizontal({ title, showTitle, movieList, navigation
                     renderItem={({ item }) => {
                         return (
                             <MovieItem
+                                setCanShowInterstitialAds={setCanShowInterstitialAds}
                                 marginRight={12}
                                 key={item.id}
                                 poster={`${apiConfig.imgBaseURL}/${item.poster_path}`}
