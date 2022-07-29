@@ -124,15 +124,17 @@ export function Home({ }) {
     useEffect(() => {
 
 
-
         loadData();
+
+
+
 
         return function () {
             setPopularMovies([]);
             setTopRatedMovies([]);
         }
 
-    }, [route, navigation, isScreenFocused]);
+    }, [route, navigation]);
     return (
         <>
 
