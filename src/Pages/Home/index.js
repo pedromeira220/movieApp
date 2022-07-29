@@ -179,9 +179,8 @@ export function Home({ }) {
                                 {
                                     !isLoadingMovies && (
                                         <>
-                                            <AdBanner />
-                                            <View style={{
-                                                marginTop: 32
+                                            <AdBanner style={{
+                                                marginBottom: 32
                                             }} />
                                             <MovieSectionHorizontal
                                                 showTitle={true}
@@ -190,20 +189,21 @@ export function Home({ }) {
                                                 navigation={navigation}
                                             />
 
-                                            <AdBanner />
-                                            <View style={{
-                                                marginTop: 32
+                                            <AdBanner style={{
+                                                marginBottom: 32
                                             }} />
+
+
                                             <MovieSectionHorizontal
                                                 showTitle={true}
                                                 title="Up coming"
                                                 movieList={upcomingMovies}
                                                 navigation={navigation}
                                             />
-                                            <AdBanner />
-                                            <View style={{
-                                                marginTop: 32
+                                            <AdBanner style={{
+                                                marginBottom: 32
                                             }} />
+
                                             <MovieSectionHorizontal
                                                 setCanShowInterstitialAds={setCanShowInterstitialAds}
                                                 showTitle={true}

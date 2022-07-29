@@ -7,5 +7,8 @@ export const config = {
         production: {
             baseURL: "https://movieappserver-production.up.railway.app/"
         }
+    },
+    ads: {
+        canShowAds: true
     }
 }
