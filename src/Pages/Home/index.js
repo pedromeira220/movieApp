@@ -183,6 +183,8 @@ export function Home({ }) {
                                                 marginBottom: 32
                                             }} />
                                             <MovieSectionHorizontal
+                                                canShowInterstitialAds={canShowInterstitialAds}
+                                                setCanShowInterstitialAds={setCanShowInterstitialAds}
                                                 showTitle={true}
                                                 title="Top rating"
                                                 movieList={topRatedMovies}

@@ -15,7 +15,7 @@ import {
     setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 
-export function MovieItem({ poster, title, releaseDate, navigation, movieId, setCanShowInterstitialAds, marginRight = 0 }) {
+export function MovieItem({ poster, title, releaseDate, canShowInterstitialAds, setCanShowInterstitialAds, navigation, movieId, marginRight = 0 }) {
 
     const listTypeToAddMoviesInQuickAction = 0;
 
@@ -83,9 +83,15 @@ export function MovieItem({ poster, title, releaseDate, navigation, movieId, set
     return (
         <>
             <TouchableOpacity
-                onPress={() => {
+                onPress={async () => {
+                    if (canShowInterstitialAds) {
+                        await AdMobInterstitial.setAdUnitID('ca-app-pub-3940256099942544/4411468910');
 
-                    setCanShowInterstitialAds(false);
+                        await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true });
+                        await AdMobInterstitial.showAdAsync();
+                        setCanShowInterstitialAds(false);
+                    }
+
                     navigateToDetails(navigation, movieId)
                 }}
                 onLongPress={() => {
