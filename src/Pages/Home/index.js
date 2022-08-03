@@ -17,6 +17,8 @@ import { AuthContext } from '../../utils/contexts/AuthContext';
 import { MovieSectionHorizontal } from '../../components/MovieSectionHorizontal';
 import { Loading } from '../../components/Loading';
 
+import { config } from '../../global/config';
+
 import {
     AdMobBanner,
     AdMobInterstitial,
@@ -39,7 +41,7 @@ export function Home({ }) {
     const [movie, setMovie] = useState({});
     const [isLoadingMovies, setIsLoadingMovies] = useState(false);
 
-    const [canShowInterstitialAds, setCanShowInterstitialAds] = useState(true);
+    const [canShowInterstitialAds, setCanShowInterstitialAds] = useState(config.ads.canShowAds);
 
     const [popularMovies, setPopularMovies] = useState([]);
     const [topRatedMovies, setTopRatedMovies] = useState([]);
